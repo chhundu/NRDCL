@@ -1,0 +1,45 @@
+﻿@model IEnumerable<NRDCL.Models.Product>
+
+@{
+    ViewData["Title"] = "Product";
+}
+<h3>Product Information</h3>
+<p>
+    <a asp-action="Create">New Product</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price Per Unit
+            </th>
+            <th>
+                Transport Rate
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var products in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => products.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => products.PricePerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => products.TransportRate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { productId = products.ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { productId = products.ProductId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

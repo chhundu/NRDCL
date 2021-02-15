@@ -1,0 +1,51 @@
+﻿@model IEnumerable<NRDCL.Models.Site>
+
+@{
+    ViewData["Title"] = "Site";
+}
+<h3>Site Information</h3>
+<p>
+    <a asp-action="Create">Register Site</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Customer ID
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Site Name
+            </th>
+            <th>
+                Distance From
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var sites in Model) {
+        <tr>
+            <td>
+            @Html.DisplayFor(modelItem => sites.CitizenshipID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => sites.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => sites.SiteName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => sites.DistanceFrom)
+        </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { siteId = sites.SiteId }) |
+                @Html.ActionLink("Details", "Details", new { siteId = sites.SiteId }) 
+               @* @Html.ActionLink("Delete", "Delete", new { siteId = sites.SiteId })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
