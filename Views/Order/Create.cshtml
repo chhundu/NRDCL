@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Order";
+    var siteList = ViewBag.SiteList;
+    var productList = ViewBag.ProductList;
 }
 
 <h4>Order Information</h4>
@@ -16,13 +18,13 @@
                 <span asp-validation-for="CustomerID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SiteID" class="control-label"></label>
-                <input asp-for="SiteID" class="form-control" />
+                <label asp-for="SiteID" class="control-label">Select Site</label>
+                @Html.DropDownListFor(model => model.Site, ViewBag.SiteList as SelectList, "--Select--", new { @class = "form-control" })
                 <span asp-validation-for="SiteID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductID" class="control-label"></label>
-                <input asp-for="ProductID" class="form-control" />
+                <label asp-for="ProductID" class="control-label">Select Product</label>
+                @Html.DropDownListFor(model => model.Product, ViewBag.ProductList as SelectList, "--Select--", new { @class = "form-control" })
                 <span asp-validation-for="ProductID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,8 +33,11 @@
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OrderAmount" class="control-label"></label>
-                <input asp-for="OrderAmount" class="form-control" />
+                <input type="button" value="Calculate" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderAmount" class="control-label">Order Amount</label>
+                <input asp-for="OrderAmount" class="form-control" readonly/>
                 <span asp-validation-for="OrderAmount" class="text-danger"></span>
             </div>
             <div class="form-group">

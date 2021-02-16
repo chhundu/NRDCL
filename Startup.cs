@@ -28,6 +28,8 @@ namespace NRDCL
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ISiteService, SiteService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IDepositService, DepositService>();
+            services.AddScoped<IOrderService, OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

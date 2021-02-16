@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Deposit";
 }
-
+<h4>Deposit Information</h4>
 <p>
     <a asp-action="Create">New Deposit</a>
 </p>
@@ -23,21 +23,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var deposit in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerID)
+                @Html.DisplayFor(modelItem => deposit.CustomerID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastAmount)
+                @Html.DisplayFor(modelItem => deposit.LastAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Balance)
+                @Html.DisplayFor(modelItem => deposit.Balance)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerID">Delete</a>
+               @* @Html.ActionLink("Edit", "Edit", new { customerID = deposit.CustomerID}) |*@
+                @Html.ActionLink("Details", "Details", new { customerID = deposit.CustomerID})
+               @* @Html.ActionLink("Delete", "Delete", new { customerID = deposit.CustomerID})*@
             </td>
         </tr>
 }

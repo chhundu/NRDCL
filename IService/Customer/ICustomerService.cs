@@ -15,5 +15,6 @@ namespace NRDCL.Models
         ResponseMessage SaveCustomer(Customer customer);
         ResponseMessage UpdateCustomer(Customer customer);
         ResponseMessage DeleteCustomer(string citizenshipID);
+        List<Report.Report> GetReportData(int customerReportNo);
     }
 }

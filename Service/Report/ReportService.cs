@@ -1,13 +1,12 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 
 namespace NRDCL.Models.Report
-{
-    public class ReportBusinessLayer
+{ 
+    public class ReportService
     {
-        //public NRDCL_DB_Entities dbContext = new NRDCL_DB_Entities();
 
         public List<Report> GetReportData(int reportNumber)
         {

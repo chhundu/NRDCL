@@ -60,7 +60,7 @@ namespace NRDCL.Controllers
                 ResponseMessage responseMessage = productService.SaveProduct(product);
                 if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError("ProductId", responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(product);
                 }
 
@@ -102,7 +102,7 @@ namespace NRDCL.Controllers
                 ResponseMessage responseMessage = productService.UpdateProduct(product);
                 if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError("CitizenshipID", responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(product);
                 }
                 return RedirectToAction(nameof(Index));

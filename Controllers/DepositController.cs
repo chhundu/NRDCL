@@ -7,39 +7,45 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NRDCL.Data;
 using NRDCL.Models;
+using NRDCL.Models.Common;
 
 namespace NRDCL.Controllers
 {
     public class DepositController : Controller
     {
         private readonly NRDCL_DB_Context _context;
+        private readonly IDepositService  depositService;
+        
 
-        public DepositController(NRDCL_DB_Context context)
+        /*public DepositController(NRDCL_DB_Context context)
         {
             _context = context;
+        }*/
+        public DepositController(IDepositService service)
+        {
+            depositService = service;
         }
 
         // GET: Deposits
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Deposit_Table.ToListAsync());
+            List<Deposit> depositList = depositService.GetDepositList();
+            ViewBag.Subtitle = "Deposit Information.";
+            return View(depositList);
         }
 
         // GET: Deposits/Details/5
-        public async Task<IActionResult> Details(string customerID)
+        public IActionResult Details(string customerID)
         {
             if (customerID.Equals(null))
             {
-                return NotFound();
+                return new NotFoundResult();
             }
-
-            var deposit = await _context.Deposit_Table
-                .FirstOrDefaultAsync(m => m.CustomerID.Equals(customerID));
+            var deposit = depositService.GetDepositDetails(customerID);
             if (deposit == null)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
-
             return View(deposit);
         }
 
@@ -54,100 +60,21 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CustomerID,LastAmount,Balance")] Deposit deposit)
+        public IActionResult Create([Bind("CustomerID,LastAmount")] Deposit deposit)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(deposit);
-                await _context.SaveChangesAsync();
+                ResponseMessage responseMessage = depositService.SaveDeposit(deposit);
+                if (responseMessage.Status == false)
+                {
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    return View(deposit);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(deposit);
         }
 
-        // GET: Deposits/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var deposit = await _context.Deposit_Table.FindAsync(id);
-            if (deposit == null)
-            {
-                return NotFound();
-            }
-            return View(deposit);
-        }
-
-        // POST: Deposits/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string customerID, [Bind("Id,CustomerID,LastAmount,Balance")] Deposit deposit)
-        {
-            if (customerID.Equals(deposit.CustomerID))
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(deposit);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DepositExists(deposit.CustomerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(deposit);
-        }
-
-        // GET: Deposits/Delete/5
-        public async Task<IActionResult> Delete(string customerID)
-        {
-            if (customerID.Equals(null))
-            {
-                return NotFound();
-            }
-
-            var deposit = await _context.Deposit_Table
-                .FirstOrDefaultAsync(m => m.CustomerID.Equals(customerID));
-            if (deposit == null)
-            {
-                return NotFound();
-            }
-
-            return View(deposit);
-        }
-
-        // POST: Deposits/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var deposit = await _context.Deposit_Table.FindAsync(id);
-            _context.Deposit_Table.Remove(deposit);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool DepositExists(string customerID)
-        {
-            return _context.Deposit_Table.Any(e => e.CustomerID.Equals(customerID));
-        }
     }
 }

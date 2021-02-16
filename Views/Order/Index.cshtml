@@ -5,19 +5,19 @@
 }
 
 <p>
-    <a asp-action="Create">Create Order</a>
+    <a asp-action="Create">Make Order</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerID)
+                Customer ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SiteID)
+                Site
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductID)
+               Product
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
@@ -29,27 +29,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var order in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerID)
+                @Html.DisplayFor(modelItem => order.CustomerID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SiteID)
+                @Html.DisplayFor(modelItem => order.SiteID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductID)
+                @Html.DisplayFor(modelItem => order.ProductID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
+                @Html.DisplayFor(modelItem => order.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderAmount)
+                @Html.DisplayFor(modelItem => order.OrderAmount)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>
+                @Html.ActionLink("Edit", "Edit", new { orderId = order.OrderID }) |
+                @Html.ActionLink("Details", "Details", new { customerID = order.OrderID }) |
+                @Html.ActionLink("Delete", "Delete", new { customerID = order.OrderID })
             </td>
         </tr>
 }

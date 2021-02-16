@@ -13,13 +13,7 @@ namespace NRDCL.Controllers
 {
     public class SiteController : Controller
     {
-        private readonly NRDCL_DB_Context _context;
         private readonly ISiteService siteService;
-
-        //public SiteController(NRDCL_DB_Context context)
-        //{
-        //    _context = context;
-        //}
 
         public SiteController(ISiteService service)
         {
@@ -69,7 +63,7 @@ namespace NRDCL.Controllers
                 ResponseMessage responseMessage = siteService.SaveSite(site);
                 if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError("CitizenshipID", responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(site);
                 }
                 return RedirectToAction(nameof(Index));
@@ -111,47 +105,13 @@ namespace NRDCL.Controllers
                 ResponseMessage responseMessage = siteService.UpdateSite(site);
                 if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError("CitizenshipID", responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(site);
                 }
 
                 return RedirectToAction(nameof(Index));
             }
             return View(site);
-        }
-
-        // GET: Sites/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var site = await _context.Site_Table
-                .FirstOrDefaultAsync(m => m.SiteId == id);
-            if (site == null)
-            {
-                return NotFound();
-            }
-
-            return View(site);
-        }
-
-        // POST: Sites/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var site = await _context.Site_Table.FindAsync(id);
-            _context.Site_Table.Remove(site);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool SiteExists(int id)
-        {
-            return _context.Site_Table.Any(e => e.SiteId == id);
         }
     }
 }

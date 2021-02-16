@@ -12,5 +12,6 @@ namespace NRDCL.Models
         Site GetSiteDetails(int siteId);
         ResponseMessage SaveSite(Site site);
         ResponseMessage UpdateSite(Site site);
+        bool SiteExists(int siteId);
     }
 }

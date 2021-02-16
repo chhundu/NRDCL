@@ -32,12 +32,12 @@ namespace NRDCL.Controllers
         {
             if (CitizenshipID.Equals(null))
             {
-                return NotFound();
+                return new NotFoundResult();
             }
             var customer = customerService.GetCustomerDetails(CitizenshipID);
             if (customer == null)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
 
             return View(customer);
@@ -61,7 +61,7 @@ namespace NRDCL.Controllers
                 ResponseMessage responseMessage = customerService.SaveCustomer(customer);
                 if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError("CitizenshipID", responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(customer);
                 }
               
@@ -104,7 +104,7 @@ namespace NRDCL.Controllers
                 ResponseMessage responseMessage = customerService.UpdateCustomer(customer);
                 if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError("CitizenshipID", responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(customer);
                 }
 

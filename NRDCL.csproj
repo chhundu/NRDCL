@@ -20,12 +20,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IService\Deposit\" />
-    <Folder Include="IService\Report\" />
-    <Folder Include="IService\Order\" />
-    <Folder Include="Service\Report\" />
-    <Folder Include="Service\Order\" />
-  </ItemGroup>
-
 </Project>

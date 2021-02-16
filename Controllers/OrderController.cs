@@ -13,16 +13,22 @@ namespace NRDCL.Controllers
     public class OrderController : Controller
     {
         private readonly NRDCL_DB_Context _context;
-
-        public OrderController(NRDCL_DB_Context context)
+        private readonly ISiteService siteService;
+        private readonly IOrderService orderService;
+        private readonly IProductService productService;
+        public OrderController(ISiteService service, IOrderService order, IProductService product)
         {
-            _context = context;
+            siteService = service;
+            orderService = order;
+            productService = product;
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Order_Table.ToListAsync());
+            List<Order> orderList = orderService.GetOrderList();
+            ViewBag.Subtitle = "Order Information.";
+            return View(orderList);
         }
 
         // GET: Orders/Details/5
@@ -46,6 +52,12 @@ namespace NRDCL.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
+            List<Site> siteList = siteService.GetSiteList();
+            ViewBag.SiteList = new SelectList(siteList, "SiteId", "SiteName");
+
+            List<Product> productList = productService.GetProductList();
+            ViewBag.ProductList = new SelectList(productList, "ProductId", "ProductName");
+
             return View();
         }
 

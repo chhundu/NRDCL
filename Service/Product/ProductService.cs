@@ -47,6 +47,21 @@ namespace NRDCL.Models
         {
             ResponseMessage responseMessage = new ResponseMessage();
 
+            if (product.PricePerUnit <= 0) {
+                responseMessage.Status = false;
+                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.MessageKey = "PricePerUnit";
+                return responseMessage;
+            }
+
+            if (product.TransportRate <= 0)
+            {
+                responseMessage.Status = false;
+                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.MessageKey = "TransportRate";
+                return responseMessage;
+            }
+
             dataBaseContext.Add(product);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
@@ -74,6 +89,7 @@ namespace NRDCL.Models
                 {
                     responseMessage.Status = false;
                     responseMessage.Text = "Product doesn't exist.";
+                    responseMessage.MessageKey = "ProductId";
                     return responseMessage;
                 }
                 else

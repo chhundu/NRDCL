@@ -1,0 +1,95 @@
+﻿@using NRDCL.Models;
+@{
+    ViewBag.Title = "Report";
+}
+<h3>@ViewBag.Subtitle</h3>
+<div>
+    <h4>Customer Report</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Customer ID
+            </th>
+            <th>
+                Product
+            </th>
+            <th>
+                Price Amount
+            </th>
+            <th>
+                Transport Amount
+            </th>
+            <th>
+                Balance
+            </th>
+            <th>
+                Product ID
+            </th>
+        </tr>
+
+        @foreach (var customer in ViewBag.Customers)
+        {
+            <tr>
+                <td>
+                    @customer.CustomerID
+                </td>
+                <td>
+                    @customer.ProductName
+                </td>
+                <td>
+                    @customer.PriceAmount
+                </td>
+                <td>
+                    @customer.TransportAmount
+                </td>
+                <td>
+                    @customer.AdvanceBalance
+                </td>
+                <td>
+                    @customer.ProductID
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<hr />
+<div>
+    <h4>Product Report</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Product
+            </th>
+            <th>
+                Price Amount
+            </th>
+            <th>
+                Transport Amount
+            </th>
+            <th>
+                Product ID
+            </th>
+        </tr>
+
+        @foreach (var product in ViewBag.Products)
+        {
+            <tr>
+                <td>
+                    @product.ProductName
+                </td>
+                <td>
+                    @product.PriceAmount
+                </td>
+                <td>
+                    @product.TransportAmount
+                </td>
+                <td>
+                    @product.ProductID
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+   

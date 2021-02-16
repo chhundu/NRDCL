@@ -50,9 +50,18 @@ namespace NRDCL.Models
             {
                 responseMessage.Status = false;
                 responseMessage.Text = "There is no site registered for entered customer ID.! Try Another customer";
+                responseMessage.MessageKey = "CitizenshipID";
                  return responseMessage;
 
             }
+            if (site.DistanceFrom <= 0)
+            {
+                responseMessage.Status = false;
+                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.MessageKey = "DistanceFrom";
+                return responseMessage;
+            }
+
             dataBaseContext.Add(site);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
@@ -67,6 +76,7 @@ namespace NRDCL.Models
             {
                 responseMessage.Status = false;
                 responseMessage.Text = "Customer Id is not registered.! Try Another customer";
+                responseMessage.MessageKey = "CitizenshipID";
                 return responseMessage;
             }
             try
@@ -90,6 +100,16 @@ namespace NRDCL.Models
             responseMessage.Status = true;
             responseMessage.Text = "Site updated succesfully.";
             return responseMessage;
+        }
+
+        /// <summary>
+        /// To check site exist ot not
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <returns></returns>
+        public bool SiteExists(int siteId)
+        {
+            return dataBaseContext.Site_Table.Any(e => e.SiteId == siteId);
         }
     }
 }
