@@ -14,17 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CustomerID" class="control-label"></label>
-                <input asp-for="CustomerID" class="form-control" />
+                <input asp-for="CustomerID" id="CustomerID" class="form-control" />
                 <span asp-validation-for="CustomerID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SiteID" class="control-label">Select Site</label>
-                @Html.DropDownListFor(model => model.Site, ViewBag.SiteList as SelectList, "--Select--", new { @class = "form-control" })
+                <label asp-for="SiteID" class="control-label"></label>
+                @Html.DropDownListFor(model => model.SiteID, ViewBag.SiteList as SelectList, "--Select--", new { @class = "form-control", @id = "SiteID" })
                 <span asp-validation-for="SiteID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductID" class="control-label">Select Product</label>
-                @Html.DropDownListFor(model => model.Product, ViewBag.ProductList as SelectList, "--Select--", new { @class = "form-control" })
+                <label asp-for="ProductID" class="control-label"></label>
+                @Html.DropDownListFor(model => model.ProductID, ViewBag.ProductList as SelectList, "--Select--", new { @class = "form-control" })
                 <span asp-validation-for="ProductID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,11 +33,11 @@
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="button" value="Calculate" class="btn btn-primary" />
+                <input type="button" value="Calculate" class="btn btn-primary" id="Calculate" onclick="CalculateOrderAmount()"/>
             </div>
             <div class="form-group">
-                <label asp-for="OrderAmount" class="control-label">Order Amount</label>
-                <input asp-for="OrderAmount" class="form-control" readonly/>
+                <label asp-for="OrderAmount" class="control-label"></label>
+                <input asp-for="OrderAmount" class="form-control" readonly id="OrderAmount" />
                 <span asp-validation-for="OrderAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -53,4 +53,39 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    function CalculateOrderAmount() {
+
+        $("input[id='OrderAmount']").val(1000);
+
+    }
+</script>
 }
+
+
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $('#CustomerID').hide();
+            $('#CustomerID').blur(function () {
+                var CustomerID = $(this).val();
+                if (propertyValue.length > 0) {
+                    $.getJSON('/Order/GetSiteByID', { CustomerID: CustomerID }, function (data) {
+                        $('#ProductId').show();
+                        $('#SiteID option').remove();
+                        $('#ProductId').append('<option value="0">Please select a Product</option');
+                        for (var i = 0; i < data.length; i++) {
+                            $('#ProductId').append('<option value="' + data[i].ProductID + '">' + data[i].ProductName + '</option');
+                        }
+                    }).fail(function () {
+                        debugger;
+                        alert('Error getting Products');
+                    });
+                }
+                else {
+                    $('#ProductId option').remove();
+                    $('#ProductId').append('<option value="0">Please select a Product</option');
+                }
+            });
+        });
+    </script>*@

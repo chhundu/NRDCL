@@ -12,6 +12,7 @@ namespace NRDCL.Models
     {
         private readonly NRDCL_DB_Context dataBaseContext;
         private readonly ICustomerService customerService;
+        public CommonProperties CommonProperties { get; set; }
 
         public DepositService(NRDCL_DB_Context context, ICustomerService service)
         {
@@ -55,7 +56,7 @@ namespace NRDCL.Models
             if (!customerService.IsCustomerExist(deposit.CustomerID))
             {
                 responseMessage.Status = false;
-                responseMessage.Text = "Entered customer ID is not registered. Please register!.";
+                responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                 responseMessage.MessageKey = "CustomerID";
                 return responseMessage;
 
@@ -63,7 +64,7 @@ namespace NRDCL.Models
 
             if (deposit.LastAmount <= 0) {
                 responseMessage.Status = false;
-                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.Text = CommonProperties.invalidDepositAmountMsg;
                 responseMessage.MessageKey = "LastAmount";
                 return responseMessage;
             }
@@ -90,7 +91,7 @@ namespace NRDCL.Models
 
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
-            responseMessage.Text = "Amount deposited successfully. Your Current balance is Nu. " + totalBalance;
+            responseMessage.Text = CommonProperties.saveSuccessMsg + " Your Current balance is Nu. " + totalBalance;
 
             return responseMessage;
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NRDCL.Data;
 using NRDCL.Models;
+using NRDCL.Models.Common;
 
 namespace NRDCL.Controllers
 {
@@ -66,12 +67,17 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
+        public IActionResult Create([Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
+                ResponseMessage responseMessage = orderService.SaveOrder(order);
+                if (responseMessage.Status == false)
+                {
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    return View(order);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(order);

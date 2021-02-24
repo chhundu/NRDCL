@@ -1,33 +1,31 @@
 ﻿@model NRDCL.Models.Customer
-
 @{
     ViewData["Title"] = "Customer";
 }
-
 <div>
     <h4>Customer Detail</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Citizenship ID
+            @Html.DisplayNameFor(model => model.CitizenshipID)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CitizenshipID)
         </dd>
         <dt class="col-sm-2">
-           Customer Name
+            @Html.DisplayNameFor(model => model.CustomerName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CustomerName)
         </dd>
         <dt class="col-sm-2">
-            Telephone Number
+            @Html.DisplayNameFor(model => model.TelephoneNumber)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TelephoneNumber)
         </dd>
         <dt class="col-sm-2">
-           Email ID
+            @Html.DisplayNameFor(model => model.EmailId)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EmailId)

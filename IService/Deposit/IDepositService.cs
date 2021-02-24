@@ -12,5 +12,6 @@ namespace NRDCL.Models
         Deposit GetDepositDetails(string CitizenshipID);
         ResponseMessage SaveDeposit(Deposit deposit);
         bool DepositExists(string customerID);
+        void DeleteDeposit(string customerID);
     }
 }

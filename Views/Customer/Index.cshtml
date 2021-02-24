@@ -9,20 +9,26 @@
 <p>
     <a asp-action="Create">Register Customer</a>
 </p>
+@if (@TempData["Status"].ToString().Equals(true))
+{
+    <div class="alert alert-success">
+        <strong>@TempData["Text"].ToString() </strong>
+    </div>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                Citizenship ID
+                @Html.DisplayNameFor(model => model.CitizenshipID)
             </th>
             <th>
-               Customer Name
+                @Html.DisplayNameFor(model => model.CustomerName)
             </th>
             <th>
-                Telephone Number
+                @Html.DisplayNameFor(model => model.TelephoneNumber)
             </th>
             <th>
-                Email ID
+                @Html.DisplayNameFor(model => model.EmailId)
             </th>
             <th></th>
         </tr>
@@ -45,7 +51,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { CitizenshipID = customers.CitizenshipID }) |
-                    @Html.ActionLink("Details", "Details", new { CitizenshipID = customers.CitizenshipID }) 
+                    @Html.ActionLink("Details", "Details", new { CitizenshipID = customers.CitizenshipID })
                     @*@Html.ActionLink("Delete", "Delete", new { CitizenshipID = customers.CitizenshipID })*@
 
                 </td>
@@ -53,5 +59,6 @@
         }
     </tbody>
 </table>
+
 
 

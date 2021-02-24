@@ -11,6 +11,7 @@ namespace NRDCL.Models
     public class ProductService : IProductService
     {
         private readonly NRDCL_DB_Context dataBaseContext;
+        public CommonProperties CommonProperties { get; set; }
 
         public ProductService(NRDCL_DB_Context context)
         {
@@ -49,7 +50,7 @@ namespace NRDCL.Models
 
             if (product.PricePerUnit <= 0) {
                 responseMessage.Status = false;
-                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.Text = CommonProperties.invalidRateMsg;
                 responseMessage.MessageKey = "PricePerUnit";
                 return responseMessage;
             }
@@ -57,7 +58,7 @@ namespace NRDCL.Models
             if (product.TransportRate <= 0)
             {
                 responseMessage.Status = false;
-                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.Text = CommonProperties.invalidRateMsg;
                 responseMessage.MessageKey = "TransportRate";
                 return responseMessage;
             }
@@ -65,7 +66,7 @@ namespace NRDCL.Models
             dataBaseContext.Add(product);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
-            responseMessage.Text = "Product saved succesfully.";
+            responseMessage.Text = CommonProperties.saveSuccessMsg;
 
             return responseMessage;
         }
@@ -88,7 +89,7 @@ namespace NRDCL.Models
                 if (!ProductExists(product.ProductId))
                 {
                     responseMessage.Status = false;
-                    responseMessage.Text = "Product doesn't exist.";
+                    responseMessage.Text = CommonProperties.invalidProductMsg;
                     responseMessage.MessageKey = "ProductId";
                     return responseMessage;
                 }
@@ -98,7 +99,7 @@ namespace NRDCL.Models
                 }
             }
             responseMessage.Status = true;
-            responseMessage.Text = "Product updated succesfully.";
+            responseMessage.Text = CommonProperties.updateSuccessMsg;
             return responseMessage;
         }
 

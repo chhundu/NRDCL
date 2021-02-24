@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>
-                Customer ID
+                Customer
             </th>
             <th>
                 Site
@@ -32,13 +32,13 @@
 @foreach (var order in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => order.CustomerID)
+                @Html.DisplayFor(modelItem => order.CustomerName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => order.SiteID)
+                @Html.DisplayFor(modelItem => order.SiteName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => order.ProductID)
+                @Html.DisplayFor(modelItem => order.ProductName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => order.Quantity)
@@ -48,8 +48,8 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { orderId = order.OrderID }) |
-                @Html.ActionLink("Details", "Details", new { customerID = order.OrderID }) |
-                @Html.ActionLink("Delete", "Delete", new { customerID = order.OrderID })
+                @Html.ActionLink("Details", "Details", new { orderId = order.OrderID }) |
+                @Html.ActionLink("Delete", "Delete", new { orderId = order.OrderID })
             </td>
         </tr>
 }

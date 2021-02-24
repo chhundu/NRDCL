@@ -23,8 +23,19 @@ namespace NRDCL.Models
         }
 
         public int ProductId { get; set; }
+
+        [Required(ErrorMessage = "Product name is mendatory.")]
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
+
+        [Required(ErrorMessage = "Price per unit is mendatory.")]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
+        [Display(Name = "Price Per Unit")]
         public decimal PricePerUnit { get; set; }
+
+        [Required(ErrorMessage = "Transport rate is mendatory.")]
+        [Display(Name = "Transport Rate")]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
         public decimal TransportRate { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

@@ -11,6 +11,7 @@ namespace NRDCL.Models
     public class CustomerService : ICustomerService
     {
         private readonly NRDCL_DB_Context dataBaseContext;
+        public CommonProperties CommonProperties { get; set; }
 
         public CustomerService(NRDCL_DB_Context context)
         {
@@ -42,7 +43,7 @@ namespace NRDCL.Models
             dataBaseContext.Customer_Table.Remove(customer);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
-            responseMessage.Text = "Customer deleted succesfully.";
+            responseMessage.Text = CommonProperties.deleteSuccessMsg;
             return responseMessage;
         }
 
@@ -58,7 +59,7 @@ namespace NRDCL.Models
             if (IsCustomerExist(customer.CitizenshipID))
             {
                 responseMessage.Status=false;
-                responseMessage.Text = "Customer with this citizenshipID already exists";
+                responseMessage.Text = CommonProperties.citizenshipIDExistMsg;
                 responseMessage.MessageKey = "CitizenshipID";
                 return responseMessage;
             }
@@ -66,7 +67,7 @@ namespace NRDCL.Models
             dataBaseContext.Add(customer);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
-            responseMessage.Text = "Customer saved succesfully.";
+            responseMessage.Text = CommonProperties.saveSuccessMsg;
 
             return responseMessage;
         }
@@ -84,7 +85,7 @@ namespace NRDCL.Models
                 if (!IsCustomerExist(customer.CitizenshipID))
                 {
                     responseMessage.Status = false;
-                    responseMessage.Text = "Customer doesn't exist.";
+                    responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                     responseMessage.MessageKey = "CitizenshipID";
                     return responseMessage;
                 }
@@ -94,7 +95,7 @@ namespace NRDCL.Models
                 }
             }
             responseMessage.Status = true;
-            responseMessage.Text = "Customer updated succesfully.";
+            responseMessage.Text = CommonProperties.updateSuccessMsg;
             return responseMessage;
         }
 

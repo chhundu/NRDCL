@@ -13,6 +13,7 @@ namespace NRDCL.Models
 
         private readonly NRDCL_DB_Context dataBaseContext;
         private readonly ICustomerService customerService;
+        public CommonProperties CommonProperties { get; set; }
 
         public SiteService(NRDCL_DB_Context context, ICustomerService service)
         {
@@ -49,7 +50,7 @@ namespace NRDCL.Models
             if (!customerService.IsCustomerExist(site.CitizenshipID))
             {
                 responseMessage.Status = false;
-                responseMessage.Text = "There is no site registered for entered customer ID.! Try Another customer";
+                responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                 responseMessage.MessageKey = "CitizenshipID";
                  return responseMessage;
 
@@ -57,7 +58,7 @@ namespace NRDCL.Models
             if (site.DistanceFrom <= 0)
             {
                 responseMessage.Status = false;
-                responseMessage.Text = "Invalid amount. Try again!.";
+                responseMessage.Text = CommonProperties.invalidSiteDistance;
                 responseMessage.MessageKey = "DistanceFrom";
                 return responseMessage;
             }
@@ -65,7 +66,7 @@ namespace NRDCL.Models
             dataBaseContext.Add(site);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
-            responseMessage.Text = "Site saved succesfully.";
+            responseMessage.Text = CommonProperties.saveSuccessMsg;
             return responseMessage;
         }
 
@@ -75,7 +76,7 @@ namespace NRDCL.Models
             if (!customerService.IsCustomerExist(site.CitizenshipID))
             {
                 responseMessage.Status = false;
-                responseMessage.Text = "Customer Id is not registered.! Try Another customer";
+                responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                 responseMessage.MessageKey = "CitizenshipID";
                 return responseMessage;
             }
@@ -89,7 +90,7 @@ namespace NRDCL.Models
                 if (!customerService.IsCustomerExist(site.CitizenshipID))
                 {
                     responseMessage.Status = false;
-                    responseMessage.Text = "Customer doesn't exist.";
+                    responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                     return responseMessage;
                 }
                 else
@@ -98,7 +99,7 @@ namespace NRDCL.Models
                 }
             }
             responseMessage.Status = true;
-            responseMessage.Text = "Site updated succesfully.";
+            responseMessage.Text = CommonProperties.updateSuccessMsg;
             return responseMessage;
         }
 

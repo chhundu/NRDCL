@@ -15,9 +15,19 @@ namespace NRDCL.Models
             this.Orders = new HashSet<Order>();
         }
         [Key]
+        [Required(ErrorMessage = "Citizenship ID is mendatory.")]
+        [Display(Name = "Citizenship ID")]
         public string CitizenshipID { get; set; }
+
+        [Required(ErrorMessage = "Customer name is mendatory.")]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
+
+        [Required(ErrorMessage = "Telephone number is mendatory.")]
+        [Display(Name = "Telephone Number")]
         public string TelephoneNumber { get; set; }
+        
+        [Display(Name = "Email ID")]
         public string EmailId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

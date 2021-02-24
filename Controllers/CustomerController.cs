@@ -24,6 +24,7 @@ namespace NRDCL.Controllers
         {
             List<Customer> customerList = customerService.GetCustomerList();
             ViewBag.Subtitle = "Customer Information.";
+            TempData["Status"] = false;
             return View(customerList);
         }
 
@@ -64,8 +65,9 @@ namespace NRDCL.Controllers
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(customer);
                 }
-              
-                return RedirectToAction(nameof(Index));
+                TempData["Status"] = true;
+                TempData["Text"] = responseMessage.Text;
+                return RedirectToAction("Index");
             }
             return View(customer);
         }

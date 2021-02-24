@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NRDCL.Models
@@ -16,20 +17,43 @@ namespace NRDCL.Models
     {
         public int OrderID { get; set; }
 
+        [Required(ErrorMessage = "Customer ID is mendatory.")]
         [ForeignKey("Customer")]
+        [Display(Name = "Customer ID")]
         public string CustomerID { get; set; }
 
+        [Required(ErrorMessage = "Site is mendatory.")]
         [ForeignKey("Site")]
+        [Display(Name = "Site")]
         public int SiteID { get; set; }
 
+        [Required(ErrorMessage = "Product is mendatory.")]
         [ForeignKey("Product")]
+        [Display(Name = "Product")]
         public int ProductID { get; set; }
+
+        [Required(ErrorMessage = "Quantity is mendatory.")]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
+        [Display(Name = "Quantity")]
         public decimal Quantity { get; set; }
+
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Order amount mjust be greater than 0")]
         public decimal OrderAmount { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual Product Product { get; set; }
         public virtual Site Site { get; set; }
+
+        [NotMapped]
+        public string SiteName { get; set; }
+        [NotMapped]
+        public string ProductName { get; set; }
+        [NotMapped]
+        public string CustomerName { get; set; }
+        [NotMapped]
+        public bool Status { get; set; }
+        [NotMapped]
+        public string Message { get; set; }
 
     }
 }

@@ -15,7 +15,12 @@ namespace NRDCL.Models
     public partial class Deposit
     {
         [Key]
+        [Required(ErrorMessage = "Customer ID is mendatory.")]
+        [Display(Name = "Customer ID")]
         public string CustomerID { get; set; }
+        [Required(ErrorMessage = "Last amount is mendatory.")]
+        [Display(Name = "Last Amount")]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
         public decimal LastAmount { get; set; }
         public decimal Balance { get; set; }
         public virtual Customer Customer { get; set; }
