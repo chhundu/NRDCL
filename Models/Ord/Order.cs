@@ -37,6 +37,7 @@ namespace NRDCL.Models
         [Display(Name = "Quantity")]
         public decimal Quantity { get; set; }
 
+        [Display(Name = "Order Amount")]
         [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Order amount mjust be greater than 0")]
         public decimal OrderAmount { get; set; }
 
@@ -45,11 +46,17 @@ namespace NRDCL.Models
         public virtual Site Site { get; set; }
 
         [NotMapped]
+        [Display(Name = "Site Name")]
         public string SiteName { get; set; }
+        [Display(Name = "Product Name")]
         [NotMapped]
         public string ProductName { get; set; }
         [NotMapped]
+        [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
+        [NotMapped]
+        [Display(Name = "Balance")]
+        public decimal Balance { get; set; }
         [NotMapped]
         public bool Status { get; set; }
         [NotMapped]

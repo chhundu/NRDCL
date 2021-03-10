@@ -9,12 +9,15 @@
 <p>
     <a asp-action="Create">Register Customer</a>
 </p>
-@if (@TempData["Status"].ToString().Equals(true))
-{
-    <div class="alert alert-success">
-        <strong>@TempData["Text"].ToString() </strong>
-    </div>
+@{
+    if (TempData["Text"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>@TempData["Text"].ToString()</strong>
+        </div>
+    }
 }
+
 <table class="table">
     <thead>
         <tr>

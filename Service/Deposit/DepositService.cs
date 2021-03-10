@@ -69,9 +69,17 @@ namespace NRDCL.Models
                 return responseMessage;
             }
             /// checking if there is already data or not.
-            if (!dataBaseContext.Deposit_Table.Any())
+            if (dataBaseContext.Deposit_Table.Find(deposit.CustomerID)==null)
             {
-                deposit.Balance = deposit.LastAmount;
+                decimal balance;
+                if (deposit.Balance == 0)
+                {
+                    balance = deposit.LastAmount;
+                }
+                else {
+                    balance = deposit.Balance;
+                }
+                deposit.Balance = balance;
                 dataBaseContext.Add(deposit);
                 totalBalance = deposit.Balance;
             }

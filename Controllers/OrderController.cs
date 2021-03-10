@@ -33,20 +33,17 @@ namespace NRDCL.Controllers
         }
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int orderId)
         {
-            if (id == null)
+            if (orderId == 0)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
-
-            var order = await _context.Order_Table
-                .FirstOrDefaultAsync(m => m.OrderID == id);
+            var order = orderService.GetOrderDetails(orderId);
             if (order == null)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
-
             return View(order);
         }
 
@@ -54,10 +51,10 @@ namespace NRDCL.Controllers
         public IActionResult Create()
         {
             List<Site> siteList = siteService.GetSiteList();
-            ViewBag.SiteList = new SelectList(siteList, "SiteId", "SiteName");
+            ViewData["SiteList"] = new SelectList(siteList, "SiteId", "SiteName");
 
             List<Product> productList = productService.GetProductList();
-            ViewBag.ProductList = new SelectList(productList, "ProductId", "ProductName");
+            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
 
             return View();
         }
@@ -75,6 +72,11 @@ namespace NRDCL.Controllers
                 if (responseMessage.Status == false)
                 {
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    List<Site> siteList = siteService.GetSiteList();
+                    ViewData["SiteList"] = new SelectList(siteList, "SiteId", "SiteName");
+
+                    List<Product> productList = productService.GetProductList();
+                    ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
                     return View(order);
                 }
 
@@ -84,18 +86,23 @@ namespace NRDCL.Controllers
         }
 
         // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int orderId)
         {
-            if (id == null)
+            if (orderId == 0)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
 
-            var order = await _context.Order_Table.FindAsync(id);
+            var order = orderService.GetOrderDetails(orderId);
             if (order == null)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
+            List<Site> siteList = siteService.GetSiteList();
+            ViewData["SiteList"] = new SelectList(siteList, "SiteId", "SiteName");
+
+            List<Product> productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
             return View(order);
         }
 
@@ -104,68 +111,68 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
+        public  IActionResult Edit(int orderId, [Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
-            if (id != order.OrderID)
+            if (orderId != order.OrderID)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
 
             if (ModelState.IsValid)
             {
-                try
+
+                ResponseMessage responseMessage = orderService.UpdateOrder(order);
+                if (responseMessage.Status == false)
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    return View(order);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(order);
         }
 
         // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int OrderID)
         {
-            if (id == null)
+            if (OrderID == 0)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
-
-            var order = await _context.Order_Table
-                .FirstOrDefaultAsync(m => m.OrderID == id);
+            var order = orderService.GetOrderDetails(OrderID);
             if (order == null)
             {
-                return NotFound();
+                return new NotFoundResult();
             }
-
             return View(order);
         }
 
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int OrderID)
         {
-            var order = await _context.Order_Table.FindAsync(id);
-            _context.Order_Table.Remove(order);
-            await _context.SaveChangesAsync();
+            var responseMessage = orderService.DeleteOrder(OrderID);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        [HttpGet]
+        public ActionResult GetSiteByCustomerId(string customerID)
         {
-            return _context.Order_Table.Any(e => e.OrderID == id);
+            var siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(customerID)).Select(siteDropdown=> new Site() { 
+            SiteId=siteDropdown.SiteId,
+            SiteName=siteDropdown.SiteName
+            }).ToList();
+            var filteredSiteList = new SelectList(siteList, "SiteId", "SiteName");
+            return Json(filteredSiteList);
+        }
+
+        [HttpGet]
+        public ActionResult CalculateOrderAmount(Order order)
+        {
+            decimal orderAmount=orderService.CalculateOrderAmount(order);
+            return Json(orderAmount);
         }
     }
 }

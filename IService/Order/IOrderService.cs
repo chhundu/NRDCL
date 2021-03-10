@@ -10,5 +10,10 @@ namespace NRDCL.Models
     {
         List<Order> GetOrderList();
         ResponseMessage SaveOrder(Order order);
+        Order GetOrderDetails(int orderId);
+        ResponseMessage UpdateOrder(Order order);
+        ResponseMessage DeleteOrder(int orderID);
+        bool OrderExists(int orderID);
+        decimal CalculateOrderAmount(Order order);
     }
 }
