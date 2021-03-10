@@ -28,6 +28,7 @@ namespace NRDCL.Controllers
             return View(customerList);
         }
 
+
         // GET: Customers/Details/5
         public IActionResult Details(string CitizenshipID)
         {
