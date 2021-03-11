@@ -20,6 +20,7 @@ namespace NRDCL.Controllers
         }
 
         // GET: Customers
+        // resolving conflict
         public IActionResult Index()
         {
             List<Customer> customerList = customerService.GetCustomerList();
