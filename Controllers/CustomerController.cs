@@ -20,8 +20,6 @@ namespace NRDCL.Controllers
         }
 
         // GET: Customers
-        // resolving conflict
-        //Helllo world
         public IActionResult Index()
         {
             List<Customer> customerList = customerService.GetCustomerList();
@@ -68,9 +66,9 @@ namespace NRDCL.Controllers
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(customer);
                 }
-                TempData["Status"] = true;
-                TempData["Text"] = responseMessage.Text;
-                return RedirectToAction("Index");
+                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ModelState.Clear();
+                 customer = new Customer();
             }
             return View(customer);
         }
