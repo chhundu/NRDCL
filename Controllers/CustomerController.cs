@@ -21,6 +21,7 @@ namespace NRDCL.Controllers
 
         // GET: Customers
         // resolving conflict
+        //Helllo world
         public IActionResult Index()
         {
             List<Customer> customerList = customerService.GetCustomerList();
