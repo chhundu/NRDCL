@@ -57,7 +57,7 @@ namespace NRDCL.Models.Common
         , selectProductLabel = "Select Product "
         , enterQuantityLabel = "Enter Quantity "
         , invalidQuantityMsg = "Invalid quantity. Try again!."
-        , wrongOrderAmountMsg = "Calculation mistake in total amount."
+        , wrongOrderAmountMsg = "Calculation mistake in order amount."
         #endregion
 
         #region Report

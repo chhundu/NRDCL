@@ -1,26 +1,34 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NRDCL.Data;
+﻿using NRDCL.Data;
 using NRDCL.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NRDCL.Models
 {
     public class OrderService : IOrderService
     {
+        #region private variables
         private readonly NRDCL_DB_Context dataBaseContext;
         private readonly ICustomerService customerService;
         private readonly IDepositService depositService;
+        #endregion
+
         public CommonProperties CommonProperties { get; set; }
 
+        #region Constructor Injection
         public OrderService(NRDCL_DB_Context context, ICustomerService customer, IDepositService deposit)
         {
             dataBaseContext = context;
             customerService = customer;
             depositService = deposit;
         }
+        #endregion
+
+        /// <summary>
+        /// Get order list
+        /// </summary>
+        /// <returns></returns>
         public List<Order> GetOrderList()
         {
             List<Order> orderList = (from ord in dataBaseContext.Order_Table
@@ -53,16 +61,7 @@ namespace NRDCL.Models
         {
             var responseMessage = new ResponseMessage();
 
-            /// check whether there is data or not for dropdown.
-            var checkEmptyResponseMessage = CheckEmptyData();
-            if (!checkEmptyResponseMessage.Status)
-            {
-                responseMessage.Status = false;
-                responseMessage.Text = checkEmptyResponseMessage.Text;
-                responseMessage.MessageKey = "NoData";
-                return responseMessage;
-            }
-
+            //check entered customer is registered or not
             if (!customerService.IsCustomerExist(order.CustomerID)) {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
@@ -109,19 +108,29 @@ namespace NRDCL.Models
             /// saving and updating amount in deposite table
             var deposits = new Deposit();
             deposits.CustomerID = validOrderData.CustomerID;
-            deposits.LastAmount = (from deposit in dataBaseContext.Deposit_Table
-                                   where deposit.CustomerID.Equals(validOrderData.CustomerID)
-                                   select deposit.LastAmount).FirstOrDefault();
-
+            if (order.OrderID != 0)
+            {
+                deposits.LastAmount = validOrderData.Balance;
+            }
+            else {
+                deposits.LastAmount = (from deposit in dataBaseContext.Deposit_Table
+                                       where deposit.CustomerID.Equals(validOrderData.CustomerID)
+                                       select deposit.LastAmount).FirstOrDefault();
+            }
             deposits.Balance = (from deposit in dataBaseContext.Deposit_Table
-                                where deposit.CustomerID.Equals(validOrderData.CustomerID)
-                                select deposit.Balance).FirstOrDefault() - (validOrderData.OrderAmount);
+                                    where deposit.CustomerID.Equals(validOrderData.CustomerID)
+                                    select deposit.Balance).FirstOrDefault() - (validOrderData.OrderAmount);
 
             depositService.DeleteDeposit(validOrderData.CustomerID);
-            depositService.SaveDeposit(deposits);
+            dataBaseContext.Add(deposits);
 
             /// saving/updating order
-            dataBaseContext.Add(validOrderData);
+            if (order.OrderID !=0) {
+                dataBaseContext.Update(order);
+            }
+            else {
+                dataBaseContext.Add(validOrderData);
+            }
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
             responseMessage.Text = validOrderData.Message;
@@ -256,39 +265,6 @@ namespace NRDCL.Models
         }
 
         #region private methods
-        /// <summary>
-        /// this method check whether there is data or not.
-        /// </summary>
-        /// <returns></returns>
-        private ResponseMessage CheckEmptyData()
-        {
-            var responseMessage = new ResponseMessage();
-
-            /// check whether there is customer data or not
-            if (!dataBaseContext.Customer_Table.Any())
-            {
-                responseMessage.Status = false;
-                responseMessage.Text = CommonProperties.noCustomerDataMsg;
-                return responseMessage;
-            }
-            /// check whether there is site data or not
-            if (!dataBaseContext.Site_Table.Any())
-            {
-                responseMessage.Status = false;
-                responseMessage.Text = CommonProperties.noSiteDataMsg;
-                return responseMessage;
-            }
-            /// check whether there is product or not
-            if (!dataBaseContext.Product_Table.Any())
-            {
-                responseMessage.Status = false;
-                responseMessage.Text = CommonProperties.noProductDataMsg;
-                return responseMessage;
-            }
-            responseMessage.Status = true;
-            return responseMessage;
-        }
-
         /// <summary>
         /// This method will validate order information and calculate order related amount.
         /// </summary>

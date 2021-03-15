@@ -6,6 +6,7 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,6 +27,8 @@ namespace NRDCL.Models
         [ForeignKey("Site")]
         [Display(Name = "Site")]
         public int SiteID { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> SiteList { get; set; }
 
         [Required(ErrorMessage = "Product is mendatory.")]
         [ForeignKey("Product")]
@@ -38,7 +41,7 @@ namespace NRDCL.Models
         public decimal Quantity { get; set; }
 
         [Display(Name = "Order Amount")]
-        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Order amount mjust be greater than 0")]
+        [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Order amount must be greater than 0")]
         public decimal OrderAmount { get; set; }
 
         public virtual Customer Customer { get; set; }

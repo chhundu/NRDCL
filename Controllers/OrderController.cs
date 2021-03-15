@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NRDCL.Data;
 using NRDCL.Models;
 using NRDCL.Models.Common;
 
@@ -13,17 +9,22 @@ namespace NRDCL.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly NRDCL_DB_Context _context;
+        #region private variables
         private readonly ISiteService siteService;
         private readonly IOrderService orderService;
         private readonly IProductService productService;
+        #endregion
+
+        #region Constructor Injection
         public OrderController(ISiteService service, IOrderService order, IProductService product)
         {
             siteService = service;
             orderService = order;
             productService = product;
         }
+        #endregion
 
+        #region public methods
         // GET: Orders
         public IActionResult Index()
         {
@@ -32,6 +33,11 @@ namespace NRDCL.Controllers
             return View(orderList);
         }
 
+        /// <summary>
+        /// Get order detail
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
         // GET: Orders/Details/5
         public IActionResult Details(int orderId)
         {
@@ -47,16 +53,28 @@ namespace NRDCL.Controllers
             return View(order);
         }
 
+        /// <summary>
+        /// Create order
+        /// </summary>
+        /// <returns></returns>
         // GET: Orders/Create
         public IActionResult Create()
         {
-            List<Site> siteList = siteService.GetSiteList();
-            ViewData["SiteList"] = new SelectList(siteList, "SiteId", "SiteName");
+            var order = new Order();
+            List<SelectListItem> siteList = new List<SelectListItem>()
+                {
+                new SelectListItem
+                {
+                    Value = null,
+                    Text = " "
+                }
+            };
+            order.SiteList = siteList;
 
             List<Product> productList = productService.GetProductList();
             ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
 
-            return View();
+            return View(order);
         }
 
         // POST: Orders/Create
@@ -66,21 +84,25 @@ namespace NRDCL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
+            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+            {
+                Value = s.SiteId.ToString(),
+                Text = s.SiteName
+            }).ToList();
+            order.SiteList = siteList;
+
+            List<Product> productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
             if (ModelState.IsValid)
             {
                 ResponseMessage responseMessage = orderService.SaveOrder(order);
                 if (responseMessage.Status == false)
                 {
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
-                    List<Site> siteList = siteService.GetSiteList();
-                    ViewData["SiteList"] = new SelectList(siteList, "SiteId", "SiteName");
-
-                    List<Product> productList = productService.GetProductList();
-                    ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
                     return View(order);
                 }
-
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = responseMessage.Text;
+                ModelState.Clear();
             }
             return View(order);
         }
@@ -98,8 +120,12 @@ namespace NRDCL.Controllers
             {
                 return new NotFoundResult();
             }
-            List<Site> siteList = siteService.GetSiteList();
-            ViewData["SiteList"] = new SelectList(siteList, "SiteId", "SiteName");
+            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+            {
+                Value = s.SiteId.ToString(),
+                Text = s.SiteName
+            }).ToList();
+            order.SiteList = siteList;
 
             List<Product> productList = productService.GetProductList();
             ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
@@ -113,22 +139,29 @@ namespace NRDCL.Controllers
         [ValidateAntiForgeryToken]
         public  IActionResult Edit(int orderId, [Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
+            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+            {
+                Value = s.SiteId.ToString(),
+                Text = s.SiteName
+            }).ToList();
+            order.SiteList = siteList;
+
+            List<Product> productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
             if (orderId != order.OrderID)
             {
                 return new NotFoundResult();
             }
-
             if (ModelState.IsValid)
             {
-
-                ResponseMessage responseMessage = orderService.UpdateOrder(order);
+                ResponseMessage responseMessage = orderService.SaveOrder(order);
                 if (responseMessage.Status == false)
                 {
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(order);
                 }
-
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = responseMessage.Text;
+                ModelState.Clear();
             }
             return View(order);
         }
@@ -157,22 +190,36 @@ namespace NRDCL.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Get site dropdown based on customerID
+        /// </summary>
+        /// <param name="customerID"></param>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult GetSiteByCustomerId(string customerID)
+        public IActionResult GetSiteByCustomerId(string customerID)
         {
-            var siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(customerID)).Select(siteDropdown=> new Site() { 
-            SiteId=siteDropdown.SiteId,
-            SiteName=siteDropdown.SiteName
+            IEnumerable<SelectListItem> siteList= siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(customerID)).Select(s => new SelectListItem()
+            {
+                Value = s.SiteId.ToString(),
+                Text = s.SiteName
             }).ToList();
-            var filteredSiteList = new SelectList(siteList, "SiteId", "SiteName");
+            //var siteList = 
+            var filteredSiteList = new SelectList(siteList, "Value", "Text");
             return Json(filteredSiteList);
+            //return Json(filteredSiteList);
         }
 
+        /// <summary>
+        /// Calculates order amount
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult CalculateOrderAmount(Order order)
+        public IActionResult CalculateOrderAmount(Order order)
         {
             decimal orderAmount=orderService.CalculateOrderAmount(order);
             return Json(orderAmount);
         }
+        #endregion
     }
 }
