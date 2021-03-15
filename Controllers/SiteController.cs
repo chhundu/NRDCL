@@ -66,7 +66,9 @@ namespace NRDCL.Controllers
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(site);
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ModelState.Clear();
+                site = new Site();
             }
             return View(site);
         }
@@ -109,7 +111,9 @@ namespace NRDCL.Controllers
                     return View(site);
                 }
 
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = CommonProperties.updateSuccessMsg;
+                ModelState.Clear();
+                site = new Site();
             }
             return View(site);
         }

@@ -111,7 +111,9 @@ namespace NRDCL.Controllers
                     return View(customer);
                 }
 
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = CommonProperties.updateSuccessMsg;
+                ModelState.Clear();
+                customer = new Customer();
             }
             return View(customer);
         }

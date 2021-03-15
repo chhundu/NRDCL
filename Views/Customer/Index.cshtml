@@ -2,66 +2,122 @@
 
 @{
     ViewData["Title"] = "Customer";
+    <link rel="stylesheet" href="~/css/Index.css" />
 }
-
-<h3>Customer Information</h3>
-
-<p>
-    <a asp-action="Create">Register Customer</a>
-</p>
-@{
-    if (TempData["Text"] != null)
-    {
-        <div class="alert alert-success">
-            <strong>@TempData["Text"].ToString()</strong>
-        </div>
-    }
-}
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CitizenshipID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelephoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmailId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var customers in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => customers.CitizenshipID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => customers.CustomerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => customers.TelephoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => customers.EmailId)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { CitizenshipID = customers.CitizenshipID }) |
-                    @Html.ActionLink("Details", "Details", new { CitizenshipID = customers.CitizenshipID })
-                    @*@Html.ActionLink("Delete", "Delete", new { CitizenshipID = customers.CitizenshipID })*@
-
-                </td>
-            </tr>
+<div class="row title">
+    <div class="col-6">
+        <h2>Customer List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-controller="Customer" asp-action="Create" class="btn btn-dark">Register Customer</a>
+    </div>
+</div>
+<hr />
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-10 col-sm-10 col-md-10 col-xl-10 formBg">
+        @{
+            if (TempData["Text"] != null)
+            {
+                <div class="alert alert-success">
+                    <strong>@TempData["Text"].ToString()</strong>
+                </div>
+            }
         }
-    </tbody>
-</table>
+        <br /><br />
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-striped table-responsive-sm form-container">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.CitizenshipID)</th>
+                        <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                        <th>@Html.DisplayNameFor(model => model.TelephoneNumber)</th>
+                        <th>@Html.DisplayNameFor(model => model.EmailId)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customers in Model)
+                    {
+                        <tr>
+                            <td width="20%">@Html.DisplayFor(modelItem => customers.CitizenshipID)</td>
+                            <td width="20%">@Html.DisplayFor(modelItem => customers.CustomerName)</td>
+                            <td width="20%">@Html.DisplayFor(modelItem => customers.TelephoneNumber)</td>
+                            <td width="20%">@Html.DisplayFor(modelItem => customers.EmailId)</td>
+                            <td width="20%">
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-controller="Customer" asp-route-CitizenshipID="@customers.CitizenshipID" asp-action="Edit" class="btn btn-success mx-2">Edit</a>
+                                    <a asp-controller="Customer" asp-route-CitizenshipID="@customers.CitizenshipID" asp-action="Details" class="btn btn-info mx-2">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>No Customer Exists!</h3>
+        }
+    </section>
+</section>
+@*<div class="row pt-4 title">
+    <div class="col-6">
+        <h2>CustomerList</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-controller="Customer" asp-action="Create" class="btn btn-dark">Register Customer</a>
+    </div>
+</div>
+<section class="container-fluid bg"></section>
+<div class="container p-3">
+    @{
+        if (TempData["Text"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["Text"].ToString()</strong>
+            </div>
+        }
+    }
+    <br /><br />
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CitizenshipID)</th>
+                    <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                    <th>@Html.DisplayNameFor(model => model.TelephoneNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.EmailId)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customers in Model)
+                {
+                    <tr>
+                        <td width="20%">@Html.DisplayFor(modelItem => customers.CitizenshipID)</td>
+                        <td width="20%">@Html.DisplayFor(modelItem => customers.CustomerName)</td>
+                        <td width="20%">@Html.DisplayFor(modelItem => customers.TelephoneNumber)</td>
+                        <td width="20%">@Html.DisplayFor(modelItem => customers.EmailId)</td>
+                        <td width="20%">
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Customer" asp-route-CitizenshipID="@customers.CitizenshipID" asp-action="Edit" class="btn btn-success mx-2">Edit</a>
+                                <a asp-controller="Customer" asp-route-CitizenshipID="@customers.CitizenshipID" asp-action="Details" class="btn btn-info mx-2">Details</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>No Customer Exists!</h3>
+    }
+</div>*@
+
 
 
 

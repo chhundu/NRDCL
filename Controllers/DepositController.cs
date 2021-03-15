@@ -70,8 +70,11 @@ namespace NRDCL.Controllers
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(deposit);
                 }
+                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ModelState.Clear();
+                deposit = new Deposit();
 
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
             return View(deposit);
         }

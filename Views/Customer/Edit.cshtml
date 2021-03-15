@@ -2,14 +2,18 @@
 
 @{
     ViewData["Title"] = "Customer";
+    <link rel="stylesheet" href="~/css/Edit.css" />
 }
-<h4>Edit Customer</h4>
+<h4 class="title">Edit Information</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+        <form asp-action="Edit" class="form-container">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CitizenshipID" />
+            <div class="form-group">
+                <input asp-for="CitizenshipID" class="form-control" hidden/>
+            </div>
             <div class="form-group">
                 <label asp-for="CustomerName" class="control-label"></label>
                 <input asp-for="CustomerName" class="form-control" />
@@ -26,16 +30,43 @@
                 <span asp-validation-for="EmailId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info">Back</a>
             </div>
         </form>
-    </div>
-</div>
+    </section>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @ViewBag.Result
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        if (ViewBag.Result != null)
+        {
+            <script type="text/javascript">
+            $(function () {
+                $("#aModal").modal('show');
+            });
+
+            $(".closedButton").click(function () {
+                    window.location.href ='@Url.Action("Index", "Customer")';
+            });
+            </script>
+        }
+    }
 }
