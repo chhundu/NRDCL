@@ -73,7 +73,6 @@ namespace NRDCL.Controllers
 
             List<Product> productList = productService.GetProductList();
             ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
-
             return View(order);
         }
 
