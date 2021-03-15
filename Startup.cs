@@ -22,7 +22,7 @@ namespace NRDCL
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<NRDCL_DB_Context>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DataAccessPostgreSqlProvider")));
             services.AddMvc();

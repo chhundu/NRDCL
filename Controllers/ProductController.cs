@@ -64,7 +64,9 @@ namespace NRDCL.Controllers
                     return View(product);
                 }
 
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ModelState.Clear();
+                product = new Product();
             }
             return View(product);
         }
@@ -105,7 +107,9 @@ namespace NRDCL.Controllers
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(product);
                 }
-                return RedirectToAction(nameof(Index));
+                ViewBag.Result = CommonProperties.updateSuccessMsg;
+                ModelState.Clear();
+                product = new Product();
             }
             return View(product);
         }

@@ -1,0 +1,33 @@
+﻿.title {
+    font-family: 'Javanese Text';
+    text-align:center;
+}
+
+.bg {
+    background: url("/images/bg3.jpg") no-repeat;
+    position: absolute;
+    top: 20vh;
+    width: 80%;
+    height: 80%;
+    background-size: cover;
+    filter: blur(1px);
+}
+
+.formBg {
+    top: 2vh;
+}
+
+.form-container {
+    color: white;
+    background: #fff;
+    background-color: rgba(0,0,0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 5px #000;
+}
+
+@media only screen and (max-width: 678px) {
+    .bg {
+        background-size: 300%;
+    }
+}

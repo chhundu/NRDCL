@@ -37,7 +37,34 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                @ViewBag.Result
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        if (ViewBag.Result != null)
+        {
+            <script type="text/javascript">
+            $(function () {
+                $("#aModal").modal('show');
+            });
+
+            $(".closedButton").click(function () {
+                    window.location.href ='@Url.Action("Index", "Product")';
+            });
+            </script>
+        }
+    }
 }
