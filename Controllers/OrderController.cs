@@ -196,7 +196,7 @@ namespace NRDCL.Controllers
         /// <param name="customerID"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetSiteByCustomerId(string customerID)
+        public IActionResult GetSiteByCustomerId(string customerID)
         {
             IEnumerable<SelectListItem> siteList= siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(customerID)).Select(s => new SelectListItem()
             {
@@ -215,7 +215,7 @@ namespace NRDCL.Controllers
         /// <param name="order"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult CalculateOrderAmount(Order order)
+        public IActionResult CalculateOrderAmount(Order order)
         {
             decimal orderAmount=orderService.CalculateOrderAmount(order);
             return Json(orderAmount);

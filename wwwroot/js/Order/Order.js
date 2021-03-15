@@ -29,28 +29,43 @@
 });
 
 $("#Calculate").click(function () {
-   /* alert("M");
-    var siteId = $('#SiteID option:selected').text();
-    var productId = $('#productId :selected').val();
-    alert(siteId)*/
-
     var url = "/Order/CalculateOrderAmount/";
-    $.ajax({
-        url: url,
-        data: $(".oderForm").serialize(),
-        cache: false,
-        type: "GET",
-        success: function (data) {
-            $("input[id='OrderAmount']").val(data);
-        },
-        error: function (reponse) {
-            alert("error : " + reponse);
-        }
-    });
+    if (validateFeilds()) {
+        $.ajax({
+            url: url,
+            data: $(".oderForm").serialize(),
+            cache: false,
+            type: "GET",
+            success: function (data) {
+                $("input[id='OrderAmount']").val(data);
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }
+       
 });
 
-/*function validateFeilds() {
-    var siteId = $('#SiteID :selected').val();
+function validateFeilds() {
+    var customerId = $('#CustomerID').val();
+    var siteId = $('#SiteID option:selected').val();
     var productId = $('#productId :selected').val();
-    alert(siteId)
-}*/
+
+    if (customerId == "" || customerId == null) {
+        alert('Please enter customerId.');
+        $('#CustomerID').focus();
+        return false;
+    }
+    if (siteId == 0) {
+        alert('Please select site.');
+        $('#SiteID').focus();
+        return false;
+    }
+    if (productId == 0) {
+        alert('Please select product.');
+        $('#productId').focus();
+        return false;
+    }
+    return true;
+}
