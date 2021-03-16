@@ -2,44 +2,52 @@
 
 @{
     ViewData["Title"] = "Deposit";
+    <link rel="stylesheet" href="~/css/Index.css" />
 }
-<h4>Deposit Information</h4>
-<p>
-    <a asp-action="Create">New Deposit</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var deposit in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => deposit.CustomerID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => deposit.LastAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => deposit.Balance)
-            </td>
-            <td>
-               @* @Html.ActionLink("Edit", "Edit", new { customerID = deposit.CustomerID}) |*@
-                @Html.ActionLink("Details", "Details", new { customerID = deposit.CustomerID})
-               @* @Html.ActionLink("Delete", "Delete", new { customerID = deposit.CustomerID})*@
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row title">
+    <div class="col-6">
+        <h2>Deposit List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-controller="Deposit" asp-action="Create" class="btn btn-dark">Deposit Advance</a>
+    </div>
+</div>
+<hr />
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-10 col-sm-10 col-md-10 col-xl-10 formBg">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-striped table-responsive-sm form-container">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.CustomerID)</th>
+                        <th>@Html.DisplayNameFor(model => model.LastAmount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Balance)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var deposit in Model)
+                    {
+                        <tr>
+                            <td width="20%">@Html.DisplayFor(modelItem => deposit.CustomerID)</td>
+                            <td width="20%">@Html.DisplayFor(modelItem => deposit.LastAmount)</td>
+                            <td width="20%">@Html.DisplayFor(modelItem => deposit.Balance)</td>
+                            <td width="20%">
+                                <div class="w-75 btn-group" role="group">
+                                    @*<a asp-controller="Deposit" asp-route-customerId="@deposit.CustomerID" asp-action="Edit" class="btn btn-success mx-2">Edit</a>*@
+                                    <a asp-controller="Deposit" asp-route-customerId="@deposit.CustomerID" asp-action="Details" class="btn btn-info mx-2">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h3>No Customer Exists!</h3>
+        }
+    </section>
+</section>
