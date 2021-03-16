@@ -2,14 +2,16 @@
 
 @{
     ViewData["Title"] = "Product";
+    <link rel="stylesheet" href="~/css/Create.css" />
 }
-
-<h4>Product Information</h4>
+<h4 class="title">Product Information</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger">
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+        <form asp-action="Create" class="form-container">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,14 +31,12 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info">Back</a>
             </div>
         </form>
-    </div>
-</div>
+    </section>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
