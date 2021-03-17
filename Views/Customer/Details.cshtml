@@ -3,85 +3,52 @@
     ViewData["Title"] = "Customer";
     <link rel="stylesheet" href="~/css/Details.css" />
 }
-<h2 class="title">Customer Details</h2>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
-        <form class="form-container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group row">
-                        <div class="col-4">
-                            @Html.DisplayNameFor(model => model.CitizenshipID)
-                        </div>
-                        <div class="col-8">
-                            @Html.DisplayFor(model => model.CitizenshipID)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-4">
-                            @Html.DisplayNameFor(model => model.CustomerName)
-                        </div>
-                        <div class="col-8">
-                            @Html.DisplayFor(model => model.CustomerName)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-4">
-                            @Html.DisplayNameFor(model => model.TelephoneNumber)
-                        </div>
-                        <div class="col-8">
-                            @Html.DisplayFor(model => model.TelephoneNumber)
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-8 row">
-                            <div class="col">
-                                <a asp-action="Edit" class="btn btn-info w-100" asp-route-CitizenshipID="@Model.CitizenshipID">Edit</a>
-                            </div>
-                            <div class="col">
-                                <a asp-action="Index" class="btn btn-success w-100">Back</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="page_title">
+    <span class="title">Customer</span>
+    <span class="subtitle">Customer Details</span>
+</div>
+<form class="form-horizontal globalForm">
+    <fieldset>
+        <legend>Customer Details</legend>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.CitizenshipID)
             </div>
-        </form>
-        </section>
-    </section>
-
-    @*<div>
-            <h4>Customer Detail</h4>
-            <hr />
-            <dl class="row bg">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.CitizenshipID)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.CitizenshipID)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.CustomerName)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.CustomerName)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.TelephoneNumber)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.TelephoneNumber)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.EmailId)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.EmailId)
-                </dd>
-            </dl>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.CitizenshipID)
+            </div>
         </div>
-        <div>
-            @Html.ActionLink("Edit", "Edit", new { CitizenshipID = Model.CitizenshipID }) |
-            <a asp-action="Index">Back to List</a>
-        </div>*@
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.CustomerName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.TelephoneNumber)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.TelephoneNumber)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.EmailId)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.EmailId)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <a asp-action="Edit" class="btn btn-info" asp-route-CitizenshipID="@Model.CitizenshipID">Edit</a>
+            </div>
+            <div class="col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="8">Back to List</a>
+            </div>
+        </div>
+    </fieldset>
+    </form>
