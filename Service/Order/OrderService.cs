@@ -60,7 +60,6 @@ namespace NRDCL.Models
         public ResponseMessage SaveOrder(Order order)
         {
             var responseMessage = new ResponseMessage();
-
             //check entered customer is registered or not
             if (!customerService.IsCustomerExist(order.CustomerID)) {
                 responseMessage.Status = false;

@@ -1,85 +1,84 @@
 ﻿@model NRDCL.Models.Order
-
 @{
     ViewData["Title"] = "Order";
-    @*var siteList = ViewBag.SiteList;
-        var productList = ViewBag.ProductList;*@
 }
-
-<h4>Order Information</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" id="createOrderForm" class="oderForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CustomerID" class="control-label"></label>
-                <input asp-for="CustomerID" id="CustomerID" class="form-control" />
+<div class="page_title">
+    <span class="title">Order</span>
+    <span class="subtitle">Create Order</span>
+</div>
+<form asp-action="Create" id="createOrderForm" class="oderForm form-horizontal globalForm">
+    <fieldset>
+        <legend>Enter Order Details</legend>
+        <div class="form-group">
+            <label asp-for="CustomerID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="CustomerID" id="CustomerID" class="form-control" tabindex="1" />
                 <span asp-validation-for="CustomerID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SiteID" class="control-label"></label>
-                @Html.DropDownListFor(model => model.SiteID, new SelectList(Model.SiteList, "Value", "Text"), "--Select--", new { @class = "form-control", @id = "SiteID" })
+        </div>
+        <div class="form-group">
+            <label asp-for="SiteID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.SiteID, new SelectList(Model.SiteList, "Value", "Text"), "--Select--", new { @class = "form-control", @id = "SiteID", @tabindex = "2" })
                 <span asp-validation-for="SiteID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ProductID" class="control-label"></label>
-                @Html.DropDownListFor(model => model.ProductID, ViewData["ProductList"] as SelectList, "--Select--", new { @class = "form-control", @id = "productId" })
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.ProductID, ViewData["ProductList"] as SelectList, "--Select--", new { @class = "form-control", @id = "productId", @tabindex = "3" })
                 <span asp-validation-for="ProductID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="Quantity" class="form-control" tabindex="4" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="button" value="Calculate" class="btn btn-primary" id="Calculate" />
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderAmount" class="control-label"></label>
-                <input asp-for="OrderAmount" class="form-control" readonly id="OrderAmount" />
-                <span asp-validation-for="OrderAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                @ViewBag.Result
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2 text-right"></label>
+            <div class="col-md-3">
+                <input type="button" class="btn btn-primary" id="Calculate" value="Calculate" tabindex="5">
             </div>
         </div>
-    </div>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/Order/Order.js"></script>
-    @{
-        if (ViewBag.Result != null)
-        {
+        <div class="form-group">
+            <label asp-for="OrderAmount" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="OrderAmount" class="form-control" readonly id="OrderAmount" tabindex="6" />
+                <span asp-validation-for="OrderAmount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class=" col-md-2">
+            </div>
+            <div class=" col-md-2">
+                <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="7" />
+            </div>
+            <div class=" col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="8">Back to List</a>
+            </div>
+        </div>
+    </fieldset>
+</form>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="~/js/Order/Order.js"></script>
+        @{
+            if (ViewBag.Result != null)
+            {
             <script type="text/javascript">
-            $(function () {
-                $("#aModal").modal('show');
-            });
-
-            $(".closedButton").click(function () {
-                    window.location.href ='@Url.Action("Index", "Order")';
+                $(function () {
+                    swal({
+                        title: "Data saved successfully.",
+                        text: "Click OK to exit",
+                        type: "success"
+                    }, function (e) {
+                        window.location.href ='@Url.Action("Index", "Order")';
+                    });
             });
             </script>
+            }
         }
     }
-
-}

@@ -1,55 +1,70 @@
 ﻿@model NRDCL.Models.Order
-
 @{
     ViewData["Title"] = "Order";
 }
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SiteName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SiteName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderAmount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrderAmount)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="OrderID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+<div class="page_title">
+    <span class="title">Order</span>
+    <span class="subtitle">Delete Order</span>
 </div>
+<form asp-action="Delete" class="form-horizontal globalForm">
+    <input type="hidden" asp-for="OrderID" />
+    <fieldset>
+        <legend>Are you sure you want to delete this?</legend>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.CustomerID)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.CustomerName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.SiteName)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.SiteName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.ProductName)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.ProductName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.Quantity)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayNameFor(model => model.OrderAmount)
+            </div>
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.OrderAmount)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+            <div class="col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="8">Back to List</a>
+            </div>
+        </div>
+    </fieldset>
+</form>
