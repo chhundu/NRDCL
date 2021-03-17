@@ -37,7 +37,8 @@ $("#Calculate").click(function () {
             cache: false,
             type: "GET",
             success: function (data) {
-                $("input[id='OrderAmount']").val(data);
+                //$("input[id='OrderAmount']").val(data);
+                $("input[id='OrderAmount']").val(parseFloat(data).toFixed(2));
             },
             error: function (reponse) {
                 alert("error : " + reponse);
