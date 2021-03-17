@@ -2,101 +2,47 @@
 
 @{
     ViewData["Title"] = "Site";
-    <link rel="stylesheet" href="~/css/Index.css" />
 }
-<div class="row title">
-    <div class="col-6">
-        <h2>Site List</h2>
-    </div>
-    <div class="col-6 text-right">
-        <a asp-controller="Site" asp-action="Create" class="btn btn-dark">Register Site</a>
-    </div>
+<div class="page_title">
+    <span class="title">Site</span>
+    <span class="subtitle">Site List</span>
 </div>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-10 col-sm-10 col-md-10 col-xl-10 formBg">
-        @if (Model.Count() > 0)
-        {
-            <table class="table table-bordered table-striped table-responsive-sm form-container">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.CitizenshipID)</th>
-                        <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
-                        <th>@Html.DisplayNameFor(model => model.SiteName)</th>
-                        <th>@Html.DisplayNameFor(model => model.DistanceFrom)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var sites in Model)
-                    {
+<div class="col-lg-12 text-right">
+    <a asp-controller="Site" asp-action="Create" class="btn btn-dark fa fa-plus">Register Site</a>
+</div>
+@if (Model.Count() > 0)
+{
+    <fieldset class="v-no-padding">
+        <legend>Site List</legend>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped editable-grid">
+                    <thead>
                         <tr>
-                            <td width="20%">@Html.DisplayFor(modelItem => sites.CitizenshipID)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => sites.CustomerName)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => sites.SiteName)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => sites.DistanceFrom)</td>
-                            <td width="20%">
-                                <div class="w-75 btn-group" role="group">
-                                    <a asp-controller="Site" asp-route-siteId="@sites.SiteId" asp-action="Edit" class="btn btn-success mx-2">Edit</a>
-                                    <a asp-controller="Site" asp-route-siteId="@sites.SiteId" asp-action="Details" class="btn btn-info mx-2">Details</a>
-                                </div>
-                            </td>
+                            <th>@Html.DisplayNameFor(model => model.CitizenshipID)</th>
+                            <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                            <th>@Html.DisplayNameFor(model => model.SiteName)</th>
+                            <th>@Html.DisplayNameFor(model => model.DistanceFrom)</th>
+                            <th width="20%">Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <h3>No Customer Exists!</h3>
-        }
-    </section>
-</section>
-<!--<h3>Site Information</h3>
-<p>
-    <a asp-action="Create">Register Site</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CitizenshipID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SiteName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DistanceFrom)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var sites in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => sites.CitizenshipID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => sites.CustomerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => sites.SiteName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => sites.DistanceFrom)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { siteId = sites.SiteId }) |
-                    @Html.ActionLink("Details", "Details", new { siteId = sites.SiteId })
-                    @Html.ActionLink("Delete", "Delete", new { siteId = sites.SiteId })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>-->
+                    </thead>
+                    <tbody>
+                        @foreach (var sites in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => sites.CitizenshipID)</td>
+                                <td>@Html.DisplayFor(modelItem => sites.CustomerName)</td>
+                                <td>@Html.DisplayFor(modelItem => sites.SiteName)</td>
+                                <td>@Html.DisplayFor(modelItem => sites.DistanceFrom)</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { siteId = sites.SiteId }) |
+                                    @Html.ActionLink("Details", "Details", new { siteId = sites.SiteId })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </fieldset>
+ }
