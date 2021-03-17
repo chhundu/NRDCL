@@ -2,9 +2,41 @@
 
 @{
     ViewData["Title"] = "Site";
+    <link rel="stylesheet" href="~/css/Edit.css" />
 }
-
-<h4>Edit Site</h4>
+<h4 class="title">Edit Site</h4>
+<hr />
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+        <form asp-action="Edit" class="form-container">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="SiteId" class="form-control" hidden />
+            </div>
+            <div class="form-group">
+                <label asp-for="CitizenshipID" class="control-label"></label>
+                <input asp-for="CitizenshipID" class="form-control" />
+                <span asp-validation-for="CitizenshipID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteName" class="control-label"></label>
+                <input asp-for="SiteName" class="form-control" />
+                <span asp-validation-for="SiteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DistanceFrom" class="control-label"></label>
+                <input asp-for="DistanceFrom" class="form-control" />
+                <span asp-validation-for="DistanceFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info">Back</a>
+            </div>
+        </form>
+    </section>
+</section>
+@*<h4>Edit Site</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -35,7 +67,7 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">

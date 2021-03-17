@@ -2,39 +2,67 @@
 
 @{
     ViewData["Title"] = "Site";
+    <link rel="stylesheet" href="~/css/Create.css" />
 }
-
-<h4>Site Information</h4>
+<h4 class="title">Site Information</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+        <form asp-action="Create" class="form-container">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CitizenshipID" class="control-label">Customer ID</label>
+                <label asp-for="CitizenshipID" class="control-label"></label>
                 <input asp-for="CitizenshipID" class="form-control" />
                 <span asp-validation-for="CitizenshipID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SiteName" class="control-label">Site Name</label>
+                <label asp-for="SiteName" class="control-label"></label>
                 <input asp-for="SiteName" class="form-control" />
                 <span asp-validation-for="SiteName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DistanceFrom" class="control-label">Distance From</label>
+                <label asp-for="DistanceFrom" class="control-label"></label>
                 <input asp-for="DistanceFrom" class="form-control" />
                 <span asp-validation-for="DistanceFrom" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info">Back</a>
             </div>
         </form>
+    </section>
+</section>
+@*<h4>Site Information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CitizenshipID" class="control-label">Customer ID</label>
+                    <input asp-for="CitizenshipID" class="form-control" />
+                    <span asp-validation-for="CitizenshipID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SiteName" class="control-label">Site Name</label>
+                    <input asp-for="SiteName" class="form-control" />
+                    <span asp-validation-for="SiteName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DistanceFrom" class="control-label">Distance From</label>
+                    <input asp-for="DistanceFrom" class="form-control" />
+                    <span asp-validation-for="DistanceFrom" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
