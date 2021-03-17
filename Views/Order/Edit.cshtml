@@ -66,17 +66,17 @@
     @{
         if (ViewBag.Result != null)
         {
-            <script type="text/javascript">
+        <script type="text/javascript">
                 $(function () {
                     swal({
-                        title: "Data updated successfully.",
-                        text: "Click OK to exit",
+                        title: "Data updated succesfully",
+                        text: "@ViewBag.Result",
                         type: "success"
                     }, function (e) {
                         window.location.href ='@Url.Action("Index", "Order")';
                     });
             });
-            </script>
+        </script>
         }
     }
 }

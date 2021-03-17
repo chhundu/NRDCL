@@ -71,8 +71,8 @@
             <script type="text/javascript">
                 $(function () {
                     swal({
-                        title: "Data saved successfully.",
-                        text: "Click OK to exit",
+                        title:  "Data saved successfully",
+                        text: "@ViewBag.Result",
                         type: "success"
                     }, function (e) {
                         window.location.href ='@Url.Action("Index", "Order")';
