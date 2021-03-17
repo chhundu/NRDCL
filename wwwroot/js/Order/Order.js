@@ -53,18 +53,33 @@ function validateFeilds() {
     var productId = $('#productId :selected').val();
 
     if (customerId == "" || customerId == null) {
-        alert('Please enter customerId.');
-        $('#CustomerID').focus();
+        swal({
+            title: "Please enter Customer ID.",
+            text: "Click OK to exit",
+            type: "warning"
+        }, function (e) {
+                $('#CustomerID').focus();
+        });
         return false;
     }
     if (siteId == 0) {
-        alert('Please select site.');
-        $('#SiteID').focus();
+        swal({
+            title: "Please select site.",
+            text: "Click OK to exit",
+            type: "warning"
+        }, function (e) {
+                $('#SiteID').focus();
+        });
         return false;
     }
     if (productId == 0) {
-        alert('Please select product.');
-        $('#productId').focus();
+        swal({
+            title: "Please select product.",
+            text: "Click OK to exit",
+            type: "warning"
+        }, function (e) {
+                $('#productId').focus();
+        });
         return false;
     }
     return true;
