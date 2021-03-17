@@ -28,11 +28,12 @@
                     <div class="login-detail">
                         <label>Welcome::</label>
                         <i class="fa fa-user-md fa-fw"></i>
-                        <label> Chhundu Dorji (loginId)</label>
+                        <label>Chundu Dorji(loginId)</label>
+                        @*@User.Identity.Name *@
                     </div>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-power-off"></i> Logout</a>
+                    <a asp-controller="Login" asp-action="logout"><i class="fa fa-power-off"></i> Logout</a>
                 </li>
             </ul>
             <br>
