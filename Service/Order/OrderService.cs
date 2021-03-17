@@ -70,7 +70,7 @@ namespace NRDCL.Models
 
             ///validating order amount
             decimal orderAmount = CalculateOrderAmount(order);
-            if (orderAmount != order.OrderAmount)
+            if (orderAmount.CompareTo(order.OrderAmount)!=0)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.wrongOrderAmountMsg;
@@ -84,15 +84,34 @@ namespace NRDCL.Models
             advanceBalance = (from deposit in dataBaseContext.Deposit_Table
                               where deposit.CustomerID.Equals(order.CustomerID)
                               select deposit.Balance).FirstOrDefault();
-            if (advanceBalance < orderAmount)
+
+            if (order.OrderID != 0)
             {
-                /// amount that is needed to place an order.
-                decimal additionalAmountRequired = orderAmount - advanceBalance;
-                responseMessage.Status = false;
-                responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
-                responseMessage.MessageKey = "OrderAmount";
-                return responseMessage;
+                decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).OrderAmount;
+                advanceBalance = advanceBalance + prevoiusOrderAmount;
+
+                if (advanceBalance < orderAmount) {
+                    /// amount that is needed to place an order.
+                    decimal additionalAmountRequired = orderAmount - advanceBalance;
+                    responseMessage.Status = false;
+                    responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
+                    responseMessage.MessageKey = "OrderAmount";
+                    return responseMessage;
+                }
+
             }
+            else {
+                if (advanceBalance < orderAmount)
+                {
+                    /// amount that is needed to place an order.
+                    decimal additionalAmountRequired = orderAmount - advanceBalance;
+                    responseMessage.Status = false;
+                    responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
+                    responseMessage.MessageKey = "OrderAmount";
+                    return responseMessage;
+                }
+            }
+                
 
             /// convert order data for saving
             Order validOrderData = ConvertForSaving(order);
@@ -116,9 +135,7 @@ namespace NRDCL.Models
                                        where deposit.CustomerID.Equals(validOrderData.CustomerID)
                                        select deposit.LastAmount).FirstOrDefault();
             }
-            deposits.Balance = (from deposit in dataBaseContext.Deposit_Table
-                                    where deposit.CustomerID.Equals(validOrderData.CustomerID)
-                                    select deposit.Balance).FirstOrDefault() - (validOrderData.OrderAmount);
+            deposits.Balance = (deposits.LastAmount) - (validOrderData.OrderAmount);
 
             depositService.DeleteDeposit(validOrderData.CustomerID);
             dataBaseContext.Add(deposits);
@@ -259,8 +276,8 @@ namespace NRDCL.Models
 
             /// amount customer need to pay.
             orderAmount = (unitPrice * quantity) + (transportRate * quantity * (decimal)distanceFrom);
-
-            return orderAmount;
+            string strOrderAmount=String.Format("{0:0.00}", orderAmount);
+            return decimal.Parse(strOrderAmount);
         }
 
         #region private methods
@@ -274,19 +291,28 @@ namespace NRDCL.Models
             var orders = new Order();
             decimal advanceBalance = decimal.Zero;
             decimal orderAmount = CalculateOrderAmount(order);
+           
 
             /// getting customer balance
-            advanceBalance = (from deposit in dataBaseContext.Deposit_Table
-                              where deposit.CustomerID.Equals(order.CustomerID)
-                              select deposit.Balance).FirstOrDefault();
-           
+            if (order.OrderID != 0)
+            {
+                decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).OrderAmount;
+                advanceBalance = advanceBalance + prevoiusOrderAmount;
                 advanceBalance -= orderAmount;
-                orders.CustomerID = order.CustomerID;
-                orders.SiteID = order.SiteID;
-                orders.ProductID = order.ProductID;
-                orders.Quantity = order.Quantity;
+                orders.OrderAmount = advanceBalance;
+            }
+            else {
+                advanceBalance = (from deposit in dataBaseContext.Deposit_Table
+                                  where deposit.CustomerID.Equals(order.CustomerID)
+                                  select deposit.Balance).FirstOrDefault();
+                advanceBalance -= orderAmount;
                 orders.OrderAmount = orderAmount;
-                orders.Status = true;
+            }
+            orders.CustomerID = order.CustomerID;
+            orders.SiteID = order.SiteID;
+            orders.ProductID = order.ProductID;
+            orders.Quantity = order.Quantity;
+            orders.Status = true;
                 if (advanceBalance == 0)
                 {
                     orders.Message = "Your available advance balance is Nu." + advanceBalance;
