@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body id="bodyLogin">
+    <div class="container">
+        <div class="card card-container">
+            <img src="~/images/logo.jpg" id="profile-img" style="margin-left:30%"/>
+            <br><br>
+            <form asp-action="login" method="post" class="form-signin form-horizontal">
+                <input type="text" id="inputEmail" name="username" class="form-control"
+                       placeholder="User Name" autofocus>
+
+                <input type="password" id="inputPassword" name="password" class="form-control"
+                       placeholder="Password">
+
+                @*<div id="remember" class="checkbox">
+                <label id="loginLabel">
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>*@
+                <button type="submit" class="btn btn-lg btn-primary btn-block btn-signin">Login</button>
+
+                @*<div>
+                <c:if test="${not empty error}">
+                    <label style="color: red"><spring:message code="${error}" /></label>
+                </c:if>
+            </div>*@
+            </form>
+        </div>
+        <!-- /card-container -->
+    </div>
+    <!-- /container -->
+</body>
+</html>
+
+
+@*<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h2><strong>Login Page </strong></h2><br />
+            <form asp-action="login" method="post">
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter user name">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="form-check">
+                    <button class="btn btn-info" type="reset">Reset</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>*@
