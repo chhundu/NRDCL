@@ -1,111 +1,73 @@
 ﻿@model NRDCL.Models.Customer
-
 @{
     ViewData["Title"] = "Create";
-    <link rel="stylesheet" href="~/css/Create.css" />
 }
-
-<h4 class="title">Customer Information</h4>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
-        <form asp-action="Create" class="form-container">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CitizenshipID" class="control-label"></label>
-                <input asp-for="CitizenshipID" class="form-control" />
+<div class="page_title">
+    <span class="title">Customer</span>
+    <span class="subtitle">Register Customer</span>
+</div>
+<form asp-action="Create" class="form-horizontal globalForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset>
+        <legend>Enter Customer Information</legend>
+        <div class="form-group">
+            <label asp-for="CitizenshipID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="CitizenshipID" class="form-control" tabindex="1" />
                 <span asp-validation-for="CitizenshipID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CustomerName" class="control-label"></label>
-                <input asp-for="CustomerName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="CustomerName" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="CustomerName" class="form-control" tabindex="2" />
                 <span asp-validation-for="CustomerName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TelephoneNumber" class="control-label"></label>
-                <input asp-for="TelephoneNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="TelephoneNumber" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="TelephoneNumber" class="form-control" tabindex="3" />
                 <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EmailId" class="control-label"></label>
-                <input asp-for="EmailId" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="EmailId" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="EmailId" class="form-control" tabindex="4" />
                 <span asp-validation-for="EmailId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-info">Back</a>
-            </div>
-        </form>
-    </section>
-</section>
-@*<div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="CitizenshipID" class="control-label"></label>
-                    <input asp-for="CitizenshipID" class="form-control" />
-                    <span asp-validation-for="CitizenshipID" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CustomerName" class="control-label"></label>
-                    <input asp-for="CustomerName" class="form-control" />
-                    <span asp-validation-for="CustomerName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TelephoneNumber" class="control-label"></label>
-                    <input asp-for="TelephoneNumber" class="form-control" />
-                    <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EmailId" class="control-label"></label>
-                    <input asp-for="EmailId" class="form-control" />
-                    <span asp-validation-for="EmailId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                    <button>clickme</button>
-                </div>
-            </form>
         </div>
-    </div>*@
-
-@*<div>
-        <a asp-action="Index">Back to List</a>
-    </div>*@
-
-
-<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                @ViewBag.Result
+        <div class="form-group">
+            <div class=" col-md-2">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
+            <div class=" col-md-2">
+                <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="5" />
+            </div>
+            <div class=" col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="6">Back to List</a>
             </div>
         </div>
-    </div>
-</div>
+    </fieldset>
+</form>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @{
-        if (ViewBag.Result != null)
-        {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        @{
+            if (ViewBag.Result != null)
+            {
             <script type="text/javascript">
             $(function () {
-                $("#aModal").modal('show');
-            });
-
-            $(".closedButton").click(function () {
-                    window.location.href ='@Url.Action("Index", "Customer")';
+                swal({
+                        title: "Data saved successfully.",
+                        text: "Click OK to exit",
+                        type: "success"
+                    }, function (e) {
+                        window.location.href ='@Url.Action("Index", "Customer")';
+                    });
             });
             </script>
+            }
         }
     }
-}
 
 

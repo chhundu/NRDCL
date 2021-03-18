@@ -1,118 +1,64 @@
 ﻿@model IEnumerable<NRDCL.Models.Order>
-
 @{
     ViewData["Title"] = "Order";
-    <link rel="stylesheet" href="~/css/Index.css" />
 }
-<div class="row title">
-    <div class="col-6">
-        <h2>Order Information</h2>
-    </div>
-    <div class="col-6 text-right">
-        <a asp-controller="Order" asp-action="Create" class="btn btn-dark">Place Order</a>
-    </div>
+<div class="page_title">
+    <span class="title">Order</span>
+    <span class="subtitle">Order List</span>
 </div>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-10 col-sm-10 col-md-10 col-xl-10 formBg">
-        @if (Model.Count() > 0)
-        {
-            <table class="table table-bordered table-striped table-responsive-sm form-container">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
-                        <th>@Html.DisplayNameFor(model => model.SiteName)</th>
-                        <th>@Html.DisplayNameFor(model => model.ProductName)</th>
-                        <th>@Html.DisplayNameFor(model => model.Quantity)</th>
-                        <th>@Html.DisplayNameFor(model => model.OrderAmount)</th>
-                        <th>@Html.DisplayNameFor(model => model.Balance)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var order in Model)
-                    {
+<div class="col-lg-12 text-right">
+    <a asp-controller="Order" asp-action="Create" class="btn btn-dark fa fa-plus">Make Order</a>
+</div>
+@{
+    if (TempData["Text"] != null)
+    {
+        <div class="alert alert-success">
+            <strong>@TempData["Text"].ToString()</strong>
+        </div>
+    }
+}
+@if (Model.Count() > 0)
+{
+    <fieldset class="v-no-padding">
+        <legend>Order list</legend>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped editable-grid">
+                    <thead>
                         <tr>
-                            <td width="20%">@Html.DisplayFor(modelItem => order.CustomerName)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => order.SiteName)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => order.ProductName)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => order.Quantity)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => order.OrderAmount)</td>
-                            <td width="20%">@Html.DisplayFor(modelItem => order.Balance)</td>
-                            <td width="20%">
-                                <div class="w-75 btn-group" role="group">
-                                    <a asp-controller="Order" asp-route-orderId="@order.OrderID" asp-action="Edit" class="btn btn-success mx-2">Edit</a>
-                                    <a asp-controller="Order" asp-route-orderId="@order.OrderID" asp-action="Details" class="btn btn-info mx-2">Details</a>
-                                    <a asp-controller="Order" asp-route-orderId="@order.OrderID" asp-action="Delete" class="btn btn-info mx-2">Delete</a>
-                                </div>
-                            </td>
+                            <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                            <th>@Html.DisplayNameFor(model => model.SiteName)</th>
+                            <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                            <th>@Html.DisplayNameFor(model => model.OrderAmount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Balance)</th>
+                            <th width="20%">Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => order.CustomerName)</td>
+                                <td>@Html.DisplayFor(modelItem => order.SiteName)</td>
+                                <td>@Html.DisplayFor(modelItem => order.ProductName)</td>
+                                <td>@Html.DisplayFor(modelItem => order.Quantity)</td>
+                                <td>@Html.DisplayFor(modelItem => order.OrderAmount)</td>
+                                <td>@Html.DisplayFor(modelItem => order.Balance)</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { orderId = order.OrderID }) |
+                                    @Html.ActionLink("Details", "Details", new { orderId = order.OrderID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { orderId = order.OrderID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </fieldset>
         }
         else
         {
-            <h3>No Order Exists!</h3>
+        <h3>No Order Exists!</h3>
         }
-    </section>
-</section>
-@*<p>
-        <a asp-action="Create">Make Order</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CustomerName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SiteName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OrderAmount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Balance)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => order.CustomerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => order.SiteName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => order.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => order.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => order.OrderAmount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => order.Balance)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { orderId = order.OrderID }) |
-                        @Html.ActionLink("Details", "Details", new { orderId = order.OrderID }) |
-                        @Html.ActionLink("Delete", "Delete", new { orderId = order.OrderID })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>*@

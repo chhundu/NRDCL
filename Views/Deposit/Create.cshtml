@@ -1,62 +1,57 @@
 ﻿@model NRDCL.Models.Deposit
-
 @{
     ViewData["Title"] = "Deposit";
-    <link rel="stylesheet" href="~/css/Create.css" />
 }
-<h4 class="title">Deposit Information</h4>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
-        <form asp-action="Create" class="form-container">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CustomerID" class="control-label"></label>
-                <input asp-for="CustomerID" class="form-control" />
+<div class="page_title">
+    <span class="title">Deposit</span>
+    <span class="subtitle">Deposit Advance</span>
+</div>
+<form asp-action="Create" class="form-horizontal globalForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset>
+        <legend>Enter Deposit Information</legend>
+        <div class="form-group">
+            <label asp-for="CustomerID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="CustomerID" class="form-control" tabindex="1" />
                 <span asp-validation-for="CustomerID" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastAmount" class="control-label"></label>
-                <input asp-for="LastAmount" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastAmount" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="LastAmount" class="form-control" tabindex="2" />
                 <span asp-validation-for="LastAmount" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-info">Back</a>
+        </div>
+        <div class="form-group">
+            <div class=" col-md-2">
             </div>
-        </form>
-    </section>
-</section>
-
-<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                @ViewBag.Result
+            <div class=" col-md-2">
+                <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="3" />
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
+            <div class=" col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="4">Back to List</a>
             </div>
         </div>
-    </div>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @{
-        if (ViewBag.Result != null)
-        {
+    </fieldset>
+</form>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        @{
+            if (ViewBag.Result != null)
+            {
             <script type="text/javascript">
             $(function () {
-                $("#aModal").modal('show');
-            });
-
-            $(".closedButton").click(function () {
-                    window.location.href ='@Url.Action("Index", "Deposit")';
+                swal({
+                        title: "Data saved successfully.",
+                        text: "Click OK to exit",
+                        type: "success"
+                    }, function (e) {
+                        window.location.href ='@Url.Action("Index", "Deposit")';
+                    });
             });
             </script>
+            }
         }
     }
-}

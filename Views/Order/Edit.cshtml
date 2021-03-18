@@ -1,122 +1,82 @@
 ﻿@model NRDCL.Models.Order
-
 @{
     ViewData["Title"] = "Order";
-    <link rel="stylesheet" href="~/css/Edit.css" />
 }
-<h4 class="title">Edit Order</h4>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
-        <form asp-action="Edit" class="form-container">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="page_title">
+    <span class="title">Order</span>
+    <span class="subtitle">Edit Order</span>
+</div>
+<form asp-action="Edit" class="oderForm form-horizontal globalForm">
+    <fieldset>
+        <legend>Order Details</legend>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
             <input type="hidden" asp-for="OrderID" />
             <input type="hidden" asp-for="CustomerID" />
-            <div class="form-group">
-                <label asp-for="SiteID" class="control-label"></label>
-                @Html.DropDownListFor(model => model.SiteID, new SelectList(Model.SiteList, "Value", "Text"), "--Select--", new { @class = "form-control", @id = "SiteID" })
+        </div>
+        <div class="form-group">
+            <label asp-for="SiteID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.SiteID, new SelectList(Model.SiteList, "Value", "Text"), "--Select--", new { @class = "form-control", @id = "SiteID", @tabindex = "2" })
                 <span asp-validation-for="SiteID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductID" class="control-label"></label>
-                @Html.DropDownListFor(model => model.ProductID, ViewData["ProductList"] as SelectList, "--Select--", new { @class = "form-control" })
-                <span asp-validation-for="ProductID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="button" value="Calculate" class="btn btn-primary" id="Calculate" />
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderAmount" class="control-label"></label>
-                <input asp-for="OrderAmount" class="form-control" />
-                <span asp-validation-for="OrderAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-info">Back</a>
-            </div>
-        </form>
-    </section>
-</section>
-<!--<h4>Edit Order</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" class="oderForm">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OrderID" />
-            <input type="hidden" asp-for="CustomerID" />-->
-            @* <div class="form-group">
-                    <label asp-for="CustomerID" class="control-label"></label>
-                    <input asp-for="CustomerID" id="CustomerID" class="form-control" />
-                    <span asp-validation-for="CustomerID" class="text-danger"></span>
-                </div>*@
-            <!--<div class="form-group">
-                <label asp-for="SiteID" class="control-label"></label>
-                @Html.DropDownListFor(model => model.SiteID, new SelectList(Model.SiteList, "Value", "Text"), "--Select--", new { @class = "form-control", @id = "SiteID" })
-                <span asp-validation-for="SiteID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductID" class="control-label"></label>
-                @Html.DropDownListFor(model => model.ProductID, ViewData["ProductList"] as SelectList, "--Select--", new { @class = "form-control" })
-                <span asp-validation-for="ProductID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="button" value="Calculate" class="btn btn-primary" id="Calculate" />
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderAmount" class="control-label"></label>
-                <input asp-for="OrderAmount" class="form-control" />
-                <span asp-validation-for="OrderAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>-->
-<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                @ViewBag.Result
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
             </div>
         </div>
-    </div>
-</div>
+        <div class="form-group">
+            <label asp-for="ProductID" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.ProductID, ViewData["ProductList"] as SelectList, "--Select--", new { @class = "form-control", @id = "productId", @tabindex = "3" })
+                <span asp-validation-for="ProductID" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="Quantity" class="form-control" tabindex="4" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2 text-right"></label>
+            <div class="col-md-3">
+                <input type="button" class="btn btn-primary" id="Calculate" value="Calculate" tabindex="5">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="OrderAmount" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="OrderAmount" class="form-control" readonly id="OrderAmount" tabindex="6" />
+                <span asp-validation-for="OrderAmount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class=" col-md-2">
+            </div>
+            <div class=" col-md-2">
+                <input type="submit" value="Update" class="btn btn-primary btn-block" tabindex="7" />
+            </div>
+            <div class=" col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="8">Back to List</a>
+            </div>
+        </div>
+    </fieldset>
+</form>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/Order/Order.js"></script>
     @{
         if (ViewBag.Result != null)
         {
-            <script type="text/javascript">
-            $(function () {
-                $("#aModal").modal('show');
+        <script type="text/javascript">
+                $(function () {
+                    swal({
+                        title: "Data updated succesfully",
+                        text: "@ViewBag.Result",
+                        type: "success"
+                    }, function (e) {
+                        window.location.href ='@Url.Action("Index", "Order")';
+                    });
             });
-
-            $(".closedButton").click(function () {
-                    window.location.href ='@Url.Action("Index", "Order")';
-            });
-            </script>
+        </script>
         }
     }
 }

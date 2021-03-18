@@ -1,70 +1,64 @@
 ﻿@model NRDCL.Models.Product
-
 @{
     ViewData["Title"] = "Product";
-    <link rel="stylesheet" href="~/css/Create.css" />
 }
-<h4 class="title">Product Information</h4>
-<hr />
-<section class="container-fluid bg"></section>
-<section class="row justify-content-center">
-    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
-        <form asp-action="Create" class="form-container">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <span asp-validation-for="ProductId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
+<div class="page_title">
+    <span class="title">Product</span>
+    <span class="subtitle">Add Product</span>
+</div>
+<form asp-action="Create" class="form-horizontal globalForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset>
+        <legend>Enter Product Information</legend>
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="ProductName" class="form-control" tabindex="1" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PricePerUnit" class="control-label"></label>
-                <input asp-for="PricePerUnit" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="PricePerUnit" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="PricePerUnit" class="form-control" tabindex="2" />
                 <span asp-validation-for="PricePerUnit" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TransportRate" class="control-label"></label>
-                <input asp-for="TransportRate" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="TransportRate" class="control-label col-md-2 text-right required"></label>
+            <div class="col-md-3">
+                <input asp-for="TransportRate" class="form-control" tabindex="3" />
                 <span asp-validation-for="TransportRate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-info">Back</a>
+        </div>
+        <div class="form-group">
+            <div class=" col-md-2">
             </div>
-        </form>
-    </section>
-</section>
-
-<div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                @ViewBag.Result
+            <div class=" col-md-2">
+                <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="5" />
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary closedButton" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-secondary closedButton" data-dismiss="modal">Close</button>
+            <div class=" col-md-2">
+                <a asp-action="Index" class="btn btn-info" tabindex="6">Back to List</a>
             </div>
         </div>
-    </div>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @{
-        if (ViewBag.Result != null)
-        {
+    </fieldset>
+</form>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        @{
+            if (ViewBag.Result != null)
+            {
             <script type="text/javascript">
             $(function () {
-                $("#aModal").modal('show');
-            });
-
-            $(".closedButton").click(function () {
-                    window.location.href ='@Url.Action("Index", "Product")';
+                swal({
+                        title: "Data saved successfully.",
+                        text: "Click OK to exit",
+                        type: "success"
+                    }, function (e) {
+                        window.location.href ='@Url.Action("Index", "Product")';
+                    });
             });
             </script>
+            }
         }
     }
-}

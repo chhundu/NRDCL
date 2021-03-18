@@ -1,13 +1,71 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - NRDCL</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/sbadmin/css/sb-admin-2.css" rel="stylesheet" />
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
 </head>
 <body>
+    <div id="wrapper">
+        <nav id="navHeader" class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <img style="padding:0px 0px 0px 0px;" src="~/images/logo.jpg" />
+                    </div>
+                    <div class="col-md-10">
+                        <p style="margin-left: 25%" class="headerTxt">NRDCL Project</p>
+                    </div>
+                </div>
+                <div class=""></div>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <div class="login-detail">
+                        <label>Welcome::</label>
+                        <i class="fa fa-user-md fa-fw"></i>
+                        <label>Chundu Dorji(loginId)</label>
+                        @*@User.Identity.Name *@
+                    </div>
+                </li>
+                <li>
+                    <a asp-controller="Login" asp-action="logout"><i class="fa fa-power-off"></i> Logout</a>
+                </li>
+            </ul>
+            <br>
+            <br>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="">
+                            <a class="" asp-controller="Home" asp-action="Index" style="background-color: #004a80;color: #ffffff !important;"><i class="fa fa-home"></i>&nbsp;HOME</a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Customer" asp-action="Index"><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Customer</a>
+                        </li>
+
+                        <li>
+                            <a asp-area="" asp-controller="Site" asp-action="Index"><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Site</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Product" asp-action="Index"><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Product</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Deposit" asp-action="Index"><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Deposit</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Order" asp-action="Index"><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Order</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Report" asp-action="Index"><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Report</a>
+                        </li>
+                    </ul>
+                </div>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -57,21 +115,22 @@
 </div>
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - NRDCL - Thimphu Techpark Limited
+        <div id="page-wrapper">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - NRDCL - Thimphu Techpark Limited
+            </div>
+        </footer>
+
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/sweetalert.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
