@@ -2,57 +2,136 @@
 
 @{
     ViewData["Title"] = "Order";
+    <link rel="stylesheet" href="~/css/Details.css" />
 }
-
-<div>
-    <h4>Order Details</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SiteName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SiteName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderAmount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrderAmount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Balance)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Balance)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { orderId = Model.OrderID }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+<h2 class="title">Order Details</h2>
+<hr />
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+        <form class="form-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.CustomerID)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.CustomerID)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.CustomerName)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.CustomerName)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.SiteName)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.SiteName)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.ProductName)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.Quantity)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.OrderAmount)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.OrderAmount)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-4">
+                            @Html.DisplayNameFor(model => model.Balance)
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(model => model.Balance)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-8 row">
+                            <div class="col">
+                                <a asp-action="Edit" class="btn btn-info w-100" asp-route-orderId="@Model.OrderID">Edit</a>
+                            </div>
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-success w-100">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</section>
+@*<div>
+        <h4>Order Details</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CustomerID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CustomerName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.SiteName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.SiteName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProductName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProductName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderAmount)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderAmount)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Balance)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Balance)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { orderId = Model.OrderID }) |
+        <a asp-action="Index">Back to List</a>
+    </div>*@

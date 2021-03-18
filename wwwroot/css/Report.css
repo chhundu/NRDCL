@@ -1,0 +1,24 @@
+﻿/** {
+    box-sizing: border-box;
+}*/
+.title {
+    text-align: center;
+    font-family: 'Javanese Text';
+}
+
+.bg {
+    background: url("/images/bg3.jpg") no-repeat;
+    position: absolute;
+    top: 18vh;
+    width: 80%;
+    height: 80%;
+    background-size: cover;
+    filter: blur(1px);
+}
+
+.formBg {
+    top: 2vh;
+}
+table th,td{
+    color:black;
+}

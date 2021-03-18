@@ -3,53 +3,169 @@
 @{
     ViewData["Title"] = "Order";
 }
+@*<section class="container-fluid bg"></section>
+    <section class="row justify-content-center">
+        <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+            <h3>Are you sure you want to delete this?</h3>
+            <form method="post" asp-action="Delete">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="CustomerID"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="CustomerID" disabled class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="CustomerName"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="CustomerName" disabled class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="SiteName"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="SiteName" disabled class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="ProductName"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="ProductName" disabled class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="Quantity"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="Quantity" disabled class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label asp-for="OrderAmount"></label>
+                            </div>
+                            <div class="col-8">
+                                <input asp-for="OrderAmount" disabled class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-8 offset-4 row">
+                                <div class="col">
+                                    <input type="submit" class="btn btn-danger w-100" value="Delete" />
+                                </div>
+                                <div class="col">
+                                    <a asp-action="Index" class="btn btn-success w-100">Back</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>*@
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CustomerName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SiteName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SiteName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrderAmount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrderAmount)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="OrderID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+<h4>Order</h4>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.CustomerID)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.CustomerID)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.CustomerName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.CustomerName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.SiteName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.SiteName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ProductName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ProductName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Quantity)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Quantity)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OrderAmount)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.OrderAmount)
+    </dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="OrderID" />
+    <input type="submit" class="btn btn-danger" value="Delete" />
+    <a asp-action="Index" class="btn btn-success">Back</a>
+</form>
+@*</div>
+                </form>
+        </section>
+    </section>*@
+@*<form method="post" asp-action="DeleteConfirmed">
+        <div class="form-group row">
+            <h2 class="text-danger pl-3">Delete Customer</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <input asp-for="customerCid" hidden />
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="customerName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="customerName" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="mobile"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="mobile" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="email"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="email" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-danger w-100" value="Delete" />
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-success w-100">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>*@
+

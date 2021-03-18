@@ -2,15 +2,16 @@
 
 @{
     ViewData["Title"] = "Order";
+    <link rel="stylesheet" href="~/css/Create.css" />
     @*var siteList = ViewBag.SiteList;
         var productList = ViewBag.ProductList;*@
 }
-
-<h4>Order Information</h4>
+<h4 class="title">Order Information</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" id="createOrderForm" class="oderForm">
+<section class="container-fluid bg"></section>
+<section class="row justify-content-center">
+    <section class="col-6 col-sm-6 col-md-6 col-xl-6 formBg">
+        <form asp-action="Create" class="form-container oderForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CustomerID" class="control-label"></label>
@@ -42,14 +43,55 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info">Back</a>
             </div>
         </form>
+    </section>
+</section>
+@*<h4>Order Information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" id="createOrderForm" class="oderForm">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CustomerID" class="control-label"></label>
+                    <input asp-for="CustomerID" id="CustomerID" class="form-control" />
+                    <span asp-validation-for="CustomerID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SiteID" class="control-label"></label>
+                    @Html.DropDownListFor(model => model.SiteID, new SelectList(Model.SiteList, "Value", "Text"), "--Select--", new { @class = "form-control", @id = "SiteID" })
+                    <span asp-validation-for="SiteID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductID" class="control-label"></label>
+                    @Html.DropDownListFor(model => model.ProductID, ViewData["ProductList"] as SelectList, "--Select--", new { @class = "form-control", @id = "productId" })
+                    <span asp-validation-for="ProductID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Calculate" class="btn btn-primary" id="Calculate" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="OrderAmount" class="control-label"></label>
+                    <input asp-for="OrderAmount" class="form-control" readonly id="OrderAmount" />
+                    <span asp-validation-for="OrderAmount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
 <div class="modal fade" id="aModal" tabindex="-1" role="dialog" aria-labelledby="aModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
