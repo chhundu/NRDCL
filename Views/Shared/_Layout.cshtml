@@ -23,19 +23,11 @@
                 </div>
                 <div class=""></div>
             </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <div class="login-detail">
-                        <label>Welcome::</label>
-                        <i class="fa fa-user-md fa-fw"></i>
-                        <label>Chundu Dorji(loginId)</label>
-                        @*@User.Identity.Name *@
-                    </div>
-                </li>
-                <li>
-                    <a asp-controller="Login" asp-action="logout"><i class="fa fa-power-off"></i> Logout</a>
-                </li>
-            </ul>
+            <div class="nav navbar-top-links navbar-right">
+                <ul class="navbar-nav">
+                    <partial name="_LoginInfo" />
+                </ul>
+            </div>
             <br>
             <br>
             <div class="navbar-default sidebar" role="navigation">
@@ -66,53 +58,13 @@
                         </li>
                     </ul>
                 </div>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NRDCL</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse justify-content-between">
-                    <ul class="navbar-nav">
-                        <partial name="_LoginInfo"/>
-                    </ul>
-                    <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Index">Customer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Site" asp-action="Index">Site</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product"
-                                   asp-action="Index">Product</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Deposit"
-                                   asp-action="Index">Deposit</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Order"
-                                   asp-action="Index">Order</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Report"
-                                   asp-action="Index">Report</a>
-                            </li>
-                            @*@<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account"
-                                   asp-action="Signup">Register</a>
-                            </li>
-                            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </li>*@
-                        </ul>
-</div>
+
+
+                @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse justify-content-between">
+                <ul class="navbar-nav">
+                    <partial name="_LoginInfo"/>
+                </ul>
+            </div>*@
             </div>
         </nav>
         <div id="page-wrapper">
