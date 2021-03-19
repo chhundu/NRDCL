@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NRDCL.Data;
 using NRDCL.Models;
+using NRDCL.Repository;
 
 namespace NRDCL
 {
@@ -21,7 +23,12 @@ namespace NRDCL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<NRDCL_DB_Context>();
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/signin";
+            });
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<NRDCL_DB_Context>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DataAccessPostgreSqlProvider")));
@@ -31,6 +38,7 @@ namespace NRDCL
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IDepositService, DepositService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +58,7 @@ namespace NRDCL
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseAuthentication();
 

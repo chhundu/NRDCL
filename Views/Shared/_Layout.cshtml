@@ -23,19 +23,11 @@
                 </div>
                 <div class=""></div>
             </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <div class="login-detail">
-                        <label>Welcome::</label>
-                        <i class="fa fa-user-md fa-fw"></i>
-                        <label>Chundu Dorji(loginId)</label>
-                        @*@User.Identity.Name *@
-                    </div>
-                </li>
-                <li>
-                    <a asp-controller="Login" asp-action="logout"><i class="fa fa-power-off"></i> Logout</a>
-                </li>
-            </ul>
+            <div class="nav navbar-top-links navbar-right">
+                <ul class="navbar-nav">
+                    <partial name="_LoginInfo" />
+                </ul>
+            </div>
             <br>
             <br>
             <div class="navbar-default sidebar" role="navigation">
@@ -66,6 +58,13 @@
                         </li>
                     </ul>
                 </div>
+
+
+                @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse justify-content-between">
+                <ul class="navbar-nav">
+                    <partial name="_LoginInfo"/>
+                </ul>
+            </div>*@
             </div>
         </nav>
         <div id="page-wrapper">
