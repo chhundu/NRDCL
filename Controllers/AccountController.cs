@@ -16,12 +16,11 @@ namespace NRDCL.Controllers
         {
             this.accountRepository = accountRepository;
         }
-        [Route("signup")]
         public IActionResult Signup()
         {
             return View();
         }
-        [Route("signup")]
+
         [HttpPost]
         public async Task<IActionResult> Signup(SignupUserModel userModel)
         {
@@ -41,12 +40,10 @@ namespace NRDCL.Controllers
             return View();
         }
 
-        [Route("signin")]
         public IActionResult Signin()
         {
             return View();
         }
-        [Route("signin")]
         [HttpPost]
         public async Task<IActionResult> Signin(SigninUserModel signinUserModel, string returnUrl)
         {
@@ -70,6 +67,20 @@ namespace NRDCL.Controllers
         {
             await this.accountRepository.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        [Route("change-password")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost("change-password")]
+        public IActionResult ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+            return View(changePasswordModel);
         }
     }
 }
