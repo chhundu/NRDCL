@@ -1,39 +1,58 @@
 ﻿@model NRDCL.Models.Acc.SigninUserModel
-
 @{
     ViewData["Title"] = "Signin";
+    Layout = "";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sign In</title>
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body id="bodyLogin">
+    <div class="container">
+        <div class="card card-container">
+            <img src="~/images/NRDCL_Logo.png" id="profile-img" style="margin-left:30%" />
+            <br><br>
+                <form method="post" class="form-signin form-horizontal">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label col-md-3 required"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Email" class="form-control" tabindex="1" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label col-md-3 required"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Password" class="form-control" tabindex="2" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3"></label>
+                        <div class="col-md-8">
+                            <input asp-for="Rememberme" type="checkbox" class="form-check-input" />@Html.DisplayNameFor(model => model.Rememberme)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3"></label>
+                        <div class="col-md-6">
+                            <input type="submit" value="Login" class="btn btn-primary btn-block" />
+                        </div>
+                    </div>
 
-<h1>Sign In</h1>
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input asp-for="Rememberme" type="checkbox" class="form-check-input" />@Html.DisplayNameFor(model => model.Rememberme)
-                </label>                
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    Click <a asp-action="Signup" asp-controller="Account">here</a> to signup
-</div>
-
+                    <div class="form-group">
+                        <label class="control-label col-md-3"></label>
+                        <div class="col-md-6">
+                            Click <a asp-action="Signup" asp-controller="Account">here</a> to signup
+                        </div>
+                    </div>
+                </form>
+        </div>
+        </div>
+    </body>
+</html>

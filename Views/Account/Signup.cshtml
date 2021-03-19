@@ -1,49 +1,55 @@
 ﻿@model NRDCL.Models.Acc.SignupUserModel
-
 @{
-    Layout = "_Layout";
+    Layout = "";
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Signup</title>
+    <meta charset="utf-8">
+    <title>Sign In</title>
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
 </head>
-<body>
-
-<h1>Sign Up</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Signup">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Sign Up" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <div>Click <a asp-action="Signin" asp-controller="Account">here</a> to login</div>
-</div>
-
-</body>
+<body id="bodyLogin">
+    <div class="container">
+        <div class="card card-container">
+            <form asp-action="Signup" class="form-signin form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label col-md-4 required"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Email" class="form-control" tabindex="1" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label col-md-4 required"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Password" class="form-control" tabindex="2" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label col-md-4 required"></label>
+                    <div class="col-md-8">
+                        <input asp-for="ConfirmPassword" class="form-control" tabindex="2" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4"></label>
+                    <div class="col-md-6">
+                        <input type="submit" value="Sign Up" class="btn btn-primary btn-block" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4"></label>
+                    <div class="col-md-6">
+                        Click <a asp-action="Signin" asp-controller="Account">here</a> to login
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+    </body>
 </html>
