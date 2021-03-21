@@ -1,19 +1,16 @@
-﻿using NRDCL.Models;
-using NRDCL.Models.Common;
-using System;
+﻿using NRDCL.Models.Common;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NRDCL.Models
 {
     public interface ICustomerService
     {
-        List<Customer> GetCustomerList();
-        Customer GetCustomerDetails(string CitizenshipID);
-        bool IsCustomerExist(string citizenshipID);
-        ResponseMessage SaveCustomer(Customer customer);
-        ResponseMessage UpdateCustomer(Customer customer);
+        Task<List<Customer>> GetCustomerList();
+        Task<Customer> GetCustomerDetails(string CitizenshipID);
+        Task<bool> IsCustomerExist(string citizenshipID);
+        Task<ResponseMessage> SaveCustomer(Customer customer);
+        Task<ResponseMessage> UpdateCustomer(Customer customer);
         ResponseMessage DeleteCustomer(string citizenshipID);
         List<Report.Report> GetReportData(int customerReportNo);
     }

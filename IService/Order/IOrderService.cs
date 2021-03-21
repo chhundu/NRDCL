@@ -8,12 +8,12 @@ namespace NRDCL.Models
 {
     public interface IOrderService
     {
-        List<Order> GetOrderList();
+        Task<List<Order>> GetOrderList();
         ResponseMessage SaveOrder(Order order);
-        Order GetOrderDetails(int orderId);
+        Task<Order> GetOrderDetails(int orderId);
         ResponseMessage UpdateOrder(Order order);
-        ResponseMessage DeleteOrder(int orderID);
+        Task<ResponseMessage> DeleteOrder(int orderID);
         bool OrderExists(int orderID);
-        decimal CalculateOrderAmount(Order order);
+        Task<decimal> CalculateOrderAmount(Order order);
     }
 }
