@@ -1,6 +1,5 @@
 ﻿using NRDCL.Data;
 using NRDCL.Models.Common;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace NRDCL.Models
             customerService = service;
         }
        
-        public List<Site> GetSiteList()
+        public async Task<List<Site>> GetSiteList()
         {
             List<Site> siteList = (from site in dataBaseContext.Site_Table
                             join c in dataBaseContext.Customer_Table on site.CitizenshipID equals c.CitizenshipID
@@ -32,27 +31,27 @@ namespace NRDCL.Models
                                SiteName=site.SiteName,
                                DistanceFrom=site.DistanceFrom
                            }).ToList();
-            return siteList;
+            return await Task.Run(() =>siteList);
         }
-        public Site GetSiteDetails(int SiteId)
+        public async Task<Site> GetSiteDetails(int SiteId)
         {
             var site = (from s in dataBaseContext.Site_Table
                         join c in dataBaseContext.Customer_Table on s.CitizenshipID equals c.CitizenshipID
                         where s.SiteId == SiteId
                         select s).SingleOrDefault();
-            return site;
+            return await Task.FromResult(site) ;
         }
 
-        public ResponseMessage SaveSite(Site site)
+        public async Task<ResponseMessage> SaveSite(Site site)
         {
             ResponseMessage responseMessage = new ResponseMessage();
 
-            if (!customerService.IsCustomerExist(site.CitizenshipID))
+            if (!customerService.IsCustomerExist(site.CitizenshipID).Result)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                 responseMessage.MessageKey = "CitizenshipID";
-                 return responseMessage;
+                 return await Task.FromResult(responseMessage);
 
             }
             if (site.DistanceFrom <= 0)
@@ -60,20 +59,20 @@ namespace NRDCL.Models
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.invalidSiteDistance;
                 responseMessage.MessageKey = "DistanceFrom";
-                return responseMessage;
+                return await Task.FromResult(responseMessage);
             }
 
             dataBaseContext.Add(site);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.saveSuccessMsg;
-            return responseMessage;
+            return await Task.FromResult(responseMessage); ;
         }
 
-        public ResponseMessage UpdateSite(Site site)
+        public async Task<ResponseMessage> UpdateSite(Site site)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            if (!customerService.IsCustomerExist(site.CitizenshipID))
+            if (!customerService.IsCustomerExist(site.CitizenshipID).Result)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
@@ -83,11 +82,11 @@ namespace NRDCL.Models
             try
             {
                 dataBaseContext.Update(site);
-                dataBaseContext.SaveChangesAsync();
+                await dataBaseContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!customerService.IsCustomerExist(site.CitizenshipID))
+                if (!customerService.IsCustomerExist(site.CitizenshipID).Result)
                 {
                     responseMessage.Status = false;
                     responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
@@ -100,7 +99,7 @@ namespace NRDCL.Models
             }
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.updateSuccessMsg;
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
         /// <summary>
@@ -108,9 +107,9 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="siteId"></param>
         /// <returns></returns>
-        public bool SiteExists(int siteId)
+        public async Task<bool> SiteExists(int siteId)
         {
-            return dataBaseContext.Site_Table.Any(e => e.SiteId == siteId);
+            return await Task.FromResult(dataBaseContext.Site_Table.Any(e => e.SiteId == siteId));
         }
     }
 }

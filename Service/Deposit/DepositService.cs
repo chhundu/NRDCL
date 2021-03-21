@@ -53,7 +53,7 @@ namespace NRDCL.Models
             ResponseMessage responseMessage = new ResponseMessage();
             Decimal totalBalance;
 
-            if (!customerService.IsCustomerExist(deposit.CustomerID))
+            if (!customerService.IsCustomerExist(deposit.CustomerID).Result)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
