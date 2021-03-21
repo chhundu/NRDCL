@@ -73,7 +73,7 @@ namespace NRDCL.Controllers
         {
             return View();
         }
-        [HttpPost("change-password")]
+        /*[HttpPost("change-password")]
         public IActionResult ChangePassword(ChangePasswordModel changePasswordModel)
         {
             if(ModelState.IsValid)
@@ -81,6 +81,6 @@ namespace NRDCL.Controllers
 
             }
             return View(changePasswordModel);
-        }
+        }*/
     }
 }

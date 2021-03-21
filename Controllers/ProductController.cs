@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NRDCL.Data;
 using NRDCL.Models;
 using NRDCL.Models.Common;
 
@@ -20,21 +14,21 @@ namespace NRDCL.Controllers
         }
 
         // GET: Products
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Product> productList = productService.GetProductList();
+            var productList = await productService.GetProductList();
             ViewBag.Subtitle = "Product Information.";
             return View(productList);
         }
 
         // GET: Products/Details/5
-        public  IActionResult Details(int productID)
+        public async Task<IActionResult> Details(int productID)
         {
             if (productID == 0)
             {
                 return NotFound();
             }
-            var product = productService.GetProductDetails(productID);
+            var product = await productService.GetProductDetails(productID);
             if (product == null)
             {
                 return NotFound();
@@ -53,14 +47,14 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
         {
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = productService.SaveProduct(product);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = productService.SaveProduct(product);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(product);
                 }
 
@@ -68,18 +62,17 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                 product = new Product();
             }
-            return View(product);
+            return View(await Task.FromResult(product));
         }
 
         // GET: Products/Edit/5
-        public IActionResult Edit(int productId)
+        public async Task<IActionResult> Edit(int productId)
         {
             if (productId == 0)
             {
                return new NotFoundResult();
             }
-
-            var product = productService.GetProductDetails(productId);
+            var product = await productService.GetProductDetails(productId);
             if (product == null)
             {
                 return new NotFoundResult();
@@ -92,7 +85,7 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int productId, [Bind("ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
+        public async Task<IActionResult> Edit(int productId, [Bind("ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
         {
             if (productId != product.ProductId)
             {
@@ -101,17 +94,17 @@ namespace NRDCL.Controllers
 
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = productService.UpdateProduct(product);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = productService.UpdateProduct(product);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(product);
                 }
                 ViewBag.Result = CommonProperties.updateSuccessMsg;
                 ModelState.Clear();
                 product = new Product();
             }
-            return View(product);
+            return View(await Task.FromResult(product));
         }
     }
 }

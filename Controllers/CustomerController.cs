@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NRDCL.Data;
 using NRDCL.Models;
 using NRDCL.Models.Common;
 
@@ -22,9 +16,9 @@ namespace NRDCL.Controllers
         }
 
         // GET: Customers
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Customer> customerList = customerService.GetCustomerList();
+            var customerList = await customerService.GetCustomerList();
             ViewBag.Subtitle = "Customer Information.";
             TempData["Status"] = false;
             return View(customerList);
@@ -32,13 +26,13 @@ namespace NRDCL.Controllers
 
 
         // GET: Customers/Details/5
-        public IActionResult Details(string CitizenshipID)
+        public async Task<IActionResult> Details(string CitizenshipID)
         {
             if (CitizenshipID.Equals(null))
             {
                 return new NotFoundResult();
             }
-            var customer = customerService.GetCustomerDetails(CitizenshipID);
+            var customer = await customerService.GetCustomerDetails(CitizenshipID);
             if (customer == null)
             {
                 return new NotFoundResult();
@@ -58,32 +52,31 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Create([Bind("Id,CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
+        public  async Task<IActionResult> Create([Bind("Id,CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = customerService.SaveCustomer(customer);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = customerService.SaveCustomer(customer);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(customer);
                 }
                 ViewBag.Result = CommonProperties.saveSuccessMsg;
                 ModelState.Clear();
                  customer = new Customer();
             }
-            return View(customer);
+            return View(await Task.FromResult(customer));
         }
 
         // GET: Customers/Edit/5
-        public IActionResult Edit(string CitizenshipID)
+        public async Task<IActionResult> Edit(string CitizenshipID)
         {
             if (CitizenshipID.Equals(null))
             {
                 return new NotFoundResult();
             }
-
-            var customer = customerService.GetCustomerDetails(CitizenshipID);
+            var customer = await customerService.GetCustomerDetails(CitizenshipID);
             if (customer == null)
             {
                 return new NotFoundResult();
@@ -96,7 +89,7 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string CitizenshipID, [Bind("CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
+        public async Task<IActionResult> Edit(string CitizenshipID, [Bind("CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
         {
             if (!CitizenshipID.Equals(customer.CitizenshipID))
             {
@@ -106,10 +99,10 @@ namespace NRDCL.Controllers
             if (ModelState.IsValid)
             {
 
-                ResponseMessage responseMessage = customerService.UpdateCustomer(customer);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = customerService.UpdateCustomer(customer);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(customer);
                 }
 
@@ -117,7 +110,7 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                 customer = new Customer();
             }
-            return View(customer);
+            return View(await Task.FromResult(customer));
         }
     }
 }
