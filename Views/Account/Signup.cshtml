@@ -1,6 +1,12 @@
 ﻿@model NRDCL.Models.Acc.SignupUserModel
 @{
     Layout = "";
+    @if (ViewBag.Result != null)
+    {
+        <script type="text/javascript">
+            alert("@ViewBag.Result");
+        </script>
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -9,12 +15,20 @@
     <title>Sign In</title>
     <link href="~/css/login.css" rel="stylesheet" />
     <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
 </head>
 <body id="bodyLogin">
     <div class="container">
         <div class="card card-container">
             <form asp-action="Signup" class="form-signin form-horizontal">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label col-md-4 required"></label>
+                    <div class="col-md-8">
+                        <input asp-for="FirstName" class="form-control" tabindex="1" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label asp-for="Email" class="control-label col-md-4 required"></label>
                     <div class="col-md-8">
@@ -37,6 +51,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label asp-for="RoleName" class="control-label col-md-4 text-right required"></label>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.RoleName, ViewData["Roles"] as SelectList, "--Select--", new { @class = "form-control", @id = "roleId", @tabindex = "3" })
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-4"></label>
                     <div class="col-md-6">
                         <input type="submit" value="Sign Up" class="btn btn-primary btn-block" />
@@ -50,6 +71,26 @@
                 </div>
             </form>
         </div>
-        </div>
-    </body>
+    </div>
+</body>
 </html>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        if (ViewBag.Result != null)
+        {
+        <script type="text/javascript">
+            $(function () {
+                swal({
+                        title: "Data saved successfully.",
+                        text: "Click OK to exit",
+                        type: "success"
+                    }, function (e) {
+                        window.location.href = '@Url.Action("Signin","Account")';
+                    });
+            });
+        </script>
+        }
+    }
+}
+
