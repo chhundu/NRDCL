@@ -13,35 +13,28 @@ namespace NRDCL.Controllers
 {
     public class DepositController : Controller
     {
-        private readonly NRDCL_DB_Context _context;
         private readonly IDepositService  depositService;
-        
-
-        /*public DepositController(NRDCL_DB_Context context)
-        {
-            _context = context;
-        }*/
         public DepositController(IDepositService service)
         {
             depositService = service;
         }
 
         // GET: Deposits
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Deposit> depositList = depositService.GetDepositList();
+            var depositList = await depositService.GetDepositList();
             ViewBag.Subtitle = "Deposit Information.";
             return View(depositList);
         }
 
         // GET: Deposits/Details/5
-        public IActionResult Details(string customerID)
+        public async Task<IActionResult> Details(string customerID)
         {
             if (customerID.Equals(null))
             {
                 return new NotFoundResult();
             }
-            var deposit = depositService.GetDepositDetails(customerID);
+            var deposit = await depositService.GetDepositDetails(customerID);
             if (deposit == null)
             {
                 return new NotFoundResult();
@@ -60,24 +53,21 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("CustomerID,LastAmount")] Deposit deposit)
+        public async Task<IActionResult> Create([Bind("CustomerID,LastAmount")] Deposit deposit)
         {
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = depositService.SaveDeposit(deposit);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = depositService.SaveDeposit(deposit);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(deposit);
                 }
                 ViewBag.Result = CommonProperties.saveSuccessMsg;
                 ModelState.Clear();
                 deposit = new Deposit();
-
-                //return RedirectToAction(nameof(Index));
             }
-            return View(deposit);
+            return View(await Task.FromResult(deposit));
         }
-
     }
 }
