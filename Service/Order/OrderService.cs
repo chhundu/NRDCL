@@ -209,10 +209,10 @@ namespace NRDCL.Models
             ResponseMessage responseMessage = new ResponseMessage();
 
             Task<Order> orderDetail = GetOrderDetails(orderID);
-            Deposit depositDetail = depositService.GetDepositDetails(orderDetail.Result.CustomerID);
+            Task<Deposit> depositDetail = depositService.GetDepositDetails(orderDetail.Result.CustomerID);
 
             decimal lastAmount = orderDetail.Result.OrderAmount;
-            decimal balanace = (depositDetail.Balance) + (orderDetail.Result.OrderAmount);
+            decimal balanace = (depositDetail.Result.Balance) + (orderDetail.Result.OrderAmount);
 
             Deposit deposit = new Deposit();
             deposit.CustomerID=orderDetail.Result.CustomerID;
@@ -220,7 +220,7 @@ namespace NRDCL.Models
             deposit.Balance= balanace;
 
             depositService.DeleteDeposit(orderDetail.Result.CustomerID);
-            depositService.SaveDeposit(deposit);
+            await depositService.SaveDeposit(deposit);
            
             dataBaseContext.Order_Table.Remove(orderDetail.Result);
             dataBaseContext.SaveChanges();
