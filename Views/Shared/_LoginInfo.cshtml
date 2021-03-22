@@ -1,23 +1,27 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> _signInManager
+﻿@using NRDCL.Models.Acc
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager
 
-@if (_signInManager.IsSignedIn(User))
-{
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-        Welcome @User.Identity.Name
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" asp-action="Logout" asp-controller="Account"><i class="fa fa-power-off"></i> Logout</a>
-    </div>
-</li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="Signin" asp-route-returnUrl="@Context.Request.Path"><i class="fa fa-user-md fa-fw"></i>Login</a>
-        <a class="btn" asp-area="" asp-controller="Account" asp-action="Signup">Register</a>
-    </li>
-}
+    @if (_signInManager.IsSignedIn(User))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                Welcome @User.FindFirst("UserFirstName").Value
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-action="Logout" asp-controller="Account"><i class="fa fa-power-off"></i> Logout</a><br /><br />
+                <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account">
+                    <i class="fa fa-key icon"></i>
+                    Change Password
+                </a>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="Signin" asp-route-returnUrl="@Context.Request.Path"><i class="fa fa-user-md fa-fw"></i>Login</a>
+            <a class="btn" asp-area="" asp-controller="Account" asp-action="Signup">Register</a>
+        </li>
+    }
 
 

@@ -70,7 +70,8 @@ namespace NRDCL.Models.Common
         , tryAgainFailureMsg = "Sorry, you tried enough. Have a Nice Day !!!"
         , saveSuccessMsg = "Data saved successfully."
         , updateSuccessMsg = "Data updated successfully."
-        , deleteSuccessMsg = "Data deleted successfully.";
+        , deleteSuccessMsg = "Data deleted successfully."
+        , signupSuccessMsg = "SignUp Successful!";
         #endregion
 
         #endregion
