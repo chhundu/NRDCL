@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NRDCL.Models;
@@ -28,11 +28,11 @@ namespace NRDCL.Controllers
 
         #region public methods
         // GET: Orders
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Order> orderList = orderService.GetOrderList();
+            Task<List<Order>> orderList = orderService.GetOrderList();
             ViewBag.Subtitle = "Order Information.";
-            return View(orderList);
+            return View(await orderList);
         }
 
         /// <summary>
@@ -41,13 +41,13 @@ namespace NRDCL.Controllers
         /// <param name="orderId"></param>
         /// <returns></returns>
         // GET: Orders/Details/5
-        public IActionResult Details(int orderId)
+        public async Task<IActionResult> Details(int orderId)
         {
             if (orderId == 0)
             {
                 return new NotFoundResult();
             }
-            var order = orderService.GetOrderDetails(orderId);
+            var order = await orderService.GetOrderDetails(orderId);
             if (order == null)
             {
                 return new NotFoundResult();
@@ -73,8 +73,8 @@ namespace NRDCL.Controllers
             };
             order.SiteList = siteList;
 
-            List<Product> productList = productService.GetProductList();
-            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
+            var productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
             return View(order);
         }
 
@@ -85,15 +85,15 @@ namespace NRDCL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
-            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
             {
                 Value = s.SiteId.ToString(),
                 Text = s.SiteName
             }).ToList();
             order.SiteList = siteList;
 
-            List<Product> productList = productService.GetProductList();
-            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
+            var productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
             if (ModelState.IsValid)
             {
                 ResponseMessage responseMessage = orderService.SaveOrder(order);
@@ -109,27 +109,27 @@ namespace NRDCL.Controllers
         }
 
         // GET: Orders/Edit/5
-        public IActionResult Edit(int orderId)
+        public async Task<IActionResult> Edit(int orderId)
         {
             if (orderId == 0)
             {
                 return new NotFoundResult();
             }
 
-            var order = orderService.GetOrderDetails(orderId);
+            var order = await orderService.GetOrderDetails(orderId);
             if (order == null)
             {
                 return new NotFoundResult();
             }
-            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
             {
                 Value = s.SiteId.ToString(),
                 Text = s.SiteName
             }).ToList();
             order.SiteList = siteList;
 
-            List<Product> productList = productService.GetProductList();
-            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
+            var productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
             return View(order);
         }
 
@@ -140,15 +140,15 @@ namespace NRDCL.Controllers
         [ValidateAntiForgeryToken]
         public  IActionResult Edit(int orderId, [Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
-            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+            IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
             {
                 Value = s.SiteId.ToString(),
                 Text = s.SiteName
             }).ToList();
             order.SiteList = siteList;
 
-            List<Product> productList = productService.GetProductList();
-            ViewData["ProductList"] = new SelectList(productList, "ProductId", "ProductName");
+            var productList = productService.GetProductList();
+            ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
             if (orderId != order.OrderID)
             {
                 return new NotFoundResult();
@@ -168,13 +168,13 @@ namespace NRDCL.Controllers
         }
 
         // GET: Orders/Delete/5
-        public IActionResult Delete(int OrderID)
+        public async Task<IActionResult> Delete(int OrderID)
         {
             if (OrderID == 0)
             {
                 return new NotFoundResult();
             }
-            var order = orderService.GetOrderDetails(OrderID);
+            var order = await orderService.GetOrderDetails(OrderID);
             if (order == null)
             {
                 return new NotFoundResult();
@@ -185,9 +185,9 @@ namespace NRDCL.Controllers
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int OrderID)
+        public async Task<IActionResult> DeleteConfirmed(int OrderID)
         {
-            var responseMessage = orderService.DeleteOrder(OrderID);
+            var responseMessage = await orderService.DeleteOrder(OrderID);
             return RedirectToAction(nameof(Index));
         }
 
@@ -197,16 +197,16 @@ namespace NRDCL.Controllers
         /// <param name="customerID"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetSiteByCustomerId(string customerID)
+        public async Task<IActionResult> GetSiteByCustomerId(string customerID)
         {
-            IEnumerable<SelectListItem> siteList= siteService.GetSiteList().Where(s => s.CitizenshipID.Equals(customerID)).Select(s => new SelectListItem()
+            IEnumerable<SelectListItem> siteList= siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(customerID)).Select(s => new SelectListItem()
             {
                 Value = s.SiteId.ToString(),
                 Text = s.SiteName
             }).ToList();
             //var siteList = 
             var filteredSiteList = new SelectList(siteList, "Value", "Text");
-            return Json(filteredSiteList);
+            return Json(await Task.Run(()=> filteredSiteList));
             //return Json(filteredSiteList);
         }
 
@@ -216,10 +216,10 @@ namespace NRDCL.Controllers
         /// <param name="order"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult CalculateOrderAmount(Order order)
+        public async Task<IActionResult> CalculateOrderAmount(Order order)
         {
-            decimal orderAmount=orderService.CalculateOrderAmount(order);
-            return Json(orderAmount);
+            Task<decimal> orderAmount= orderService.CalculateOrderAmount(order);
+            return Json(await orderAmount);
         }
         #endregion
     }

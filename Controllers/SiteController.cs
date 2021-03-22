@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NRDCL.Data;
 using NRDCL.Models;
 using NRDCL.Models.Common;
 
@@ -22,22 +15,21 @@ namespace NRDCL.Controllers
         }
 
         // GET: Sites
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Site> siteList = siteService.GetSiteList();
+            var siteList = await siteService.GetSiteList();
             ViewBag.Subtitle = "Site Information.";
             return View(siteList);
         }
 
         // GET: Sites/Details/5
-        public IActionResult Details(int siteId)
+        public async Task<IActionResult> Details(int siteId)
         {
             if (siteId == 0)
             {
                 return NotFound();
             }
-
-            var site = siteService.GetSiteDetails(siteId);
+            var site = await siteService.GetSiteDetails(siteId);
             if (site == null)
             {
                 return NotFound();
@@ -57,31 +49,31 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
+        public async Task<IActionResult> Create([Bind("SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
         {
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = siteService.SaveSite(site);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = siteService.SaveSite(site);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(site);
                 }
                 ViewBag.Result = CommonProperties.saveSuccessMsg;
                 ModelState.Clear();
                 site = new Site();
             }
-            return View(site);
+            return View(await Task.FromResult(site));
         }
 
         // GET: Sites/Edit/5
-        public IActionResult Edit(int siteId)
+        public async Task<IActionResult> Edit(int siteId)
         {
             if (siteId == 0)
             {
                 return NotFound();
             }
-            var site = siteService.GetSiteDetails(siteId);
+            var site = await siteService.GetSiteDetails(siteId);
             if (site == null)
             {
                 return NotFound();
@@ -94,7 +86,7 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int siteId, [Bind("SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
+        public async Task<IActionResult> Edit(int siteId, [Bind("SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
         {
 
             if (siteId!=site.SiteId)
@@ -105,10 +97,10 @@ namespace NRDCL.Controllers
             if (ModelState.IsValid)
             {
 
-                ResponseMessage responseMessage = siteService.UpdateSite(site);
-                if (responseMessage.Status == false)
+                Task<ResponseMessage> responseMessage = siteService.UpdateSite(site);
+                if (responseMessage.Result.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
+                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(site);
                 }
 
@@ -116,7 +108,7 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                 site = new Site();
             }
-            return View(site);
+            return View(await Task.FromResult(site));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NRDCL.Data;
 using NRDCL.Models.Common;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,20 +22,20 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="productId"></param>
         /// <returns>product</returns>
-        public Product GetProductDetails(int productId)
+        public async Task<Product> GetProductDetails(int productId)
         {
             var product = (from p in dataBaseContext.Product_Table where p.ProductId==productId select p).SingleOrDefault();
-            return product;
+            return await Task.FromResult(product);
         }
 
         /// <summary>
         /// Get Product list
         /// </summary>
         /// <returns>productList</returns>
-        public List<Product> GetProductList()
+        public async Task<List<Product>> GetProductList()
         {
             List<Product> productList = dataBaseContext.Product_Table.ToList();
-            return productList;
+            return await Task.Run(()=> productList);
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="product"></param>
         /// <returns>responseMessage</returns>
-        public ResponseMessage SaveProduct(Product product)
+        public async Task<ResponseMessage> SaveProduct(Product product)
         {
             ResponseMessage responseMessage = new ResponseMessage();
 
@@ -52,7 +51,7 @@ namespace NRDCL.Models
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.invalidRateMsg;
                 responseMessage.MessageKey = "PricePerUnit";
-                return responseMessage;
+                return await Task.FromResult(responseMessage);
             }
 
             if (product.TransportRate <= 0)
@@ -60,7 +59,7 @@ namespace NRDCL.Models
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.invalidRateMsg;
                 responseMessage.MessageKey = "TransportRate";
-                return responseMessage;
+                return await Task.FromResult(responseMessage);
             }
 
             dataBaseContext.Add(product);
@@ -68,7 +67,7 @@ namespace NRDCL.Models
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.saveSuccessMsg;
 
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
         /// <summary>
@@ -76,13 +75,13 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="product"></param>
         /// <returns></returns>
-        public ResponseMessage UpdateProduct(Product product)
+        public async Task<ResponseMessage> UpdateProduct(Product product)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
             {
                 dataBaseContext.Update(product);
-                dataBaseContext.SaveChangesAsync();
+                await dataBaseContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -91,7 +90,7 @@ namespace NRDCL.Models
                     responseMessage.Status = false;
                     responseMessage.Text = CommonProperties.invalidProductMsg;
                     responseMessage.MessageKey = "ProductId";
-                    return responseMessage;
+                    return await Task.FromResult(responseMessage);
                 }
                 else
                 {
@@ -100,7 +99,7 @@ namespace NRDCL.Models
             }
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.updateSuccessMsg;
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
         /// <summary>

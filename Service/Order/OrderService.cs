@@ -3,6 +3,7 @@ using NRDCL.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NRDCL.Models
 {
@@ -29,7 +30,7 @@ namespace NRDCL.Models
         /// Get order list
         /// </summary>
         /// <returns></returns>
-        public List<Order> GetOrderList()
+        public async Task<List<Order>> GetOrderList()
         {
             List<Order> orderList = (from ord in dataBaseContext.Order_Table
                                      join cus in dataBaseContext.Customer_Table on ord.CustomerID equals cus.CitizenshipID
@@ -49,7 +50,7 @@ namespace NRDCL.Models
                                          OrderAmount=ord.OrderAmount,
                                          Balance = d.Balance
                                      }).ToList();
-            return orderList;
+            return await Task.Run(() => orderList);
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace NRDCL.Models
         {
             var responseMessage = new ResponseMessage();
             //check entered customer is registered or not
-            if (!customerService.IsCustomerExist(order.CustomerID)) {
+            if (!customerService.IsCustomerExist(order.CustomerID).Result) {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                 responseMessage.MessageKey = "CustomerID";
@@ -69,8 +70,8 @@ namespace NRDCL.Models
             }
 
             ///validating order amount
-            decimal orderAmount = CalculateOrderAmount(order);
-            if (orderAmount.CompareTo(order.OrderAmount)!=0)
+            Task<decimal> orderAmount = CalculateOrderAmount(order);
+            if (orderAmount.Result.CompareTo(order.OrderAmount)!=0)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.wrongOrderAmountMsg;
@@ -87,12 +88,12 @@ namespace NRDCL.Models
 
             if (order.OrderID != 0)
             {
-                decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).OrderAmount;
+                decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).Result.OrderAmount;
                 advanceBalance = advanceBalance + prevoiusOrderAmount;
 
-                if (advanceBalance < orderAmount) {
+                if (advanceBalance < orderAmount.Result) {
                     /// amount that is needed to place an order.
-                    decimal additionalAmountRequired = orderAmount - advanceBalance;
+                    decimal additionalAmountRequired = orderAmount.Result - advanceBalance;
                     responseMessage.Status = false;
                     responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
                     responseMessage.MessageKey = "OrderAmount";
@@ -101,10 +102,10 @@ namespace NRDCL.Models
 
             }
             else {
-                if (advanceBalance < orderAmount)
+                if (advanceBalance < orderAmount.Result)
                 {
                     /// amount that is needed to place an order.
-                    decimal additionalAmountRequired = orderAmount - advanceBalance;
+                    decimal additionalAmountRequired = orderAmount.Result - advanceBalance;
                     responseMessage.Status = false;
                     responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
                     responseMessage.MessageKey = "OrderAmount";
@@ -158,7 +159,7 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        public Order GetOrderDetails(int orderId)
+        public async Task<Order> GetOrderDetails(int orderId)
         {
             var order = (from ord in dataBaseContext.Order_Table 
                          join c in dataBaseContext.Customer_Table on ord.CustomerID equals c.CitizenshipID
@@ -178,7 +179,7 @@ namespace NRDCL.Models
                              OrderAmount =ord.OrderAmount,
                              Balance=d.Balance
                          }).SingleOrDefault();
-            return order;
+            return await Task.FromResult(order);
         }
 
         /// <summary>
@@ -203,29 +204,29 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="orderID"></param>
         /// <returns></returns>
-        public ResponseMessage DeleteOrder(int orderID)
+        public async Task<ResponseMessage> DeleteOrder(int orderID)
         {
             ResponseMessage responseMessage = new ResponseMessage();
 
-            Order orderDetail = GetOrderDetails(orderID);
-            Deposit depositDetail = depositService.GetDepositDetails(orderDetail.CustomerID);
+            Task<Order> orderDetail = GetOrderDetails(orderID);
+            Task<Deposit> depositDetail = depositService.GetDepositDetails(orderDetail.Result.CustomerID);
 
-            decimal lastAmount = orderDetail.OrderAmount;
-            decimal balanace = (depositDetail.Balance) + (orderDetail.OrderAmount);
+            decimal lastAmount = orderDetail.Result.OrderAmount;
+            decimal balanace = (depositDetail.Result.Balance) + (orderDetail.Result.OrderAmount);
 
             Deposit deposit = new Deposit();
-            deposit.CustomerID=orderDetail.CustomerID;
+            deposit.CustomerID=orderDetail.Result.CustomerID;
             deposit.LastAmount= lastAmount;
             deposit.Balance= balanace;
 
-            depositService.DeleteDeposit(orderDetail.CustomerID);
-            depositService.SaveDeposit(deposit);
+            depositService.DeleteDeposit(orderDetail.Result.CustomerID);
+            await depositService.SaveDeposit(deposit);
            
-            dataBaseContext.Order_Table.Remove(orderDetail);
+            dataBaseContext.Order_Table.Remove(orderDetail.Result);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.deleteSuccessMsg;
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
         public bool OrderExists(int orderID)
@@ -238,7 +239,7 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public decimal CalculateOrderAmount(Order order)
+        public async Task<decimal> CalculateOrderAmount(Order order)
         {
             var orders = new Order();
             decimal orderAmount = decimal.Zero;
@@ -277,7 +278,7 @@ namespace NRDCL.Models
             /// amount customer need to pay.
             orderAmount = (unitPrice * quantity) + (transportRate * quantity * (decimal)distanceFrom);
             string strOrderAmount=String.Format("{0:0.00}", orderAmount);
-            return decimal.Parse(strOrderAmount);
+            return decimal.Parse(await Task.FromResult(strOrderAmount));
         }
 
         #region private methods
@@ -290,23 +291,23 @@ namespace NRDCL.Models
         {
             var orders = new Order();
             decimal advanceBalance = decimal.Zero;
-            decimal orderAmount = CalculateOrderAmount(order);
+            Task<decimal> orderAmount = CalculateOrderAmount(order);
            
 
             /// getting customer balance
             if (order.OrderID != 0)
             {
-                decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).OrderAmount;
+                decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).Result.OrderAmount;
                 advanceBalance = advanceBalance + prevoiusOrderAmount;
-                advanceBalance -= orderAmount;
+                advanceBalance -= orderAmount.Result;
                 orders.OrderAmount = advanceBalance;
             }
             else {
                 advanceBalance = (from deposit in dataBaseContext.Deposit_Table
                                   where deposit.CustomerID.Equals(order.CustomerID)
                                   select deposit.Balance).FirstOrDefault();
-                advanceBalance -= orderAmount;
-                orders.OrderAmount = orderAmount;
+                advanceBalance -= orderAmount.Result;
+                orders.OrderAmount = orderAmount.Result;
             }
             orders.CustomerID = order.CustomerID;
             orders.SiteID = order.SiteID;

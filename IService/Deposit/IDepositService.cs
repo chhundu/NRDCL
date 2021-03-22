@@ -8,9 +8,9 @@ namespace NRDCL.Models
 {
     public interface IDepositService
     {
-        List<Deposit> GetDepositList();
-        Deposit GetDepositDetails(string CitizenshipID);
-        ResponseMessage SaveDeposit(Deposit deposit);
+        Task<List<Deposit>> GetDepositList();
+        Task<Deposit> GetDepositDetails(string CitizenshipID);
+        Task<ResponseMessage> SaveDeposit(Deposit deposit);
         bool DepositExists(string customerID);
         void DeleteDeposit(string customerID);
     }

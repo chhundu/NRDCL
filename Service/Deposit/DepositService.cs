@@ -25,21 +25,20 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="customerID"></param>
         /// <returns></returns>
-        public Deposit GetDepositDetails(String customerID)
+        public async Task<Deposit> GetDepositDetails(String customerID)
         {
             var deposit = (from dep in dataBaseContext.Deposit_Table where dep.CustomerID.Equals(customerID) select dep).SingleOrDefault();
-
-            return deposit;
+            return await Task.FromResult(deposit);
         }
 
         /// <summary>
         /// To get deposit list
         /// </summary>
         /// <returns></returns>
-        public List<Deposit> GetDepositList()
+        public async Task<List<Deposit>> GetDepositList()
         {
             List<Deposit> depositList = dataBaseContext.Deposit_Table.ToList();
-            return depositList;
+            return await Task.Run(()=> depositList);
         }
 
         /// <summary>
@@ -47,18 +46,16 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="customer"></param>
         /// <returns></returns>
-        public ResponseMessage SaveDeposit(Deposit deposit)
+        public async Task<ResponseMessage> SaveDeposit(Deposit deposit)
         {
-
             ResponseMessage responseMessage = new ResponseMessage();
             Decimal totalBalance;
-
-            if (!customerService.IsCustomerExist(deposit.CustomerID))
+            if (!customerService.IsCustomerExist(deposit.CustomerID).Result)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
                 responseMessage.MessageKey = "CustomerID";
-                return responseMessage;
+                return await Task.FromResult(responseMessage);
 
             }
 
@@ -66,7 +63,7 @@ namespace NRDCL.Models
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.invalidDepositAmountMsg;
                 responseMessage.MessageKey = "LastAmount";
-                return responseMessage;
+                return await Task.FromResult(responseMessage);
             }
             /// checking if there is already data or not.
             if (dataBaseContext.Deposit_Table.Find(deposit.CustomerID)==null)
@@ -101,7 +98,7 @@ namespace NRDCL.Models
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.saveSuccessMsg + " Your Current balance is Nu. " + totalBalance;
 
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
         /// <summary>

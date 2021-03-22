@@ -3,8 +3,8 @@ using NRDCL.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace NRDCL.Models
 {
@@ -23,40 +23,39 @@ namespace NRDCL.Models
         /// </summary>
         /// <param name="CitizenshipID"></param>
         /// <returns></returns>
-        public Customer GetCustomerDetails(String CitizenshipID)
+        public async Task<Customer> GetCustomerDetails(String CitizenshipID)
         {
             var customer = (from cus in dataBaseContext.Customer_Table where cus.CitizenshipID.Equals(CitizenshipID) select cus).SingleOrDefault();
-
-            return customer;
+            return await Task.FromResult(customer);
         }
 
-        public List<Customer> GetCustomerList()
+        public async Task<List<Customer>> GetCustomerList()
         {
-                List<Customer> customerList = dataBaseContext.Customer_Table.ToList();
-            return customerList;
+            List<Customer> customerList = dataBaseContext.Customer_Table.ToList();
+            return await Task.Run(() => customerList) ;
         }
 
         public ResponseMessage DeleteCustomer(string CitizenshipID)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             var customer=GetCustomerDetails(CitizenshipID);
-            dataBaseContext.Customer_Table.Remove(customer);
+            dataBaseContext.Customer_Table.Remove(customer.Result);
             dataBaseContext.SaveChanges();
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.deleteSuccessMsg;
             return responseMessage;
         }
 
-        public bool IsCustomerExist(string citizenshipID)
+        public async Task<bool> IsCustomerExist(string citizenshipID)
         {
-            return dataBaseContext.Customer_Table.Any(x => x.CitizenshipID.Equals(citizenshipID)); ;
+            return await Task.FromResult(dataBaseContext.Customer_Table.Any(x => x.CitizenshipID.Equals(citizenshipID)));
         }
 
-        public ResponseMessage SaveCustomer(Customer customer) {
+        public async Task<ResponseMessage> SaveCustomer(Customer customer) {
 
             ResponseMessage responseMessage = new ResponseMessage();
 
-            if (IsCustomerExist(customer.CitizenshipID))
+            if (IsCustomerExist(customer.CitizenshipID).Result)
             {
                 responseMessage.Status=false;
                 responseMessage.Text = CommonProperties.citizenshipIDExistMsg;
@@ -69,20 +68,20 @@ namespace NRDCL.Models
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.saveSuccessMsg;
 
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
-        public ResponseMessage UpdateCustomer(Customer customer)
+        public async Task<ResponseMessage> UpdateCustomer(Customer customer)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
             {
                 dataBaseContext.Update(customer);
-                dataBaseContext.SaveChangesAsync();
+                await dataBaseContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!IsCustomerExist(customer.CitizenshipID))
+                if (!IsCustomerExist(customer.CitizenshipID).Result)
                 {
                     responseMessage.Status = false;
                     responseMessage.Text = CommonProperties.citizenshipIDNotRegisteredMsg;
@@ -96,7 +95,7 @@ namespace NRDCL.Models
             }
             responseMessage.Status = true;
             responseMessage.Text = CommonProperties.updateSuccessMsg;
-            return responseMessage;
+            return await Task.FromResult(responseMessage);
         }
 
         public List<Report.Report> GetReportData(int reportNumber)
