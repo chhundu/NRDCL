@@ -5,7 +5,9 @@
     {
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                Welcome @User.FindFirst("UserFirstName").Value
+                <label>Welcome::</label>
+                <i class="fa fa-user-md fa-fw"></i> 
+                <label> @User.FindFirst("UserFirstName").Value</label>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" asp-action="Logout" asp-controller="Account"><i class="fa fa-power-off"></i> Logout</a><br /><br />
