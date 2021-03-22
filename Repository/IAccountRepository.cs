@@ -9,5 +9,6 @@ namespace NRDCL.Repository
         Task<IdentityResult> CreateUserAsync(SignupUserModel userModel);
         Task<SignInResult> PasswordSignInAsync(SigninUserModel signinModel);
         Task SignOutAsync();
+        Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel passwordModel);
     }
 }
