@@ -66,7 +66,7 @@ namespace NRDCL
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Login}/{id?}");
+                    pattern: "{controller=Account}/{action=Signin}/{id?}");
             });
         }
     }
