@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NRDCL.Models;
@@ -7,6 +8,7 @@ using NRDCL.Models.Common;
 
 namespace NRDCL.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class OrderController : Controller
     {
         #region private variables
