@@ -33,13 +33,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="RoleName" class="control-label col-md-3 text-right required"></label>
-                        <div class="col-md-8">
-                            @Html.DropDownListFor(model => model.RoleName, ViewData["Roles"] as SelectList, "--Select--", new { @class = "form-control", @id = "roleId", @tabindex = "3" })
-                            <span asp-validation-for="RoleName" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label col-md-3"></label>
                         <div class="col-md-8">
                             <input asp-for="Rememberme" type="checkbox" class="form-check-input" />@Html.DisplayNameFor(model => model.Rememberme)
