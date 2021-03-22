@@ -18,7 +18,5 @@ namespace NRDCL.Models.Acc
         [Display(Name ="Remember me")]
         public bool Rememberme{ get; set; }
 
-        [NotMapped,Required]
-        public string RoleName { get; set; }
     }
 }
