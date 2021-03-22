@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NRDCL.Models;
+using NRDCL.Models.Acc;
 
 namespace NRDCL.Data
 {
-    public class NRDCL_DB_Context : IdentityDbContext
+    public class NRDCL_DB_Context : IdentityDbContext<ApplicationUser>
     {
         public NRDCL_DB_Context(DbContextOptions<NRDCL_DB_Context> options)
             : base(options)
