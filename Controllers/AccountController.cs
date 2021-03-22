@@ -59,15 +59,11 @@ namespace NRDCL.Controllers
 
         public IActionResult Signin()
         {
-            var roles = _roleManager.Roles;
-            ViewData["Roles"] = new SelectList(roles);
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Signin(SigninUserModel signinUserModel, string returnUrl)
         {
-            var roles = _roleManager.Roles;
-            ViewData["Roles"] = new SelectList(roles);
             if (ModelState.IsValid)
             {
                 var result = await _accountRepository.PasswordSignInAsync(signinUserModel);
