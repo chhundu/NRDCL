@@ -6,8 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NRDCL.Data;
+using NRDCL.IService.User;
 using NRDCL.Models;
+using NRDCL.Models.Acc;
 using NRDCL.Repository;
+using NRDCL.Service.User;
 
 namespace NRDCL
 {
@@ -23,11 +26,11 @@ namespace NRDCL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<NRDCL_DB_Context>();
             services.ConfigureApplicationCookie(config =>
             {
-                config.LoginPath = "/signin";
+                //config.LoginPath = "/signin";
             });
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<NRDCL_DB_Context>(options =>
@@ -39,6 +42,9 @@ namespace NRDCL
             services.AddScoped<IDepositService, DepositService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
+            services.AddScoped<IUserService, UserService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +72,8 @@ namespace NRDCL
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Login}/{id?}");
+                    //pattern: "{controller=Login}/{action=Login}/{id?}");
+                    pattern: "{controller=Account}/{action=Signin}/{id?}");
             });
         }
     }
