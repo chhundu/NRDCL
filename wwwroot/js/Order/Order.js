@@ -1,4 +1,9 @@
-﻿$("#CustomerID").change(function () {
+﻿$(document).ready(function () {
+    $('#OrderTable').dataTable({
+    });
+});
+
+$("#CustomerID").change(function () {
     var customerID = $("input[id='CustomerID']").val();
     var siteSelect = $('#SiteID');
     siteSelect.empty();

@@ -8,7 +8,7 @@
     <legend>Customer Report</legend>
     <div class="form-group">
         <div class="col-md-12">
-            <table class="table table-bordered table-striped editable-grid">
+            <table class="table table-bordered table-striped dt-responsive nowrap" id="CustomerReportTable">
                 <thead>
                     <tr>
                         <th>
@@ -65,7 +65,7 @@
     <legend>Product Report</legend>
     <div class="form-group">
         <div class="col-md-12">
-            <table class="table table-bordered table-striped editable-grid">
+            <table class="table table-bordered table-striped editable-grid dt-responsive nowrap" id="ProductReportTable">
                 <thead>
                     <tr>
                         <th>
@@ -102,6 +102,9 @@
                     }
                 </tbody>
             </table>
-            </div>
         </div>
-    </fieldset>
+    </div>
+</fieldset>
+@section Scripts {
+    <script src="~/js/Report/Report.js"></script>
+}

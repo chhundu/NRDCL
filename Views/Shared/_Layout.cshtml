@@ -8,6 +8,7 @@
     <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link href="~/sbadmin/css/sb-admin-2.css" rel="stylesheet" />
     <link href="~/css/sweetalert.css" rel="stylesheet" />
+    <link href="~/css/jquery.dataTables.css" rel="stylesheet" />
 </head>
 <body>
     <div id="wrapper">
@@ -39,7 +40,7 @@
                         <li>
                             <a asp-controller="Administration" asp-action="CreateRole"><i class="glyphicon glyphicon-lock fa-fw"></i>&nbsp;&nbsp;Create Role</a>
                         </li>
-                        
+
                         <li>
                             <a asp-controller="Customer" asp-action="Create"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Customer</a>
                         </li>
@@ -60,15 +61,8 @@
                             <a asp-area="" asp-controller="Report" asp-action="Index"><i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Report</a>
                         </li>
                     </ul>
-                    
+
                 </div>
-
-
-                @*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse justify-content-between">
-                <ul class="navbar-nav">
-                    <partial name="_LoginInfo"/>
-                </ul>
-            </div>*@
             </div>
         </nav>
         <div id="page-wrapper">
@@ -87,6 +81,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/sweetalert.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

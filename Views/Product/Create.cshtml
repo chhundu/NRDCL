@@ -43,7 +43,7 @@
         <legend>Product list</legend>
         <div class="form-group">
             <div class="col-md-12">
-                <table class="table table-bordered table-striped editable-grid">
+                <table class="table table-striped table-bordered dt-responsive nowrap" id="ProductTable">
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.ProductName)</th>
@@ -71,11 +71,12 @@
         </div>
     </fieldset>
 </form>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        @{
-            if (ViewBag.Result != null)
-            {
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Product/Product.js"></script>
+    @{
+        if (ViewBag.Result != null)
+        {
             <script type="text/javascript">
             $(function () {
                 swal({
@@ -87,6 +88,6 @@
                     });
             });
             </script>
-            }
         }
     }
+}

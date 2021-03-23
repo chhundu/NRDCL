@@ -36,7 +36,7 @@
         <legend>Deposit list</legend>
         <div class="form-group">
             <div class="col-md-12">
-                <table class="table table-bordered table-striped editable-grid">
+                <table class="table table-striped table-bordered dt-responsive nowrap" id="DepositTable">
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.CustomerID)</th>
@@ -63,11 +63,12 @@
         </div>
     </fieldset>
 </form>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        @{
-            if (ViewBag.Result != null)
-            {
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Deposit/Deposit.js"></script>
+    @{
+        if (ViewBag.Result != null)
+        {
             <script type="text/javascript">
             $(function () {
                 swal({
@@ -79,6 +80,6 @@
                     });
             });
             </script>
-            }
         }
     }
+}
