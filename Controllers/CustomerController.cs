@@ -52,27 +52,26 @@ namespace NRDCL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customerList = customerService.GetCustomerList();
-                ViewBag.Customers = customerList.Result;
-                Task<ResponseMessage> responseMessage = null; 
+                ResponseMessage responseMessage = null; 
                 if (!string.IsNullOrEmpty(customer.CMDstatus) && customer.CMDstatus.Equals("M"))
                 {
-                    responseMessage = customerService.UpdateCustomer(customer);
+                    responseMessage =  await customerService.UpdateCustomer(customer);
                 }
                 else {
-                    responseMessage = customerService.SaveCustomer(customer);
+                    responseMessage = await customerService.SaveCustomer(customer);
                 }
-                
-                if (responseMessage.Result.Status == false)
+
+                var customerList = customerService.GetCustomerList().Result;
+                ViewBag.Customers = customerList;
+                if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(customer);
                 }
-                ViewBag.Result = responseMessage.Result.Text;
+                ViewBag.Result = responseMessage.Text;
                 ModelState.Clear();
                  customer = new Customer();
             }
-           
             return View(await Task.FromResult(customer));
         }
 

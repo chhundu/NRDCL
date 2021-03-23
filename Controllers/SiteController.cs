@@ -52,23 +52,23 @@ namespace NRDCL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var siteList = siteService.GetSiteList();
-                ViewBag.Sites = siteList.Result;
-                Task<ResponseMessage> responseMessage = null;
+                ResponseMessage responseMessage = null;
                 if (!string.IsNullOrEmpty(site.CMDstatus) && site.CMDstatus.Equals("M"))
                 {
-                    responseMessage = siteService.UpdateSite(site);
+                    responseMessage = await siteService.UpdateSite(site);
                 }
                 else
                 {
-                    responseMessage = siteService.SaveSite(site);
+                    responseMessage = await siteService.SaveSite(site);
                 }
-                if (responseMessage.Result.Status == false)
+                var siteList = siteService.GetSiteList();
+                ViewBag.Sites = siteList.Result;
+                if (responseMessage.Status == false)
                 {
-                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(site);
                 }
-                ViewBag.Result = responseMessage.Result.Text;
+                ViewBag.Result = responseMessage.Text;
                 ModelState.Clear();
                 site = new Site();
             }
@@ -89,36 +89,6 @@ namespace NRDCL.Controllers
                 return NotFound();
             }
             return RedirectToAction("Create", new { siteId });
-        }
-
-        // POST: Sites/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int siteId, [Bind("SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
-        {
-
-            if (siteId!=site.SiteId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-
-                Task<ResponseMessage> responseMessage = siteService.UpdateSite(site);
-                if (responseMessage.Result.Status == false)
-                {
-                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
-                    return View(site);
-                }
-
-                ViewBag.Result = CommonProperties.updateSuccessMsg;
-                ModelState.Clear();
-                site = new Site();
-            }
-            return View(await Task.FromResult(site));
         }
     }
 }

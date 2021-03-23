@@ -52,7 +52,7 @@ namespace NRDCL.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: Orders/Create
-        public IActionResult Create()
+        public IActionResult Create(int? orderId)
         {
             Task<List<Order>> orderList = orderService.GetOrderList();
             ViewBag.Orders = orderList.Result;
@@ -65,8 +65,18 @@ namespace NRDCL.Controllers
                     Text = " "
                 }
             };
-            order.SiteList = siteList;
+            if (orderId!=null && orderId!=0) {
+                order = orderService.GetOrderDetails((int)orderId).Result;
+                order.CMDstatus = "M";
 
+                 siteList = siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
+                {
+                    Value = s.SiteId.ToString(),
+                    Text = s.SiteName
+                }).ToList();
+                order.SiteList = siteList;
+            }
+            order.SiteList = siteList;
             var productList = productService.GetProductList();
             ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
             return View(order);
@@ -77,10 +87,11 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
+        public IActionResult Create([Bind("CMDstatus,OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
             Task<List<Order>> orderList = orderService.GetOrderList();
             ViewBag.Orders = orderList.Result;
+            ResponseMessage responseMessage = null;
             IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
             {
                 Value = s.SiteId.ToString(),
@@ -92,7 +103,7 @@ namespace NRDCL.Controllers
             ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = orderService.SaveOrder(order);
+                responseMessage = orderService.SaveOrder(order);
                 if (responseMessage.Status == false)
                 {
                     ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
@@ -125,7 +136,8 @@ namespace NRDCL.Controllers
 
             var productList = productService.GetProductList();
             ViewData["ProductList"] = new SelectList(productList.Result, "ProductId", "ProductName");
-            return View(order);
+            return RedirectToAction("Create", new {orderId});
+           // return View(order);
         }
 
         // POST: Orders/Edit/5
