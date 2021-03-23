@@ -35,6 +35,36 @@
             </div>
         </div>
     </fieldset>
+    <fieldset class="v-no-padding">
+        <legend>Deposit list</legend>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped editable-grid">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.CustomerID)</th>
+                            <th>@Html.DisplayNameFor(model => model.LastAmount)</th>
+                            <th>@Html.DisplayNameFor(model => model.Balance)</th>
+                            <th width="20%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var deposit in ViewBag.Deposits)
+                        {
+                            <tr>
+                                <td>@deposit.CustomerID</td>
+                                <td>@deposit.LastAmount</td>
+                                <td>@deposit.Balance</td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new { customerID = @deposit.CustomerID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
 </form>
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -48,7 +78,7 @@
                         text: "Click OK to exit",
                         type: "success"
                     }, function (e) {
-                        window.location.href ='@Url.Action("Index", "Deposit")';
+                        window.location.href ='@Url.Action("Create", "Deposit")';
                     });
             });
             </script>

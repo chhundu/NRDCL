@@ -55,7 +55,7 @@
                 <input type="submit" value="Update" class="btn btn-primary btn-block" tabindex="7" />
             </div>
             <div class=" col-md-2">
-                <a asp-action="Index" class="btn btn-info" tabindex="8">Back to List</a>
+                <a asp-action="Create" class="btn btn-info" tabindex="8">Back to List</a>
             </div>
         </div>
     </fieldset>
@@ -73,7 +73,7 @@
                         text: "@ViewBag.Result",
                         type: "success"
                     }, function (e) {
-                        window.location.href ='@Url.Action("Index", "Order")';
+                        window.location.href ='@Url.Action("Create", "Order")';
                     });
             });
         </script>

@@ -1,4 +1,4 @@
-﻿@model NRDCL.Models.Order
+﻿@model NRDCL.Models.Order;
 @{
     ViewData["Title"] = "Order";
 }
@@ -56,18 +56,61 @@
             <div class=" col-md-2">
                 <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="7" />
             </div>
-            <div class=" col-md-2">
-                <a asp-action="Index" class="btn btn-info" tabindex="8">Back to List</a>
-            </div>
         </div>
     </fieldset>
+    @{
+        if (TempData["Text"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["Text"].ToString()</strong>
+            </div>
+        }
+    }
+        <fieldset class="v-no-padding">
+            <legend>Order list</legend>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-striped editable-grid">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                                <th>@Html.DisplayNameFor(model => model.SiteName)</th>
+                                <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+                                <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                                <th>@Html.DisplayNameFor(model => model.OrderAmount)</th>
+                                <th>@Html.DisplayNameFor(model => model.Balance)</th>
+                                <th width="20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in ViewBag.Orders)
+                            {
+                                <tr>
+                                    <td>@order.CustomerName</td>
+                                    <td>@order.SiteName</td>
+                                    <td>@order.ProductName</td>
+                                    <td>@order.Quantity</td>
+                                    <td>@order.OrderAmount</td>
+                                    <td>@order.Balance</td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { orderId = @order.OrderID }) |
+                                        @Html.ActionLink("Details", "Details", new { orderId = @order.OrderID }) |
+                                        @Html.ActionLink("Delete", "Delete", new { orderId = @order.OrderID })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
 </form>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script src="~/js/Order/Order.js"></script>
-        @{
-            if (ViewBag.Result != null)
-            {
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Order/Order.js"></script>
+    @{
+        if (ViewBag.Result != null)
+        {
             <script type="text/javascript">
                 $(function () {
                     swal({
@@ -75,10 +118,10 @@
                         text: "@ViewBag.Result",
                         type: "success"
                     }, function (e) {
-                        window.location.href ='@Url.Action("Index", "Order")';
+                        window.location.href ='@Url.Action("Create", "Order")';
                     });
             });
             </script>
-            }
         }
     }
+}

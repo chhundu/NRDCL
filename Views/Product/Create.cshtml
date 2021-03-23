@@ -42,6 +42,37 @@
             </div>
         </div>
     </fieldset>
+    <fieldset class="v-no-padding">
+        <legend>Product list</legend>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped editable-grid">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.ProductName)</th>
+                            <th>@Html.DisplayNameFor(model => model.PricePerUnit)</th>
+                            <th>@Html.DisplayNameFor(model => model.TransportRate)</th>
+                            <th width="20%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var products in ViewBag.Products)
+                        {
+                            <tr>
+                                <td>@products.ProductName</td>
+                                <td>@products.PricePerUnit</td>
+                                <td>@products.TransportRate</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { productId = @products.ProductId }) |
+                                    @Html.ActionLink("Details", "Details", new { productId = @products.ProductId })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
 </form>
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -55,7 +86,7 @@
                         text: "Click OK to exit",
                         type: "success"
                     }, function (e) {
-                        window.location.href ='@Url.Action("Index", "Product")';
+                        window.location.href ='@Url.Action("Create", "Product")';
                     });
             });
             </script>

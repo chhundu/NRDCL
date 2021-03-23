@@ -44,8 +44,38 @@
             <div class=" col-md-2">
                 <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="5" />
             </div>
-            <div class=" col-md-2">
-                <a asp-action="Index" class="btn btn-info" tabindex="6">Back to List</a>
+        </div>
+    </fieldset>
+    <fieldset class="v-no-padding">
+        <legend>Customer list</legend>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped editable-grid">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.CitizenshipID)</th>
+                            <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                            <th>@Html.DisplayNameFor(model => model.TelephoneNumber)</th>
+                            <th>@Html.DisplayNameFor(model => model.EmailId)</th>
+                            <th width="20%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customers in ViewBag.Customers)
+                        {
+                            <tr>
+                                <td>@customers.CitizenshipID</td>
+                                <td>@customers.CustomerName</td>
+                                <td>@customers.TelephoneNumber</td>
+                                <td>@customers.EmailId</td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { citizenshipID = @customers.CitizenshipID }) |
+                                    @Html.ActionLink("Details", "Details", new { citizenshipID = @customers.CitizenshipID })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </fieldset>
@@ -62,7 +92,7 @@
                         text: "Click OK to exit",
                         type: "success"
                     }, function (e) {
-                        window.location.href ='@Url.Action("Index", "Customer")';
+                        window.location.href ='@Url.Action("Create", "Customer")';
                     });
             });
             </script>
