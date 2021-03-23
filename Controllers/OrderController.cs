@@ -26,16 +26,7 @@ namespace NRDCL.Controllers
             productService = product;
         }
         #endregion
-
         #region public methods
-        // GET: Orders
-        public async Task<IActionResult> Index()
-        {
-            Task<List<Order>> orderList = orderService.GetOrderList();
-            ViewBag.Subtitle = "Order Information.";
-            return View(await orderList);
-        }
-
         /// <summary>
         /// Get order detail
         /// </summary>
@@ -63,6 +54,8 @@ namespace NRDCL.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
+            Task<List<Order>> orderList = orderService.GetOrderList();
+            ViewBag.Orders = orderList.Result;
             var order = new Order();
             List<SelectListItem> siteList = new List<SelectListItem>()
                 {
@@ -86,6 +79,8 @@ namespace NRDCL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("OrderID,CustomerID,SiteID,ProductID,Quantity,OrderAmount")] Order order)
         {
+            Task<List<Order>> orderList = orderService.GetOrderList();
+            ViewBag.Orders = orderList.Result;
             IEnumerable<SelectListItem> siteList = siteService.GetSiteList().Result.Where(s => s.CitizenshipID.Equals(order.CustomerID)).Select(s => new SelectListItem()
             {
                 Value = s.SiteId.ToString(),
@@ -189,7 +184,7 @@ namespace NRDCL.Controllers
         public async Task<IActionResult> DeleteConfirmed(int OrderID)
         {
             var responseMessage = await orderService.DeleteOrder(OrderID);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Create));
         }
 
         /// <summary>

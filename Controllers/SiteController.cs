@@ -14,14 +14,6 @@ namespace NRDCL.Controllers
             siteService = service;
         }
 
-        // GET: Sites
-        public async Task<IActionResult> Index()
-        {
-            var siteList = await siteService.GetSiteList();
-            ViewBag.Subtitle = "Site Information.";
-            return View(siteList);
-        }
-
         // GET: Sites/Details/5
         public async Task<IActionResult> Details(int siteId)
         {
@@ -41,6 +33,8 @@ namespace NRDCL.Controllers
         // GET: Sites/Create
         public IActionResult Create()
         {
+            var siteList = siteService.GetSiteList();
+            ViewBag.Sites = siteList.Result;
             return View();
         }
 
@@ -63,6 +57,8 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                 site = new Site();
             }
+            var siteList = siteService.GetSiteList();
+            ViewBag.Sites = siteList.Result;
             return View(await Task.FromResult(site));
         }
 

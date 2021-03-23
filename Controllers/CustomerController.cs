@@ -15,16 +15,6 @@ namespace NRDCL.Controllers
             customerService = service;
         }
 
-        // GET: Customers
-        public async Task<IActionResult> Index()
-        {
-            var customerList = await customerService.GetCustomerList();
-            ViewBag.Subtitle = "Customer Information.";
-            TempData["Status"] = false;
-            return View(customerList);
-        }
-
-
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(string CitizenshipID)
         {
@@ -44,6 +34,8 @@ namespace NRDCL.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
+            var customerList = customerService.GetCustomerList();
+            ViewBag.Customers = customerList.Result;
             return View();
         }
 
@@ -66,6 +58,8 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                  customer = new Customer();
             }
+            var customerList = customerService.GetCustomerList();
+            ViewBag.Customers = customerList.Result;
             return View(await Task.FromResult(customer));
         }
 

@@ -13,14 +13,6 @@ namespace NRDCL.Controllers
             depositService = service;
         }
 
-        // GET: Deposits
-        public async Task<IActionResult> Index()
-        {
-            var depositList = await depositService.GetDepositList();
-            ViewBag.Subtitle = "Deposit Information.";
-            return View(depositList);
-        }
-
         // GET: Deposits/Details/5
         public async Task<IActionResult> Details(string customerID)
         {
@@ -39,6 +31,8 @@ namespace NRDCL.Controllers
         // GET: Deposits/Create
         public IActionResult Create()
         {
+            var depositList =  depositService.GetDepositList();
+            ViewBag.Deposits = depositList.Result;
             return View();
         }
 
@@ -61,6 +55,8 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                 deposit = new Deposit();
             }
+            var depositList = depositService.GetDepositList();
+            ViewBag.Deposits = depositList.Result;
             return View(await Task.FromResult(deposit));
         }
     }

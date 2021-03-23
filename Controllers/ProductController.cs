@@ -13,14 +13,6 @@ namespace NRDCL.Controllers
             productService = service;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index()
-        {
-            var productList = await productService.GetProductList();
-            ViewBag.Subtitle = "Product Information.";
-            return View(productList);
-        }
-
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int productID)
         {
@@ -39,6 +31,8 @@ namespace NRDCL.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            var productList =  productService.GetProductList();
+            ViewBag.Products = productList.Result;
             return View();
         }
 
@@ -62,6 +56,8 @@ namespace NRDCL.Controllers
                 ModelState.Clear();
                 product = new Product();
             }
+            var productList = productService.GetProductList();
+            ViewBag.Products = productList.Result;
             return View(await Task.FromResult(product));
         }
 
