@@ -297,6 +297,11 @@ namespace NRDCL.Models
             /// getting customer balance
             if (order.OrderID != 0)
             {
+                /// getting customer balance
+                advanceBalance = (from deposit in dataBaseContext.Deposit_Table
+                                  where deposit.CustomerID.Equals(order.CustomerID)
+                                  select deposit.Balance).FirstOrDefault();
+
                 decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).Result.OrderAmount;
                 advanceBalance = advanceBalance + prevoiusOrderAmount;
                 advanceBalance -= orderAmount.Result;
