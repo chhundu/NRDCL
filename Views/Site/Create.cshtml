@@ -2,13 +2,16 @@
 @{
     ViewData["Title"] = "Site";
 }
+
 <div class="page_title">
     <span class="title">Site</span>
     <span class="subtitle">Register Site</span>
 </div>
 <form asp-action="Create" class="form-horizontal globalForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="SiteId" class="form-control" />
+    <div class="form-group">
+        <input type="hidden" asp-for="SiteId" id="SiteId" class="form-control" />
+    </div>
     <input type="hidden" asp-for="CMDstatus" class="form-control" />
     <fieldset>
         <legend>Enter Site Information</legend>
@@ -37,7 +40,7 @@
             <div class=" col-md-2">
             </div>
             <div class=" col-md-2">
-                <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="4" />
+                <input type="submit" value="Save" class="btn btn-primary btn-block" tabindex="4" />
             </div>
         </div>
     </fieldset>
@@ -64,7 +67,7 @@
                                 <td>@sites.SiteName</td>
                                 <td>@sites.DistanceFrom</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { siteId = @sites.SiteId }) |
+                                    @Html.ActionLink("Edit", "Edit", new { siteId = @sites.SiteId }, new { @class = "edit", id = @sites.SiteId }) |
                                     @Html.ActionLink("Details", "Details", new { siteId = @sites.SiteId })
                                 </td>
                             </tr>
@@ -91,7 +94,7 @@
                         window.location.href ='@Url.Action("Create", "Site")';
                     });
             });
-            </script>
+    </script>
         }
     }
 }
