@@ -2,6 +2,7 @@ using NRDCL.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NRDCL.Models
 {
@@ -29,6 +30,9 @@ namespace NRDCL.Models
         
         [Display(Name = "Email ID")]
         public string EmailId { get; set; }
+
+        [NotMapped]
+        public string CMDstatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Site> Sites { get; set; }

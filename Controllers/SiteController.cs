@@ -31,11 +31,16 @@ namespace NRDCL.Controllers
         }
 
         // GET: Sites/Create
-        public IActionResult Create()
+        public IActionResult Create(int? siteId)
         {
+            Site site = null;
+            if (siteId!=null && siteId != 0) {
+                site = siteService.GetSiteDetails((int)siteId).Result;
+                site.CMDstatus = "M";
+            }
             var siteList = siteService.GetSiteList();
             ViewBag.Sites = siteList.Result;
-            return View();
+            return View(site);
         }
 
         // POST: Sites/Create
@@ -43,22 +48,31 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
+        public async Task<IActionResult> Create([Bind("CMDstatus,SiteId,CitizenshipID,SiteName,DistanceFrom")] Site site)
         {
             if (ModelState.IsValid)
             {
-                Task<ResponseMessage> responseMessage = siteService.SaveSite(site);
+                var siteList = siteService.GetSiteList();
+                ViewBag.Sites = siteList.Result;
+                Task<ResponseMessage> responseMessage = null;
+                if (!string.IsNullOrEmpty(site.CMDstatus) && site.CMDstatus.Equals("M"))
+                {
+                    responseMessage = siteService.UpdateSite(site);
+                }
+                else
+                {
+                    responseMessage = siteService.SaveSite(site);
+                }
                 if (responseMessage.Result.Status == false)
                 {
                     ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(site);
                 }
-                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ViewBag.Result = responseMessage.Result.Text;
                 ModelState.Clear();
                 site = new Site();
             }
-            var siteList = siteService.GetSiteList();
-            ViewBag.Sites = siteList.Result;
+            
             return View(await Task.FromResult(site));
         }
 
@@ -74,7 +88,7 @@ namespace NRDCL.Controllers
             {
                 return NotFound();
             }
-            return View(site);
+            return RedirectToAction("Create", new { siteId });
         }
 
         // POST: Sites/Edit/5

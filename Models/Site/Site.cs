@@ -29,6 +29,8 @@ namespace NRDCL.Models
         [NotMapped]
         [Display(Name = "Customer Name")]
         public string CustomerName { get; set; }
+        [NotMapped]
+        public string CMDstatus { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

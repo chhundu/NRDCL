@@ -8,6 +8,7 @@
 </div>
 <form asp-action="Create" class="form-horizontal globalForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="CMDstatus" class="form-control" />
     <fieldset>
         <legend>Enter Customer Information</legend>
         <div class="form-group">
@@ -42,7 +43,7 @@
             <div class=" col-md-2">
             </div>
             <div class=" col-md-2">
-                <input type="submit" value="Create" class="btn btn-primary btn-block" tabindex="5" />
+                <input type="submit" value="Save" class="btn btn-primary btn-block" tabindex="5" />
             </div>
         </div>
     </fieldset>
@@ -69,8 +70,8 @@
                                 <td>@customers.TelephoneNumber</td>
                                 <td>@customers.EmailId</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { citizenshipID = @customers.CitizenshipID }) |
-                                    @Html.ActionLink("Details", "Details", new { citizenshipID = @customers.CitizenshipID })
+                                    @Html.ActionLink("Edit", "Edit", new { citizenshipID = @customers.CitizenshipID}) |
+                                    @Html.ActionLink("Details", "Details", new { citizenshipID = @customers.CitizenshipID})
                                 </td>
                             </tr>
                         }
@@ -89,7 +90,7 @@
             <script type="text/javascript">
             $(function () {
                 swal({
-                        title: "Data saved successfully.",
+                        title: "@ViewBag.Result",
                         text: "Click OK to exit",
                         type: "success"
                     }, function (e) {

@@ -8,6 +8,8 @@
 </div>
 <form asp-action="Create" class="form-horizontal globalForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="SiteId" class="form-control" />
+    <input type="hidden" asp-for="CMDstatus" class="form-control" />
     <fieldset>
         <legend>Enter Site Information</legend>
         <div class="form-group">

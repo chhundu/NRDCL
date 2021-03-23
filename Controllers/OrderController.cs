@@ -111,7 +111,6 @@ namespace NRDCL.Controllers
             {
                 return new NotFoundResult();
             }
-
             var order = await orderService.GetOrderDetails(orderId);
             if (order == null)
             {

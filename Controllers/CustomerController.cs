@@ -27,16 +27,20 @@ namespace NRDCL.Controllers
             {
                 return new NotFoundResult();
             }
-
-            return View(customer);
+            return RedirectToAction("Create", new { CitizenshipID });
         }
 
         // GET: Customers/Create
-        public IActionResult Create()
+        public IActionResult Create(string? CitizenshipID)
         {
+            Customer customer = null;
+            if (!string.IsNullOrEmpty(CitizenshipID)) {
+                 customer = customerService.GetCustomerDetails(CitizenshipID).Result;
+                customer.CMDstatus = "M";
+            }
             var customerList = customerService.GetCustomerList();
             ViewBag.Customers = customerList.Result;
-            return View();
+            return View(customer);
         }
 
         // POST: Customers/Create
@@ -44,22 +48,31 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  async Task<IActionResult> Create([Bind("Id,CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
+        public  async Task<IActionResult> Create([Bind("CMDstatus,CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                Task<ResponseMessage> responseMessage = customerService.SaveCustomer(customer);
+                var customerList = customerService.GetCustomerList();
+                ViewBag.Customers = customerList.Result;
+                Task<ResponseMessage> responseMessage = null; 
+                if (!string.IsNullOrEmpty(customer.CMDstatus) && customer.CMDstatus.Equals("M"))
+                {
+                    responseMessage = customerService.UpdateCustomer(customer);
+                }
+                else {
+                    responseMessage = customerService.SaveCustomer(customer);
+                }
+                
                 if (responseMessage.Result.Status == false)
                 {
                     ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
                     return View(customer);
                 }
-                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ViewBag.Result = responseMessage.Result.Text;
                 ModelState.Clear();
                  customer = new Customer();
             }
-            var customerList = customerService.GetCustomerList();
-            ViewBag.Customers = customerList.Result;
+           
             return View(await Task.FromResult(customer));
         }
 
@@ -75,36 +88,7 @@ namespace NRDCL.Controllers
             {
                 return new NotFoundResult();
             }
-            return View(customer);
-        }
-
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string CitizenshipID, [Bind("CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
-        {
-            if (!CitizenshipID.Equals(customer.CitizenshipID))
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-
-                Task<ResponseMessage> responseMessage = customerService.UpdateCustomer(customer);
-                if (responseMessage.Result.Status == false)
-                {
-                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
-                    return View(customer);
-                }
-
-                ViewBag.Result = CommonProperties.updateSuccessMsg;
-                ModelState.Clear();
-                customer = new Customer();
-            }
-            return View(await Task.FromResult(customer));
+            return RedirectToAction("Create", new {CitizenshipID});
         }
     }
 }
