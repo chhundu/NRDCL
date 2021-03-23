@@ -43,6 +43,8 @@ namespace NRDCL.Models
         [Display(Name = "Order Amount")]
         [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Order amount must be greater than 0")]
         public decimal OrderAmount { get; set; }
+        [NotMapped]
+        public string CMDstatus { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual Product Product { get; set; }
