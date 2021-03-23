@@ -1,6 +1,19 @@
 ﻿$(document).ready(function () {
+    var siteId = $('#SiteId').val();
+    if (siteId == "") {
+        $('#OrderID').prop("disabled", true);
+    } else {
+        $('#OrderID').prop("disabled", false);
+    }
+
     $('#OrderTable').dataTable({
     });
+});
+
+$(".edit").on("click", function () {
+    var orderID = $(this).prop("id");
+    $("#OrderID").val(orderID);
+    $('#OrderID').prop("disabled", false);
 });
 
 $("#CustomerID").change(function () {
