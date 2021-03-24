@@ -9,7 +9,6 @@ using NRDCL.Models.Common;
 
 namespace NRDCL.Controllers
 {
-    [Authorize(Roles ="Admin")]
     public class OrderController : Controller
     {
         #region private variables
