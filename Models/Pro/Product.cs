@@ -37,6 +37,8 @@ namespace NRDCL.Models
         [Display(Name = "Transport Rate")]
         [Range(double.Epsilon, double.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
         public decimal TransportRate { get; set; }
+        [NotMapped]
+        public string CMDstatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
     }
