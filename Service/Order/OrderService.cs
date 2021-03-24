@@ -70,8 +70,8 @@ namespace NRDCL.Models
             }
 
             ///validating order amount
-            Task<decimal> orderAmount = CalculateOrderAmount(order);
-            if (orderAmount.Result.CompareTo(order.OrderAmount)!=0)
+            decimal orderAmount = CalculateOrderAmount(order).Result;
+            if (orderAmount.CompareTo(order.OrderAmount)!=0)
             {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.wrongOrderAmountMsg;
@@ -91,9 +91,9 @@ namespace NRDCL.Models
                 decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).Result.OrderAmount;
                 advanceBalance = advanceBalance + prevoiusOrderAmount;
 
-                if (advanceBalance < orderAmount.Result) {
+                if (advanceBalance < orderAmount) {
                     /// amount that is needed to place an order.
-                    decimal additionalAmountRequired = orderAmount.Result - advanceBalance;
+                    decimal additionalAmountRequired = orderAmount - advanceBalance;
                     responseMessage.Status = false;
                     responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
                     responseMessage.MessageKey = "OrderAmount";
@@ -102,10 +102,10 @@ namespace NRDCL.Models
 
             }
             else {
-                if (advanceBalance < orderAmount.Result)
+                if (advanceBalance < orderAmount)
                 {
                     /// amount that is needed to place an order.
-                    decimal additionalAmountRequired = orderAmount.Result - advanceBalance;
+                    decimal additionalAmountRequired = orderAmount - advanceBalance;
                     responseMessage.Status = false;
                     responseMessage.Text = Math.Abs(additionalAmountRequired) + " additional amount is required to place the order.";
                     responseMessage.MessageKey = "OrderAmount";
@@ -129,14 +129,16 @@ namespace NRDCL.Models
             deposits.CustomerID = validOrderData.CustomerID;
             if (order.OrderID != 0)
             {
-                deposits.LastAmount = validOrderData.Balance;
+                deposits.LastAmount = validOrderData.OrderAmount;
+                deposits.Balance = validOrderData.Balance;
             }
             else {
                 deposits.LastAmount = (from deposit in dataBaseContext.Deposit_Table
                                        where deposit.CustomerID.Equals(validOrderData.CustomerID)
                                        select deposit.LastAmount).FirstOrDefault();
+                deposits.Balance = (deposits.LastAmount) - (validOrderData.OrderAmount);
             }
-            deposits.Balance = (deposits.LastAmount) - (validOrderData.OrderAmount);
+            
 
             depositService.DeleteDeposit(validOrderData.CustomerID);
             dataBaseContext.Add(deposits);
@@ -291,7 +293,7 @@ namespace NRDCL.Models
         {
             var orders = new Order();
             decimal advanceBalance = decimal.Zero;
-            Task<decimal> orderAmount = CalculateOrderAmount(order);
+            decimal orderAmount = CalculateOrderAmount(order).Result;
            
 
             /// getting customer balance
@@ -304,15 +306,16 @@ namespace NRDCL.Models
 
                 decimal prevoiusOrderAmount = GetOrderDetails(order.OrderID).Result.OrderAmount;
                 advanceBalance = advanceBalance + prevoiusOrderAmount;
-                advanceBalance -= orderAmount.Result;
-                orders.OrderAmount = advanceBalance;
+                advanceBalance -= orderAmount;
+                orders.OrderAmount = orderAmount;
+                orders.Balance = advanceBalance;
             }
             else {
                 advanceBalance = (from deposit in dataBaseContext.Deposit_Table
                                   where deposit.CustomerID.Equals(order.CustomerID)
                                   select deposit.Balance).FirstOrDefault();
-                advanceBalance -= orderAmount.Result;
-                orders.OrderAmount = orderAmount.Result;
+                advanceBalance -= orderAmount;
+                orders.OrderAmount = orderAmount;
             }
             orders.CustomerID = order.CustomerID;
             orders.SiteID = order.SiteID;
