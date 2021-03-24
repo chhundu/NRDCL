@@ -8,6 +8,10 @@
 </div>
 <form asp-action="Create" class="form-horizontal globalForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <input type="hidden" asp-for="ProductId" id="ProductId" class="form-control" />
+    </div>
+    <input type="hidden" asp-for="CMDstatus" class="form-control" />
     <fieldset>
         <legend>Enter Product Information</legend>
         <div class="form-group">
@@ -60,7 +64,7 @@
                                 <td>@products.PricePerUnit</td>
                                 <td>@products.TransportRate</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { productId = @products.ProductId }) |
+                                    @Html.ActionLink("Edit", "Edit", new { productId = @products.ProductId }, new { @class = "edit", id = @products.ProductId }) |
                                     @Html.ActionLink("Details", "Details", new { productId = @products.ProductId })
                                 </td>
                             </tr>
