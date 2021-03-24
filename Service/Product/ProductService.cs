@@ -90,7 +90,7 @@ namespace NRDCL.Models
                     responseMessage.Status = false;
                     responseMessage.Text = CommonProperties.invalidProductMsg;
                     responseMessage.MessageKey = "ProductId";
-                    return await Task.FromResult(responseMessage);
+                    return responseMessage;
                 }
                 else
                 {
