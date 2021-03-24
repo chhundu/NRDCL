@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ namespace NRDCL
                 .AddEntityFrameworkStores<NRDCL_DB_Context>();
             services.ConfigureApplicationCookie(config =>
             {
-                //config.LoginPath = "/signin";
+                config.AccessDeniedPath = new PathString("/AccessDenied/AccessDenied403");
             });
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<NRDCL_DB_Context>(options =>
