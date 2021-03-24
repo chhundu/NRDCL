@@ -37,20 +37,27 @@
                         <li class="">
                             <a class="" asp-controller="Home" asp-action="Index" style="background-color: #004a80;color: #ffffff !important;"><i class="fa fa-home"></i>&nbsp;HOME</a>
                         </li>
-                        <li>
-                            <a asp-controller="Administration" asp-action="CreateRole"><i class="glyphicon glyphicon-lock fa-fw"></i>&nbsp;&nbsp;Create Role</a>
-                        </li>
-
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a asp-controller="Administration" asp-action="CreateRole"><i class="glyphicon glyphicon-lock fa-fw"></i>&nbsp;&nbsp;Create Role</a>
+                            </li>
+                        }
                         <li>
                             <a asp-controller="Customer" asp-action="Create"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Customer</a>
                         </li>
-
-                        <li>
-                            <a asp-area="" asp-controller="Site" asp-action="Create"><i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Site</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Product" asp-action="Create"><i class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Product</a>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a asp-area="" asp-controller="Site" asp-action="Create"><i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Site</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a asp-area="" asp-controller="Product" asp-action="Create"><i class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Product</a>
+                            </li>
+                        }
                         <li>
                             <a asp-area="" asp-controller="Deposit" asp-action="Create"><i class="glyphicon glyphicon-piggy-bank"></i>&nbsp;&nbsp;Deposit</a>
                         </li>
