@@ -29,11 +29,17 @@ namespace NRDCL.Controllers
         }
 
         // GET: Products/Create
-        public IActionResult Create()
+        public IActionResult Create(int? productId)
         {
+            Product product = null;
+            if (productId != null && productId!=0)
+            {
+                product = productService.GetProductDetails((int)productId).Result;
+                product.CMDstatus = "M";
+            }
             var productList =  productService.GetProductList();
             ViewBag.Products = productList.Result;
-            return View();
+            return View(product);
         }
 
         // POST: Products/Create
@@ -41,23 +47,31 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
+        public async Task<IActionResult> Create([Bind("CMDstatus,ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
         {
             if (ModelState.IsValid)
             {
-                Task<ResponseMessage> responseMessage = productService.SaveProduct(product);
-                if (responseMessage.Result.Status == false)
+
+                ResponseMessage responseMessage = null;
+                if (!string.IsNullOrEmpty(product.CMDstatus) && product.CMDstatus.Equals("M"))
                 {
-                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
+                    responseMessage = await productService.UpdateProduct(product);
+                }
+                else
+                {
+                    responseMessage = await productService.SaveProduct(product);
+                }
+                var productList = productService.GetProductList();
+                ViewBag.Products = productList.Result;
+                if (responseMessage.Status == false)
+                {
+                    ModelState.AddModelError(responseMessage.MessageKey, responseMessage.Text);
                     return View(product);
                 }
-
-                ViewBag.Result = CommonProperties.saveSuccessMsg;
+                ViewBag.Result = responseMessage.Text;
                 ModelState.Clear();
                 product = new Product();
             }
-            var productList = productService.GetProductList();
-            ViewBag.Products = productList.Result;
             return View(await Task.FromResult(product));
         }
 
@@ -73,34 +87,7 @@ namespace NRDCL.Controllers
             {
                 return new NotFoundResult();
             }
-            return View(product);
-        }
-
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int productId, [Bind("ProductId,ProductName,PricePerUnit,TransportRate")] Product product)
-        {
-            if (productId != product.ProductId)
-            {
-                return new NotFoundResult();
-            }
-
-            if (ModelState.IsValid)
-            {
-                Task<ResponseMessage> responseMessage = productService.UpdateProduct(product);
-                if (responseMessage.Result.Status == false)
-                {
-                    ModelState.AddModelError(responseMessage.Result.MessageKey, responseMessage.Result.Text);
-                    return View(product);
-                }
-                ViewBag.Result = CommonProperties.updateSuccessMsg;
-                ModelState.Clear();
-                product = new Product();
-            }
-            return View(await Task.FromResult(product));
+            return RedirectToAction("Create", new { productId });
         }
     }
 }
