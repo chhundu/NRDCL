@@ -5,27 +5,35 @@
     var roleId = ViewBag.roleId;
 }
 
-<h2>Edit Users In Role</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditUserInRole"asp-route-roleId="@roleId" method="post">
-            @for(int i = 0; i < Model.Count; i++)
-            {
-            <div class="form-check m-1">
-                <input asp-for="@Model[i].UserId" hidden />
-                <input asp-for="@Model[i].Username" hidden />
-                <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-                <label asp-for="@Model[i].IsSelected" class="form-check-label">
-                    @Model[i].Username
-                </label>
-            </div>
-            }
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-default" />
-                <a asp-action="EditRole" asp-route-id="@roleId" class="btn btn-default">Cancel</a>
-            </div>
-        </form>
-    </div>
+<div class="page_title">
+    <span class="title">Manage Roles</span>
+    <span class="subtitle">Edit Users in Role</span>
 </div>
-
+<br />
+<form asp-action="EditUserInRole" asp-route-roleId="@roleId" class="form-horizontal globalForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <fieldset>
+        <legend>Add or Remove Users</legend>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <div class="form-group">
+                <div class="col-md-4">
+                    <input asp-for="@Model[i].UserId" hidden />
+                    <input asp-for="@Model[i].Username" hidden />
+                    <input asp-for="@Model[i].IsSelected" class="form-check-input" />
+                    <label asp-for="@Model[i].IsSelected" class="form-check-label">
+                        @Model[i].Username
+                    </label>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class=" col-md-2">
+                <input type="submit" value="Update" class="btn btn-primary btn-block" />
+            </div>
+            <div class=" col-md-2">
+                <a asp-action="EditRole" asp-route-id="@roleId" class="btn btn-primary btn-block" style="color:white">Cancel</a>
+            </div>
+        </div>
+    </fieldset>
+</form>
