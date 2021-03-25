@@ -71,7 +71,8 @@ namespace NRDCL.Models.Common
         , saveSuccessMsg = "Data saved successfully."
         , updateSuccessMsg = "Data updated successfully."
         , deleteSuccessMsg = "Data deleted successfully."
-        , signupSuccessMsg = "SignUp Successful!";
+        , signupSuccessMsg = "SignUp Successful!"
+        , changePasswordMsg = "Password changed successfully.";
         #endregion
 
         #endregion
