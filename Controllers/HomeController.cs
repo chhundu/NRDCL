@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NRDCL.Models;
+using NRDCL.Models.Report;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +13,18 @@ namespace NRDCL.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductService PService)
         {
             _logger = logger;
+            productService = PService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<Report> productPieChart = productService.GetProductPieChartData();
+            return View(productPieChart);
         }
 
         public IActionResult Privacy()

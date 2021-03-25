@@ -23,5 +23,6 @@ namespace NRDCL.Models.Report
         [Display(Name = "Advance Balance")]
         public decimal AdvanceBalance { get; set; }
         public int ProductID { get; set; }
+        public int OrderQualtity { get; set; }
     }
 }

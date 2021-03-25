@@ -111,5 +111,30 @@ namespace NRDCL.Models
         {
             return dataBaseContext.Product_Table.Any(e => e.ProductId == productID);
         }
+
+        /// <summary>
+        /// To get Product Pie chart data
+        /// </summary>
+        /// <returns></returns>
+
+        public List<Report.Report> GetProductPieChartData()
+        {
+            var productPieChartData = (from o in dataBaseContext.Order_Table
+                              join p in dataBaseContext.Product_Table on o.ProductID equals p.ProductId
+                              select new Report.Report
+                              {
+                                  ProductID = p.ProductId,
+                                  ProductName = p.ProductName,
+                                  OrderQualtity=1
+                              }).ToList()
+                              .GroupBy(reportGrouped => new { reportGrouped.ProductID })
+                            .Select(report => new Report.Report()
+                            {
+                                ProductName = report.FirstOrDefault().ProductName,
+                                ProductID = report.FirstOrDefault().ProductID,
+                                OrderQualtity = report.Sum(a => a.OrderQualtity)
+                            }).ToList();
+            return productPieChartData;
+        }
     }
 }

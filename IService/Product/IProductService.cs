@@ -11,5 +11,7 @@ namespace NRDCL.Models
         Task<ResponseMessage> SaveProduct(Product product);
         Task<ResponseMessage> UpdateProduct(Product product);
         bool ProductExists(int productId);
+
+        List<Report.Report> GetProductPieChartData();
     }
 }
