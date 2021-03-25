@@ -98,7 +98,7 @@ namespace NRDCL.Controllers
                 var result = await _accountRepository.ChangePasswordAsync(changePasswordModel);
                 if (result.Succeeded)
                 {
-                    ViewBag.IsSuccess = CommonProperties.updateSuccessMsg;
+                    ViewBag.IsSuccess = CommonProperties.changePasswordMsg;
                     ModelState.Clear();
                     return View();
                 }
