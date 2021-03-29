@@ -3,245 +3,228 @@
     ViewData["Title"] = "Home Page";
     var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.ProductName).ToList());
     var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => x.OrderQualtity).ToList());
+    <link href="~/css/dashboard.css" rel="stylesheet" />
 }
-<div class="row">
-    <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">
-                    <div class="widget-content-left">
-                        <h6 class="card-title"><b>Product Order Chart</b></h6><span class="text-muted">(Date :: 26-03-2021)</span>
+<div class="content-wrapper">
+    <h6 class="p-1"><b>Dashboard</b></h6>
+    <div class="row">
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card text-black">
+                <div class="card-body card-body-shadow d-flex align-content-md-center float-left">
+                    <div class="icon-container-Green mr-3">
+                        <img src="~/images/profit.png" alt="logo" />
                     </div>
-                    <div id="chart-Container" class="chart">
-                        <canvas id="productOrderChart" style="width:100%; height:300px"></canvas>
+                    <div class="widget-content-right">
+                        <div class="'text-black mt-0">71.7%</div>
+                        <div class="widget-content-heading">
+                            Profit Margin
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card text-black">
+                <div class="card-body card-body-shadow d-flex align-content-md-center float-left">
+                    <div class="icon-container-Green mr-3">
+                        <img src="~/images/profit.png" alt="logo" />
+                    </div>
+                    <div class="widget-content-right">
+                        <div class="'text-black mt-0" style="float:none">71.7%</div>
+                        <div class="widget-content-heading" style="        float: none
+">
+                            Profit Margin
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 stretch-card grid-margin">
+            <div class="card text-black">
+                <div class="card-body card-body-shadow d-flex align-content-md-center float-left">
+                    <div class="icon-container-Green mr-3">
+                        <img src="~/images/profit.png" alt="logo" />
+                    </div>
+                    <div class="widget-content-right">
+                        <div class="'text-black mt-0" style="float:none">71.7%</div>
+                        <div class="widget-content-heading" style="float:none">
+                            Profit Margin
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">
-                    <div class="widget-content-right">
-                        <h6 class="card-title"><b>Order Chart</b></h6><span class="text-muted">(Date :: 26-03-2021)</span>
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="widget-content-left">
+                            <h6 class="card-title">
+                                <b>Product Order Chart</b>
+                                <span class="text-muted mca-font">
+                                    (Date :: 27-03-2021)
+                                </span>
+                            </h6>
+                        </div>
                     </div>
-                    <div id="chart-Container" class="chart">
-                        <canvas id="orderChart" style="width:100%; height:300px"></canvas>
+                    <div class="chart">
+                        <canvas id="productOrderChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="widget-content-left">
+                            <h6 class="card-title">
+                                <b>Product Order Chart</b>
+                                <span class="text-muted mca-font">
+                                    (Date :: 27-03-2021)
+                                </span>
+                            </h6>
+                        </div>
+                    </div>
+                    <div id="chartContainer" class="chart">
+                        <canvas id="productOrderChart1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center form-group">
+                            <div class="col-md-6">
+                                <h6>
+                                    <b>
+                                        <span class="text-muted mca-font">
+                                            (Date :: 27-03-2021)
+                                        </span>
+                                    </b>
+                                </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="float-right mca-font revenue"><b>Sale Today: </b> 120</span><br />
+                                <span class="float-right mca-font revenue-percent"><b>Change: </b>98%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div for="barChartContainer" class="chart">
+                        <canvas id="productOrderChart2"></canvas>
+                        @*<convas baseChart height="350vh"
+                [chartType]="'bar'"
+                [data]="barChartData"
+                [labels]="barChartLabels"
+                [colors]="barChartColors"
+                [options]="barChartOptions"
+                [legend]="true"
+                [chartClick]="chartClick($event)">
+        </convas>*@
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <div class="row">
-        <div class="col-md-6 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <div class="widget-content-right">
-                            <h6 class="card-title"><b>Linear Graph</b></h6><span class="text-muted">(Date :: 26-03-2021)</span>
-                        </div>
-                        <div id="chart-Container" class="chart">
-                            <canvas id="linearChart" style="width:100%; height:300px"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-
     <script type="text/javascript">
-
         $(function () {
         var chartName = "productOrderChart";
-        var ctx = document.getElementById(chartName).getContext('2d');
-        var data = {
+            var ctx = document.getElementById(chartName).getContext('2d');
+            var chartData = {
                 labels: @Html.Raw(XLabels),
                 datasets: [{
                     label: "Product Order Chart",
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderWidth: 1,
-                    data: @Html.Raw(YValues)
-    }]
+                    backgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
+                    hoverBackgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
+                    hoverBackgroundWidth: 10,
+                    data:  @Html.Raw(YValues)}],
             };
 
-var options = {
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            beginAtZero: true
-                        },
-                        gridLines: {
-                            display: true,
-                            color: "rgba(255,99,164,0.2)"
-                        }
-}],
-                    xAxes: [{
-                        ticks: {
-                            min: 0,
-                            beginAtZero: true
-                        },
-                        gridLines: {
-                            display: false
-                        }
-                    }]
-                }
+            var chartOptions = {
+                responsive: true,
+                legend: { position: 'bottom' },
+                pie: { size: '80%' }
             };
 
-       var myChart = new  Chart(ctx, {
-                options: options,
-                data: data,
-                type:'pie'
+            var chartColors = [{
+                backgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
+                hoverBackgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
+                hoverBackgroundWidth: 10,
+            },
+            {
+                backgroundColor: ['#f2b33f'],
+                hoverBackgroundColor: ['#ffffff']
+            }
+            ];
 
+            var myChart = new Chart(ctx, {
+                options: chartOptions,
+                data: chartData,
+                type: 'pie',
             });
         });
 
         $(function () {
-            var chartName = "orderChart";
-        var ctx = document.getElementById(chartName).getContext('2d');
-        var data = {
+            var chartName = "productOrderChart1";
+            var ctx = document.getElementById(chartName).getContext('2d');
+            var chartData = {
                 labels: @Html.Raw(XLabels),
                 datasets: [{
-                    label: "Order Chart",
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderWidth: 1,
-                    data: @Html.Raw(YValues)
-    }]
+                    label: "Product Order Chart",
+                    backgroundColor: ['#3040D6', '#00CFFF', '#AD1C00', '#7869ca',],
+                    hoverBackgroundColor: ['#3040D6', '#00CFFF', '#AD1C00', '#7869ca',],
+                    hoverBackgroundWidth: 10,
+                    data:  @Html.Raw(YValues)}],
             };
 
-var options = {
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            beginAtZero: true
-                        },
-                        gridLines: {
-                            display: true,
-                            color: "rgba(255,99,164,0.2)"
-                        }
-}],
-                    xAxes: [{
-                        ticks: {
-                            min: 0,
-                            beginAtZero: true
-                        },
-                        gridLines: {
-                            display: false
-                        }
-                    }]
-                }
+            var chartOptions = {
+                responsive: true,
+                legend: { position: 'bottom' },
+                pie: { size: '80%' }
             };
 
-       var myChart = new  Chart(ctx, {
-                options: options,
-                data: data,
-                type:'bar'
+            var chartColors = [{
+                backgroundColor: ['#00B1173', '#006667', '#AD1C00', '#7869ca',],
+                hoverBackgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
+                hoverBackgroundWidth: 10,
+            },
+            {
+                backgroundColor: ['#f2b33f'],
+                hoverBackgroundColor: ['#ffffff']
+            }
+            ];
 
+            var myChart = new Chart(ctx, {
+                options: chartOptions,
+           data: chartData,
+           type: 'pie',
             });
         });
 
          $(function () {
-            var chartName = "linearChart";
-        var ctx = document.getElementById(chartName).getContext('2d');
-        var data = {
+             var chartName = "productOrderChart2";
+            var ctx = document.getElementById(chartName).getContext('2d');
+            var chartData = {
                 labels: @Html.Raw(XLabels),
                 datasets: [{
-                    label: "Linear Graph",
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderWidth: 1,
-                    data: @Html.Raw(YValues)
-    }]
+                    label: "Product Order Chart",
+                    backgroundColor: '#5D71F1',
+                    hoverBackgroundColor: '#5D71F1',
+                    hoverBackgroundWidth: 10,
+                    data:  @Html.Raw(YValues)}],
             };
 
-var options = {
+            var chartOptions = {
+                maintainAspectRatio: false,
                 maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
@@ -251,9 +234,9 @@ var options = {
                         },
                         gridLines: {
                             display: true,
-                            color: "rgba(255,99,164,0.2)"
+                           @* color: "rgba(255,99,164,0.2)"*@
                         }
-}],
+                    }],
                     xAxes: [{
                         ticks: {
                             min: 0,
@@ -266,11 +249,21 @@ var options = {
                 }
             };
 
-       var myChart = new  Chart(ctx, {
-                options: options,
-                data: data,
-                type:'line'
+            var chartColors = [{
+                backgroundColor: ['#00B1173', '#006667', '#AD1C00', '#7869ca',],
+                hoverBackgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
+                hoverBackgroundWidth: 10,
+            },
+            {
+                backgroundColor: ['#f2b33f'],
+                hoverBackgroundColor: ['#ffffff']
+            }
+            ];
 
+            var myChart = new Chart(ctx, {
+                options: chartOptions,
+           data: chartData,
+           type: 'bar',
             });
         });
     </script>
