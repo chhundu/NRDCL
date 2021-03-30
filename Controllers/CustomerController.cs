@@ -34,8 +34,9 @@ namespace NRDCL.Controllers
         public IActionResult Create(string? CitizenshipID)
         {
             Customer customer = null;
-            if (!string.IsNullOrEmpty(CitizenshipID)) {
-                 customer = customerService.GetCustomerDetails(CitizenshipID).Result;
+            if (!string.IsNullOrEmpty(CitizenshipID))
+            {
+                customer = customerService.GetCustomerDetails(CitizenshipID).Result;
                 customer.CMDstatus = "M";
             }
             var customerList = customerService.GetCustomerList();
@@ -48,16 +49,17 @@ namespace NRDCL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  async Task<IActionResult> Create([Bind("CMDstatus,CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CMDstatus,CitizenshipID,CustomerName,TelephoneNumber,EmailId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                ResponseMessage responseMessage = null; 
+                ResponseMessage responseMessage = null;
                 if (!string.IsNullOrEmpty(customer.CMDstatus) && customer.CMDstatus.Equals("M"))
                 {
-                    responseMessage =  await customerService.UpdateCustomer(customer);
+                    responseMessage = await customerService.UpdateCustomer(customer);
                 }
-                else {
+                else
+                {
                     responseMessage = await customerService.SaveCustomer(customer);
                 }
 
@@ -70,7 +72,7 @@ namespace NRDCL.Controllers
                 }
                 ViewBag.Result = responseMessage.Text;
                 ModelState.Clear();
-                 customer = new Customer();
+                customer = new Customer();
             }
             return View(await Task.FromResult(customer));
         }
@@ -87,7 +89,7 @@ namespace NRDCL.Controllers
             {
                 return new NotFoundResult();
             }
-            return RedirectToAction("Create", new {CitizenshipID});
+            return RedirectToAction("Create", new { CitizenshipID });
         }
     }
 }
