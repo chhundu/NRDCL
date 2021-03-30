@@ -4,107 +4,113 @@
 <div class="page_title">
     <span class="title">Report</span>
 </div>
-<fieldset class="v-no-padding">
-    <legend>Customer Report</legend>
-    <div class="form-group">
-        <div class="col-md-12">
-            <table class="table table-bordered table-striped dt-responsive nowrap" id="CustomerReportTable">
-                <thead>
-                    <tr>
-                        <th>
-                            Customer ID
-                        </th>
-                        <th>
-                            Product
-                        </th>
-                        <th>
-                            Price Amount
-                        </th>
-                        <th>
-                            Transport Amount
-                        </th>
-                        <th>
-                            Balance
-                        </th>
-                        <th>
-                            Product ID
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var customer in ViewBag.Customers)
-                    {
+<br />
+<button id="pdfBtn" class="btn btn-primary">Generate Customer PDF</button>
+<div id="pdfContainer">
+    <fieldset class="v-no-padding">
+        <legend>Customer Report</legend>
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table table-bordered table-striped dt-responsive nowrap" id="CustomerReportTable">
+                    <thead>
                         <tr>
-                            <td>
-                                @customer.CustomerID
-                            </td>
-                            <td>
-                                @customer.ProductName
-                            </td>
-                            <td>
-                                @customer.PriceAmount
-                            </td>
-                            <td>
-                                @customer.TransportAmount
-                            </td>
-                            <td>
-                                @customer.AdvanceBalance
-                            </td>
-                            <td>
-                                @customer.ProductID
-                            </td>
+                            <th>
+                                Customer ID
+                            </th>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                Price Amount
+                            </th>
+                            <th>
+                                Transport Amount
+                            </th>
+                            <th>
+                                Balance
+                            </th>
+                            <th>
+                                Product ID
+                            </th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in ViewBag.Customers)
+                        {
+                            <tr>
+                                <td>
+                                    @customer.CustomerID
+                                </td>
+                                <td>
+                                    @customer.ProductName
+                                </td>
+                                <td>
+                                    @customer.PriceAmount
+                                </td>
+                                <td>
+                                    @customer.TransportAmount
+                                </td>
+                                <td>
+                                    @customer.AdvanceBalance
+                                </td>
+                                <td>
+                                    @customer.ProductID
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</fieldset>
-<hr />
-<fieldset class="v-no-padding">
-    <legend>Product Report</legend>
-    <div class="form-group">
-        <div class="col-md-12">
-            <table class="table table-bordered table-striped editable-grid dt-responsive nowrap" id="ProductReportTable">
-                <thead>
-                    <tr>
-                        <th>
-                            Product
-                        </th>
-                        <th>
-                            Price Amount
-                        </th>
-                        <th>
-                            Transport Amount
-                        </th>
-                        <th>
-                            Product ID
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in ViewBag.Products)
-                    {
-                        <tr>
-                            <td>
-                                @product.ProductName
-                            </td>
-                            <td>
-                                @product.PriceAmount
-                            </td>
-                            <td>
-                                @product.TransportAmount
-                            </td>
-                            <td>
-                                @product.ProductID
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</fieldset>
-@section Scripts {
+    </fieldset>
+    <hr />
+  
+        <fieldset class="v-no-padding">
+            <legend>Product Report</legend>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-striped editable-grid dt-responsive nowrap" id="ProductReportTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Product
+                                </th>
+                                <th>
+                                    Price Amount
+                                </th>
+                                <th>
+                                    Transport Amount
+                                </th>
+                                <th>
+                                    Product ID
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in ViewBag.Products)
+                            {
+                                <tr>
+                                    <td>
+                                        @product.ProductName
+                                    </td>
+                                    <td>
+                                        @product.PriceAmount
+                                    </td>
+                                    <td>
+                                        @product.TransportAmount
+                                    </td>
+                                    <td>
+                                        @product.ProductID
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+</div>
+@section Scripts {    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/Report/Report.js"></script>
 }
