@@ -70,8 +70,8 @@
                                 <td>@customers.TelephoneNumber</td>
                                 <td>@customers.EmailId</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { citizenshipID = @customers.CitizenshipID}) |
-                                    @Html.ActionLink("Details", "Details", new { citizenshipID = @customers.CitizenshipID})
+                                    @Html.ActionLink("", "Edit", new { citizenshipID = @customers.CitizenshipID}, new {@class="glyphicon glyphicon-pencil"}) |
+                                    @Html.ActionLink("", "Details", new { citizenshipID = @customers.CitizenshipID},new {@class="glyphicon glyphicon-eye-open"})
                                 </td>
                             </tr>
                         }
