@@ -67,8 +67,8 @@
                                 <td>@sites.SiteName</td>
                                 <td>@sites.DistanceFrom</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { siteId = @sites.SiteId }, new { @class = "edit", id = @sites.SiteId }) |
-                                    @Html.ActionLink("Details", "Details", new { siteId = @sites.SiteId })
+                                    @Html.ActionLink("", "Edit", new { siteId = @sites.SiteId }, new { @class = "edit glyphicon glyphicon-pencil", id = @sites.SiteId }) |
+                                    @Html.ActionLink("", "Details", new { siteId = @sites.SiteId }, new {@class="glyphicon glyphicon-eye-open"})
                                 </td>
                             </tr>
                         }
