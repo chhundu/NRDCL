@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using NRDCL.Models;
+using SelectPdf;
 
 namespace NRDCL.Controllers
 {
@@ -26,6 +27,17 @@ namespace NRDCL.Controllers
             ViewBag.Customers = customerReportData;
             ViewBag.Products = productReportData;
             return View();
+        }
+
+        public IActionResult GeneratePdf(string html)
+        {
+            html = html.Replace("StrTag", "<").Replace("EndTag", ">");
+            HtmlToPdf oHtmlTpPdf = new HtmlToPdf();
+            PdfDocument oPdfDocument = oHtmlTpPdf.ConvertHtmlString(html);
+            byte[] pdf = oPdfDocument.Save();
+            oPdfDocument.Close();
+
+            return File(pdf, "application/pdf", "Customer&ProductReports.pdf");
         }
     }
 }
