@@ -24,7 +24,7 @@ namespace NRDCL.Models
         /// <returns>product</returns>
         public async Task<Product> GetProductDetails(int productId)
         {
-            var product = (from p in dataBaseContext.Product_Table where p.ProductId==productId select p).SingleOrDefault();
+            var product = (from p in dataBaseContext.Product_Table where p.ProductId == productId select p).SingleOrDefault();
             return await Task.FromResult(product);
         }
 
@@ -35,7 +35,7 @@ namespace NRDCL.Models
         public async Task<List<Product>> GetProductList()
         {
             List<Product> productList = dataBaseContext.Product_Table.ToList();
-            return await Task.Run(()=> productList);
+            return await Task.Run(() => productList);
         }
 
         /// <summary>
@@ -47,7 +47,8 @@ namespace NRDCL.Models
         {
             ResponseMessage responseMessage = new ResponseMessage();
 
-            if (product.PricePerUnit <= 0) {
+            if (product.PricePerUnit <= 0)
+            {
                 responseMessage.Status = false;
                 responseMessage.Text = CommonProperties.invalidRateMsg;
                 responseMessage.MessageKey = "PricePerUnit";
@@ -120,18 +121,17 @@ namespace NRDCL.Models
         public List<Report.Report> GetProductPieChartData()
         {
             var productPieChartData = (from o in dataBaseContext.Order_Table
-                              join p in dataBaseContext.Product_Table on o.ProductID equals p.ProductId
-                              select new Report.Report
-                              {
-                                  ProductID = p.ProductId,
-                                  ProductName = p.ProductName,
-                                  OrderQualtity=1
-                              }).ToList()
+                                       join p in dataBaseContext.Product_Table on o.ProductID equals p.ProductId
+                                       select new Report.Report
+                                       {
+                                           ProductID = p.ProductId,
+                                           ProductName = p.ProductName,
+                                           OrderQualtity = 1
+                                       }).ToList()
                               .GroupBy(reportGrouped => new { reportGrouped.ProductID })
                             .Select(report => new Report.Report()
                             {
                                 ProductName = report.FirstOrDefault().ProductName,
-                                ProductID = report.FirstOrDefault().ProductID,
                                 OrderQualtity = report.Sum(a => a.OrderQualtity)
                             }).ToList();
             return productPieChartData;

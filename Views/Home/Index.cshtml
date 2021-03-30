@@ -15,9 +15,9 @@
                         <img src="~/images/profit.png" alt="logo" />
                     </div>
                     <div class="widget-content-right">
-                        <div class="'text-black mt-0">71.7%</div>
+                        <div class="'text-black mt-0">@ViewBag.TotalOrder</div>
                         <div class="widget-content-heading">
-                            Profit Margin
+                            Total Order
                         </div>
                     </div>
                 </div>
@@ -30,10 +30,9 @@
                         <img src="~/images/profit.png" alt="logo" />
                     </div>
                     <div class="widget-content-right">
-                        <div class="'text-black mt-0" style="float:none">71.7%</div>
-                        <div class="widget-content-heading" style="        float: none
-">
-                            Profit Margin
+                        <div class="'text-black mt-0" style="float:none">@ViewBag.TotalProduct</div>
+                        <div class="widget-content-heading" style="float: none">
+                            Total Product
                         </div>
                     </div>
                 </div>
@@ -46,9 +45,9 @@
                         <img src="~/images/profit.png" alt="logo" />
                     </div>
                     <div class="widget-content-right">
-                        <div class="'text-black mt-0" style="float:none">71.7%</div>
+                        <div class="'text-black mt-0" style="float:none">@ViewBag.TotalItem</div>
                         <div class="widget-content-heading" style="float:none">
-                            Profit Margin
+                            Total Item
                         </div>
                     </div>
                 </div>
@@ -99,34 +98,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title">
-                        <div class="d-flex align-items-center form-group">
-                            <div class="col-md-6">
-                                <h6>
-                                    <b>
-                                        <span class="text-muted mca-font">
-                                            (Date :: 27-03-2021)
-                                        </span>
-                                    </b>
-                                </h6>
-                            </div>
-                            <div class="col-md-6">
-                                <span class="float-right mca-font revenue"><b>Sale Today: </b> 120</span><br />
-                                <span class="float-right mca-font revenue-percent"><b>Change: </b>98%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div for="barChartContainer" class="chart">
-                        <canvas id="productOrderChart2"></canvas>
-                        @*<convas baseChart height="350vh"
-                [chartType]="'bar'"
-                [data]="barChartData"
-                [labels]="barChartLabels"
-                [colors]="barChartColors"
-                [options]="barChartOptions"
-                [legend]="true"
-                [chartClick]="chartClick($event)">
-        </convas>*@
+                    <div id="barChartContainer" style="height: 370px; width: 100%;">
                     </div>
                 </div>
             </div>
@@ -134,7 +106,8 @@
     </div>
 </div>
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script src="~/js/Chart.bundle.min.js"></script>
+     <script src="~/js/canvasjs.min.js"></script>
     <script type="text/javascript">
         $(function () {
         var chartName = "productOrderChart";
@@ -211,61 +184,20 @@
         });
 
          $(function () {
-             var chartName = "productOrderChart2";
-            var ctx = document.getElementById(chartName).getContext('2d');
-            var chartData = {
-                labels: @Html.Raw(XLabels),
-                datasets: [{
-                    label: "Product Order Chart",
-                    backgroundColor: '#5D71F1',
-                    hoverBackgroundColor: '#5D71F1',
-                    hoverBackgroundWidth: 10,
-                    data:  @Html.Raw(YValues)}],
-            };
-
-            var chartOptions = {
-                maintainAspectRatio: false,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            beginAtZero: true
-                        },
-                        gridLines: {
-                            display: true,
-                           @* color: "rgba(255,99,164,0.2)"*@
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            min: 0,
-                            beginAtZero: true
-                        },
-                        gridLines: {
-                            display: false
-                        }
-                    }]
-                }
-            };
-
-            var chartColors = [{
-                backgroundColor: ['#00B1173', '#006667', '#AD1C00', '#7869ca',],
-                hoverBackgroundColor: ['#00B173', '#006667', '#AD1C00', '#7869ca',],
-                hoverBackgroundWidth: 10,
-            },
-            {
-                backgroundColor: ['#f2b33f'],
-                hoverBackgroundColor: ['#ffffff']
-            }
-            ];
-
-            var myChart = new Chart(ctx, {
-                options: chartOptions,
-           data: chartData,
-           type: 'bar',
-            });
-        });
+             var chart = new CanvasJS.Chart("barChartContainer", {
+	animationEnabled: true,
+	theme: "light2", // "light1", "dark1", "dark2"
+	exportEnabled: true,
+	title: {
+		text: "Total no of product ordered"
+	},
+	data: [{
+		type: "column",
+		dataPoints:  @Html.Raw(ViewBag.DataPoints)
+	}]
+});
+chart.render();
+});
     </script>
 }
 
